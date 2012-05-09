@@ -1,0 +1,571 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html lang="en">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+  <title>LCOV - pficommon - data/sparse_matrix/sparse_matrix.cpp</title>
+  <link rel="stylesheet" type="text/css" href="../../gcov.css">
+</head>
+
+<body>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="title">LCOV - code coverage report</td></tr>
+    <tr><td class="ruler"><img src="../../glass.png" width=3 height=3 alt=""></td></tr>
+
+    <tr>
+      <td width="100%">
+        <table cellpadding=1 border=0 width="100%">
+          <tr>
+            <td width="10%" class="headerItem">Current view:</td>
+            <td width="35%" class="headerValue"><a href="../../index.html">top level</a> - <a href="index.html">data/sparse_matrix</a> - sparse_matrix.cpp<span style="font-size: 80%;"> (source / <a href="sparse_matrix.cpp.func.html">functions</a>)</span></td>
+            <td width="5%"></td>
+            <td width="15%"></td>
+            <td width="10%" class="headerCovTableHead">Hit</td>
+            <td width="10%" class="headerCovTableHead">Total</td>
+            <td width="15%" class="headerCovTableHead">Coverage</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Test:</td>
+            <td class="headerValue">pficommon</td>
+            <td></td>
+            <td class="headerItem">Lines:</td>
+            <td class="headerCovTableEntry">133</td>
+            <td class="headerCovTableEntry">233</td>
+            <td class="headerCovTableEntryLo">57.1 %</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Date:</td>
+            <td class="headerValue">2012-05-09</td>
+            <td></td>
+            <td class="headerItem">Functions:</td>
+            <td class="headerCovTableEntry">23</td>
+            <td class="headerCovTableEntry">29</td>
+            <td class="headerCovTableEntryMed">79.3 %</td>
+          </tr>
+          <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td class="headerItem">Branches:</td>
+            <td class="headerCovTableEntry">52</td>
+            <td class="headerCovTableEntry">130</td>
+            <td class="headerCovTableEntryLo">40.0 %</td>
+          </tr>
+          <tr><td><img src="../../glass.png" width=3 height=3 alt=""></td></tr>
+        </table>
+      </td>
+    </tr>
+
+    <tr><td class="ruler"><img src="../../glass.png" width=3 height=3 alt=""></td></tr>
+  </table>
+
+  <table cellpadding=0 cellspacing=0 border=0>
+    <tr>
+      <td><br></td>
+    </tr>
+    <tr>
+      <td>
+<pre class="sourceHeading">           Branch data     Line data    Source code</pre>
+<pre class="source">
+<a name="1"><span class="lineNum">       1 </span>                :            : // Copyright (c)2008-2011, Preferred Infrastructure Inc.</a>
+<span class="lineNum">       2 </span>                :            : // 
+<span class="lineNum">       3 </span>                :            : // All rights reserved.
+<span class="lineNum">       4 </span>                :            : // 
+<span class="lineNum">       5 </span>                :            : // Redistribution and use in source and binary forms, with or without
+<span class="lineNum">       6 </span>                :            : // modification, are permitted provided that the following conditions are met:
+<span class="lineNum">       7 </span>                :            : // 
+<span class="lineNum">       8 </span>                :            : //     * Redistributions of source code must retain the above copyright
+<span class="lineNum">       9 </span>                :            : //       notice, this list of conditions and the following disclaimer.
+<span class="lineNum">      10 </span>                :            : // 
+<span class="lineNum">      11 </span>                :            : //     * Redistributions in binary form must reproduce the above
+<span class="lineNum">      12 </span>                :            : //       copyright notice, this list of conditions and the following
+<span class="lineNum">      13 </span>                :            : //       disclaimer in the documentation and/or other materials provided
+<span class="lineNum">      14 </span>                :            : //       with the distribution.
+<span class="lineNum">      15 </span>                :            : // 
+<span class="lineNum">      16 </span>                :            : //     * Neither the name of Preferred Infrastructure nor the names of other
+<span class="lineNum">      17 </span>                :            : //       contributors may be used to endorse or promote products derived
+<span class="lineNum">      18 </span>                :            : //       from this software without specific prior written permission.
+<span class="lineNum">      19 </span>                :            : // 
+<span class="lineNum">      20 </span>                :            : // THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+<span class="lineNum">      21 </span>                :            : // &quot;AS IS&quot; AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+<span class="lineNum">      22 </span>                :            : // LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+<span class="lineNum">      23 </span>                :            : // A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
+<span class="lineNum">      24 </span>                :            : // OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+<span class="lineNum">      25 </span>                :            : // SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+<span class="lineNum">      26 </span>                :            : // LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+<span class="lineNum">      27 </span>                :            : // DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+<span class="lineNum">      28 </span>                :            : // THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+<span class="lineNum">      29 </span>                :            : // (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+<span class="lineNum">      30 </span>                :            : // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+<span class="lineNum">      31 </span>                :            : 
+<span class="lineNum">      32 </span>                :            : #include &quot;sparse_matrix.h&quot;
+<span class="lineNum">      33 </span>                :            : 
+<span class="lineNum">      34 </span>                :            : #include &lt;cstring&gt;
+<span class="lineNum">      35 </span>                :            : #include &lt;string&gt;
+<span class="lineNum">      36 </span>                :            : #include &lt;algorithm&gt;
+<span class="lineNum">      37 </span>                :            : #include &lt;sstream&gt;
+<span class="lineNum">      38 </span>                :            : #include &lt;iostream&gt;
+<span class="lineNum">      39 </span>                :            : 
+<span class="lineNum">      40 </span>                :            : #include &quot;../../system/file.h&quot;
+<span class="lineNum">      41 </span>                :            : #include &quot;../../system/sysstat.h&quot;
+<span class="lineNum">      42 </span>                :            : 
+<span class="lineNum">      43 </span>                :            : using namespace std;
+<span class="lineNum">      44 </span>                :            : using namespace pfi::data::code;
+<span class="lineNum">      45 </span>                :            : using namespace pfi::system::file;
+<span class="lineNum">      46 </span>                :            : 
+<span class="lineNum">      47 </span>                :            : namespace pfi {
+<span class="lineNum">      48 </span>                :            : namespace data {
+<span class="lineNum">      49 </span>                :            : namespace sparse_matrix {
+<span class="lineNum">      50 </span>                :            : 
+<span class="lineNum">      51 </span>                :            : 
+<span class="lineNum">      52 </span>                :            :   ////////////////////////////////////////////////////////////////
+<span class="lineNum">      53 </span>                :            :   //
+<span class="lineNum">      54 </span>                :            :   // MatrixOffsets
+<span class="lineNum">      55 </span>                :            :   //
+<span class="lineNum">      56 </span>                :            : 
+<span class="lineNum">      57 </span>                :            :   enum MATRIX_IO_MODE {
+<span class="lineNum">      58 </span>                :            :     MATRIX_IO_NONE,   // undefined
+<span class="lineNum">      59 </span>                :            :     MATRIX_IO_READ,   // &quot;r&quot;
+<span class="lineNum">      60 </span>                :            :     MATRIX_IO_WRITE,  // &quot;w&quot;
+<span class="lineNum">      61 </span>                :            :   };
+<span class="lineNum">      62 </span>                :            : 
+<span class="lineNum">      63 </span>                :            :   struct RowInfo {
+<span class="lineNum">      64 </span>                :            :     int num,size;
+<span class="lineNum">      65 </span>                :            :   };
+<span class="lineNum">      66 </span>                :            : 
+<span class="lineNum">      67 </span>                :            :   class matrix_offsets
+<span class="lineNum">      68 </span>                :<span class="lineCov">          8 :   {</span>
+<span class="lineNum">      69 </span>                :            :   public:
+<span class="lineNum">      70 </span>                :            :     matrix_offsets();
+<span class="lineNum">      71 </span>                :            :     int open(string fnOffsets, MATRIX_IO_MODE mode);
+<span class="lineNum">      72 </span>                :            :     void close();
+<span class="lineNum">      73 </span>                :            :     int flush() const;
+<span class="lineNum">      74 </span>                :            :     int offsets_num() const;
+<span class="lineNum">      75 </span>                :            :     
+<span class="lineNum">      76 </span>                :            :     int num(int index) const;
+<span class="lineNum">      77 </span>                :            :     int size(int index) const;
+<span class="lineNum">      78 </span>                :            :     int offset(int index) const;
+<span class="lineNum">      79 </span>                :            :     
+<span class="lineNum">      80 </span>                :            :     void append_row(int size, int num);
+<span class="lineNum">      81 </span>                :            :   private:
+<span class="lineNum">      82 </span>                :            :     string fnOffsets;
+<span class="lineNum">      83 </span>                :            :     vector&lt;RowInfo&gt; rowInfos;
+<span class="lineNum">      84 </span>                :            :     vector&lt;int&gt; offsets;
+<span class="lineNum">      85 </span>                :            :     MATRIX_IO_MODE ioMode;
+<span class="lineNum">      86 </span>                :            :   };
+<span class="lineNum">      87 </span>                :            : 
+<span class="lineNum">      88 </span>                :<span class="lineCov">          8 :   matrix_offsets::matrix_offsets()</span>
+<span class="lineNum">      89 </span>                :<span class="lineCov">         32 :     :ioMode(MATRIX_IO_NONE)</span>
+<span class="lineNum">      90 </span>                :            :   {
+<span class="lineNum">      91 </span>                :<span class="lineCov">          8 :   }</span>
+<span class="lineNum">      92 </span>                :            : 
+<span class="lineNum">      93 </span>                :<span class="lineCov">          8 :   int matrix_offsets::open(string fn, MATRIX_IO_MODE mode)</span>
+<span class="lineNum">      94 </span>                :            :   {
+<span class="lineNum">      95 </span>                :<span class="lineCov">          8 :     close();</span>
+<span class="lineNum">      96 </span>                :            : 
+<span class="lineNum">      97 </span>                :<span class="lineCov">          8 :     ioMode=mode;</span>
+<span class="lineNum">      98 </span>                :<span class="lineCov">          8 :     fnOffsets=fn;</span>
+<span class="lineNum">      99 </span>                :            : 
+<span class="lineNum">     100 </span>        [<span class="branchCov" title="Branch 0 was taken 4 times"> + </span><span class="branchCov" title="Branch 1 was taken 4 times"> + </span>]:<span class="lineCov">          8 :     if (mode==MATRIX_IO_READ) {</span>
+<span class="lineNum">     101 </span>                :<span class="lineCov">          4 :       ifstream ifs(fnOffsets.c_str());</span>
+<span class="lineNum">     102 </span>        [<span class="branchNoCov" title="Branch 0 was not taken"> - </span><span class="branchCov" title="Branch 1 was taken 4 times"> + </span>]:<span class="lineCov">          4 :       if (!ifs) return -1;</span>
+<span class="lineNum">     103 </span>                :            :       
+<span class="lineNum">     104 </span>                :            :       int rowNum;
+<span class="lineNum">     105 </span>                :<span class="lineCov">          4 :       ifs.read((char*)&amp;rowNum,sizeof(int));</span>
+<span class="lineNum">     106 </span>                :<span class="lineCov">          4 :       rowInfos=vector&lt;RowInfo&gt;(rowNum);</span>
+<span class="lineNum">     107 </span>                :<span class="lineCov">          4 :       offsets=vector&lt;int&gt;(rowNum);</span>
+<span class="lineNum">     108 </span>                :<span class="lineCov">          4 :       ifs.read((char*)&amp;rowInfos[0],rowNum*sizeof(RowInfo));</span>
+<span class="lineNum">     109 </span>        [<span class="branchCov" title="Branch 0 was taken 2 times"> + </span><span class="branchCov" title="Branch 1 was taken 2 times"> + </span>]:<span class="lineCov">          4 :       if (offsets.size()&gt;0) {</span>
+<span class="lineNum">     110 </span>                :<span class="lineCov">          4 :         offsets[0]=0;</span>
+<span class="lineNum">     111 </span>        [<span class="branchCov" title="Branch 0 was taken 198 times"> + </span><span class="branchCov" title="Branch 1 was taken 2 times"> + </span>]:<span class="lineCov">        200 :         for (int i=1;i&lt;(int)offsets.size();++i) offsets[i]=offsets[i-1]+rowInfos[i-1].size;</span>
+<span class="lineNum">     112 </span>                :<span class="lineCov">          4 :       }</span>
+<span class="lineNum">     113 </span>                :            :     } 
+<span class="lineNum">     114 </span>                :<span class="lineCov">          8 :     return 0;</span>
+<span class="lineNum">     115 </span>                :            :   }
+<span class="lineNum">     116 </span>                :            : 
+<span class="lineNum">     117 </span>                :<span class="lineCov">          8 :   void matrix_offsets::close() {</span>
+<span class="lineNum">     118 </span>                :<span class="lineCov">          8 :     fnOffsets=&quot;&quot;;</span>
+<span class="lineNum">     119 </span>                :<span class="lineCov">          8 :     rowInfos.clear();</span>
+<span class="lineNum">     120 </span>                :<span class="lineCov">          8 :     offsets.clear();</span>
+<span class="lineNum">     121 </span>                :<span class="lineCov">          8 :     ioMode=MATRIX_IO_NONE;</span>
+<span class="lineNum">     122 </span>                :<span class="lineCov">          8 :   }</span>
+<span class="lineNum">     123 </span>                :            : 
+<span class="lineNum">     124 </span>                :<span class="lineCov">          4 :   int matrix_offsets::flush() const</span>
+<span class="lineNum">     125 </span>                :            :   {
+<span class="lineNum">     126 </span>        [<span class="branchNoCov" title="Branch 0 was not taken"> - </span><span class="branchCov" title="Branch 1 was taken 4 times"> + </span>]:<span class="lineCov">          4 :     if (fnOffsets.size()==0) return -1;</span>
+<span class="lineNum">     127 </span>                :            : 
+<span class="lineNum">     128 </span>        [<span class="branchCov" title="Branch 0 was taken 4 times"> + </span><span class="branchNoCov" title="Branch 1 was not taken"> - </span>]:<span class="lineCov">          4 :     if (ioMode==MATRIX_IO_WRITE) {</span>
+<span class="lineNum">     129 </span>                :<span class="lineCov">          4 :       ofstream ofs(fnOffsets.c_str());</span>
+<span class="lineNum">     130 </span>        [<span class="branchNoCov" title="Branch 0 was not taken"> - </span><span class="branchCov" title="Branch 1 was taken 4 times"> + </span>]:<span class="lineCov">          4 :       if (!ofs) {</span>
+<span class="lineNum">     131 </span>                :<span class="lineNoCov">          0 :         fprintf(stderr,&quot;matrix_offsets::flush: cannot open %s\n&quot;,fnOffsets.c_str());</span>
+<span class="lineNum">     132 </span>                :<span class="lineNoCov">          0 :         return -1;</span>
+<span class="lineNum">     133 </span>                :            :       }
+<span class="lineNum">     134 </span>                :<span class="lineCov">          8 :       int rowNum=rowInfos.size();</span>
+<span class="lineNum">     135 </span>                :<span class="lineCov">          4 :       ofs.write((char*)&amp;rowNum,sizeof(int));</span>
+<span class="lineNum">     136 </span>        [<span class="branchCov" title="Branch 1 was taken 2 times"> + </span><span class="branchCov" title="Branch 2 was taken 2 times"> + </span>]:<span class="lineCov">          4 :       if (rowNum&gt;0) ofs.write((char*)&amp;rowInfos[0],rowNum*sizeof(RowInfo));</span>
+<span class="lineNum">     137 </span>                :            :     }
+<span class="lineNum">     138 </span>                :<span class="lineCov">          4 :     return 0;</span>
+<span class="lineNum">     139 </span>                :            :   }
+<span class="lineNum">     140 </span>                :            : 
+<span class="lineNum">     141 </span>                :<span class="lineCov">          2 :   int matrix_offsets::offsets_num() const</span>
+<span class="lineNum">     142 </span>                :            :   {
+<span class="lineNum">     143 </span>                :<span class="lineCov">          2 :     return rowInfos.size();</span>
+<span class="lineNum">     144 </span>                :            :   }
+<span class="lineNum">     145 </span>                :            : 
+<span class="lineNum">     146 </span>                :<span class="lineCov">        600 :   int matrix_offsets::num(int index) const</span>
+<span class="lineNum">     147 </span>                :            :   {
+<span class="lineNum">     148 </span>        [<span class="branchNoCov" title="Branch 0 was not taken"> - </span><span class="branchCov" title="Branch 1 was taken 600 times"> + </span>]:<span class="lineCov">        600 :     if (index&gt;=(int)rowInfos.size()){</span>
+<span class="lineNum">     149 </span>                :<span class="lineNoCov">          0 :       fprintf(stderr,&quot;matrix_offsets::Num: Try to access out of bounds of row index\n&quot;);</span>
+<span class="lineNum">     150 </span>                :<span class="lineNoCov">          0 :       fprintf(stderr,&quot;Row size: %d, but you try to access to %d\n&quot;,(int)rowInfos.size(),index);</span>
+<span class="lineNum">     151 </span>                :<span class="lineNoCov">          0 :       return -1;</span>
+<span class="lineNum">     152 </span>                :            :     }
+<span class="lineNum">     153 </span>                :<span class="lineCov">        600 :     return rowInfos[index].num;</span>
+<span class="lineNum">     154 </span>                :            :   }
+<span class="lineNum">     155 </span>                :            : 
+<span class="lineNum">     156 </span>                :<span class="lineNoCov">          0 :   int matrix_offsets::size(int index) const</span>
+<span class="lineNum">     157 </span>                :            :   {
+<span class="lineNum">     158 </span>        [<span class="branchNoExec" title="Branch 0 was not executed"> # </span><span class="branchNoExec" title="Branch 1 was not executed"> # </span>]:<span class="lineNoCov">          0 :     if (index&gt;=(int)rowInfos.size()){</span>
+<span class="lineNum">     159 </span>                :<span class="lineNoCov">          0 :       fprintf(stderr,&quot;matrix_offsets::Size: Try to access out of bounds of row index\n&quot;);</span>
+<span class="lineNum">     160 </span>                :<span class="lineNoCov">          0 :       fprintf(stderr,&quot;Row size: %d, but you try to access to %d\n&quot;,(int)rowInfos.size(),index);</span>
+<span class="lineNum">     161 </span>                :<span class="lineNoCov">          0 :       return -1;</span>
+<span class="lineNum">     162 </span>                :            :     }
+<span class="lineNum">     163 </span>                :<span class="lineNoCov">          0 :     return rowInfos[index].size;</span>
+<span class="lineNum">     164 </span>                :            :   }
+<span class="lineNum">     165 </span>                :            : 
+<span class="lineNum">     166 </span>                :<span class="lineCov">        600 :   int matrix_offsets::offset(int index) const</span>
+<span class="lineNum">     167 </span>                :            :   {
+<span class="lineNum">     168 </span>        [<span class="branchNoCov" title="Branch 0 was not taken"> - </span><span class="branchCov" title="Branch 1 was taken 600 times"> + </span>]:<span class="lineCov">        600 :     if (index&gt;=(int)offsets.size()){</span>
+<span class="lineNum">     169 </span>                :<span class="lineNoCov">          0 :       fprintf(stderr,&quot;matrix_offsets::Offset: Try to access out of bounds of row index\n&quot;);</span>
+<span class="lineNum">     170 </span>                :<span class="lineNoCov">          0 :       fprintf(stderr,&quot;Row size: %d, but you try to access to %d\n&quot;,(int)rowInfos.size(),index);</span>
+<span class="lineNum">     171 </span>                :<span class="lineNoCov">          0 :       return -1;</span>
+<span class="lineNum">     172 </span>                :            :     }
+<span class="lineNum">     173 </span>                :<span class="lineCov">        600 :     return offsets[index];</span>
+<span class="lineNum">     174 </span>                :            :   }
+<span class="lineNum">     175 </span>                :            : 
+<span class="lineNum">     176 </span>                :<span class="lineCov">        200 :   void matrix_offsets::append_row(int size, int num)</span>
+<span class="lineNum">     177 </span>                :            :   {
+<span class="lineNum">     178 </span>                :            :     RowInfo rowInfo;
+<span class="lineNum">     179 </span>                :<span class="lineCov">        200 :     rowInfo.size=size;</span>
+<span class="lineNum">     180 </span>                :<span class="lineCov">        200 :     rowInfo.num=num;</span>
+<span class="lineNum">     181 </span>                :<span class="lineCov">        200 :     rowInfos.push_back(rowInfo);</span>
+<span class="lineNum">     182 </span>                :            : 
+<span class="lineNum">     183 </span>        [<span class="branchCov" title="Branch 0 was taken 198 times"> + </span><span class="branchCov" title="Branch 1 was taken 2 times"> + </span>]:<span class="lineCov">        200 :     int offset=offsets.size()==0?0:offsets.back()+size;</span>
+<span class="lineNum">     184 </span>                :<span class="lineCov">        200 :     offsets.push_back(offset);</span>
+<span class="lineNum">     185 </span>                :<span class="lineCov">        200 :   }</span>
+<span class="lineNum">     186 </span>                :            : 
+<span class="lineNum">     187 </span>                :            : 
+<span class="lineNum">     188 </span>                :            :   ////////////////////////////////////////////////////////////////
+<span class="lineNum">     189 </span>                :            :   //
+<span class="lineNum">     190 </span>                :            :   // sparse_matrix_writer
+<a name="191"><span class="lineNum">     191 </span>                :            :   //</a>
+<span class="lineNum">     192 </span>                :            : 
+<span class="lineNum">     193 </span>                :<span class="lineCov">          4 :   sparse_matrix_writer::sparse_matrix_writer()</span>
+<span class="lineNum">     194 </span>                :<span class="lineCov">          4 :     :offsets(NULL)</span>
+<span class="lineNum">     195 </span>                :            :   {
+<a name="196"><span class="lineNum">     196 </span>                :<span class="lineCov">          4 :   }</span></a>
+<span class="lineNum">     197 </span>                :            : 
+<span class="lineNum">     198 </span>                :<span class="lineCov">          4 :   sparse_matrix_writer::~sparse_matrix_writer()</span>
+<span class="lineNum">     199 </span>                :            :   {
+<span class="lineNum">     200 </span>[<span class="branchNoCov" title="Branch 0 was not taken"> - </span><span class="branchCov" title="Branch 1 was taken 4 times"> + </span>][<span class="branchNoExec" title="Branch 2 was not executed"> # </span><span class="branchNoExec" title="Branch 3 was not executed"> # </span>]:<span class="lineCov">          4 :     if (offsets) delete offsets;</span>
+<a name="201"><span class="lineNum">     201 </span>                :<span class="lineCov">          4 :   }</span></a>
+<span class="lineNum">     202 </span>                :            : 
+<span class="lineNum">     203 </span>                :<span class="lineCov">          4 :   int sparse_matrix_writer::open(const string&amp; fnMat)</span>
+<span class="lineNum">     204 </span>                :            :   {
+<span class="lineNum">     205 </span>                :<span class="lineCov">          4 :     close();</span>
+<span class="lineNum">     206 </span>                :            : 
+<span class="lineNum">     207 </span>                :<span class="lineCov">          4 :     ofs.open(fnMat.c_str());</span>
+<span class="lineNum">     208 </span>        [<span class="branchNoCov" title="Branch 0 was not taken"> - </span><span class="branchCov" title="Branch 1 was taken 4 times"> + </span>]:<span class="lineCov">          4 :     if (!ofs) {</span>
+<span class="lineNum">     209 </span>                :<span class="lineNoCov">          0 :       fprintf(stderr,&quot;sparse_matrix_writer::open: cannot open %s\n&quot;,fnMat.c_str());</span>
+<span class="lineNum">     210 </span>                :<span class="lineNoCov">          0 :       return -1;</span>
+<span class="lineNum">     211 </span>                :            :     }
+<span class="lineNum">     212 </span>                :            : 
+<span class="lineNum">     213 </span>                :<span class="lineCov">          4 :     offsets=new matrix_offsets;</span>
+<span class="lineNum">     214 </span>        [<span class="branchNoCov" title="Branch 3 was not taken"> - </span><span class="branchCov" title="Branch 4 was taken 4 times"> + </span>]:<span class="lineCov">          4 :     if (offsets-&gt;open(fnMat+&quot;.offset&quot;,MATRIX_IO_WRITE)&lt;0) {</span>
+<span class="lineNum">     215 </span>                :<span class="lineNoCov">          0 :       fprintf(stderr,&quot;sparse_matrix_writer::open: cannot open %s.offset\n&quot;,fnMat.c_str());</span>
+<span class="lineNum">     216 </span>                :<span class="lineNoCov">          0 :       ofs.close();</span>
+<span class="lineNum">     217 </span>                :<span class="lineNoCov">          0 :       return -1;</span>
+<span class="lineNum">     218 </span>                :            :     }
+<span class="lineNum">     219 </span>                :<span class="lineCov">          4 :     return 0;</span>
+<a name="220"><span class="lineNum">     220 </span>                :            :   }</a>
+<span class="lineNum">     221 </span>                :            : 
+<span class="lineNum">     222 </span>                :<span class="lineCov">          8 :   void sparse_matrix_writer::close()</span>
+<span class="lineNum">     223 </span>                :            :   {
+<span class="lineNum">     224 </span>                :<span class="lineCov">          8 :     ofs.close();</span>
+<span class="lineNum">     225 </span>        [<span class="branchCov" title="Branch 0 was taken 4 times"> + </span><span class="branchCov" title="Branch 1 was taken 4 times"> + </span>]:<span class="lineCov">          8 :     if (offsets) {</span>
+<span class="lineNum">     226 </span>                :<span class="lineCov">          4 :       offsets-&gt;flush();</span>
+<span class="lineNum">     227 </span>        [<span class="branchCov" title="Branch 0 was taken 4 times"> + </span><span class="branchNoCov" title="Branch 1 was not taken"> - </span>]:<span class="lineCov">          4 :       delete offsets;</span>
+<span class="lineNum">     228 </span>                :<span class="lineCov">          4 :       offsets=NULL;</span>
+<span class="lineNum">     229 </span>                :            :     }
+<span class="lineNum">     230 </span>                :<span class="lineCov">          8 :   }</span>
+<span class="lineNum">     231 </span>                :            : 
+<span class="lineNum">     232 </span>                :<span class="lineNoCov">          0 :   void sparse_matrix_writer::append_row(const std::map&lt;int,unsigned char&gt;&amp; row)</span>
+<span class="lineNum">     233 </span>                :            :   {
+<span class="lineNum">     234 </span>[<span class="branchNoExec" title="Branch 0 was not executed"> # </span><span class="branchNoExec" title="Branch 1 was not executed"> # </span>][<span class="branchNoExec" title="Branch 2 was not executed"> # </span><span class="branchNoExec" title="Branch 3 was not executed"> # </span>]:<span class="lineNoCov">          0 :     if (!ofs.is_open()||!offsets) return;</span>
+<span class="lineNum">         </span>        [<span class="branchNoExec" title="Branch 4 was not executed"> # </span><span class="branchNoExec" title="Branch 5 was not executed"> # </span>]
+<span class="lineNum">     235 </span>                :            : 
+<span class="lineNum">     236 </span>                :<span class="lineNoCov">          0 :     encoder ec;</span>
+<span class="lineNum">     237 </span>                :            : 
+<span class="lineNum">     238 </span>                :<span class="lineNoCov">          0 :     int termNum=0;</span>
+<span class="lineNum">     239 </span>                :<span class="lineNoCov">          0 :     int prevTerm=-1;</span>
+<span class="lineNum">     240 </span>                :            :     std::map&lt;int,unsigned char&gt;::const_iterator it;
+<span class="lineNum">     241 </span>        [<span class="branchNoExec" title="Branch 0 was not executed"> # </span><span class="branchNoExec" title="Branch 1 was not executed"> # </span>]:<span class="lineNoCov">          0 :     for (it=row.begin();it!=row.end();++it) {</span>
+<span class="lineNum">     242 </span>                :<span class="lineNoCov">          0 :       ec.prefix_code(it-&gt;first-prevTerm);</span>
+<span class="lineNum">     243 </span>                :<span class="lineNoCov">          0 :       ec.byte((unsigned char)it-&gt;second);</span>
+<span class="lineNum">     244 </span>                :<span class="lineNoCov">          0 :       prevTerm=it-&gt;first;</span>
+<span class="lineNum">     245 </span>                :<span class="lineNoCov">          0 :       ++termNum;</span>
+<span class="lineNum">     246 </span>                :            :     }
+<span class="lineNum">     247 </span>                :<span class="lineNoCov">          0 :     int columnSize=ec.flush(ofs);</span>
+<span class="lineNum">     248 </span>                :<span class="lineNoCov">          0 :     offsets-&gt;append_row(columnSize,termNum);</span>
+<span class="lineNum">     249 </span>                :            :   }
+<span class="lineNum">     250 </span>                :            : 
+<span class="lineNum">     251 </span>                :<span class="lineCov">        200 :   void sparse_matrix_writer::append_row(const vector&lt;pair&lt;int,unsigned char&gt; &gt;&amp; row) {</span>
+<span class="lineNum">     252 </span>[<span class="branchCov" title="Branch 0 was taken 200 times"> + </span><span class="branchNoCov" title="Branch 1 was not taken"> - </span>][<span class="branchNoCov" title="Branch 2 was not taken"> - </span><span class="branchCov" title="Branch 3 was taken 200 times"> + </span>]:<span class="lineCov">        200 :     if (!ofs.is_open()||!offsets) return;</span>
+<span class="lineNum">         </span>        [<span class="branchCov" title="Branch 4 was taken 200 times"> + </span><span class="branchNoCov" title="Branch 5 was not taken"> - </span>]
+<span class="lineNum">     253 </span>                :            : 
+<span class="lineNum">     254 </span>                :<span class="lineCov">        200 :     encoder ec;</span>
+<span class="lineNum">     255 </span>                :<span class="lineCov">        200 :     int termNum=0;</span>
+<span class="lineNum">     256 </span>                :<span class="lineCov">        200 :     int prevTerm=-1;</span>
+<span class="lineNum">     257 </span>        [<span class="branchCov" title="Branch 0 was taken 9920 times"> + </span><span class="branchCov" title="Branch 1 was taken 200 times"> + </span>]:<span class="lineCov">      10120 :     for (int i=0;i&lt;(int)row.size();++i) {</span>
+<span class="lineNum">     258 </span>                :<span class="lineCov">       9920 :       ec.prefix_code(row[i].first-prevTerm);</span>
+<span class="lineNum">     259 </span>                :<span class="lineCov">       9920 :       ec.byte(row[i].second);</span>
+<span class="lineNum">     260 </span>                :<span class="lineCov">      19840 :       prevTerm=row[i].first;</span>
+<span class="lineNum">     261 </span>                :<span class="lineCov">       9920 :       ++termNum;</span>
+<span class="lineNum">     262 </span>                :            :     }
+<span class="lineNum">     263 </span>                :<span class="lineCov">        200 :     int columnSize=ec.flush(ofs);</span>
+<span class="lineNum">     264 </span>                :<span class="lineCov">        200 :     offsets-&gt;append_row(columnSize,termNum);</span>
+<a name="265"><span class="lineNum">     265 </span>                :            :   }</a>
+<span class="lineNum">     266 </span>                :            : 
+<span class="lineNum">     267 </span>                :<span class="lineNoCov">          0 :   int sparse_matrix_writer::row_num() {</span>
+<span class="lineNum">     268 </span>                :<span class="lineNoCov">          0 :     return offsets-&gt;offsets_num();</span>
+<span class="lineNum">     269 </span>                :            :   }
+<span class="lineNum">     270 </span>                :            : 
+<span class="lineNum">     271 </span>                :            : 
+<span class="lineNum">     272 </span>                :            :   ////////////////////////////////////////////////////////////////
+<span class="lineNum">     273 </span>                :            :   //
+<span class="lineNum">     274 </span>                :            :   // sparse_matrix_reader
+<a name="275"><span class="lineNum">     275 </span>                :            :   //</a>
+<span class="lineNum">     276 </span>                :            : 
+<span class="lineNum">     277 </span>                :<span class="lineCov">          4 :   sparse_matrix_reader::sparse_matrix_reader()</span>
+<span class="lineNum">     278 </span>                :<span class="lineCov">          4 :     :offsets(NULL)</span>
+<span class="lineNum">     279 </span>                :            :   {
+<span class="lineNum">     280 </span>                :            : 
+<a name="281"><span class="lineNum">     281 </span>                :<span class="lineCov">          4 :   }</span></a>
+<span class="lineNum">     282 </span>                :            : 
+<span class="lineNum">     283 </span>                :<span class="lineCov">          4 :   sparse_matrix_reader::~sparse_matrix_reader()</span>
+<span class="lineNum">     284 </span>                :            :   {
+<span class="lineNum">     285 </span>                :<span class="lineCov">          4 :     close();</span>
+<span class="lineNum">     286 </span>                :            :     //    if (buf) delete[] buf;
+<span class="lineNum">     287 </span>                :            :     //    if (offsets) delete offsets;
+<span class="lineNum">     288 </span>                :<span class="lineCov">          4 :   }</span>
+<a name="289"><span class="lineNum">     289 </span>                :            : </a>
+<span class="lineNum">     290 </span>                :            : 
+<span class="lineNum">     291 </span>                :<span class="lineCov">          4 :   int sparse_matrix_reader::open(const string&amp; fnMat)</span>
+<span class="lineNum">     292 </span>                :            :   {
+<span class="lineNum">     293 </span>                :<span class="lineCov">          4 :     close();</span>
+<span class="lineNum">     294 </span>                :<span class="lineCov">          4 :     dc.attach(fnMat);</span>
+<span class="lineNum">     295 </span>                :            : 
+<span class="lineNum">     296 </span>                :<span class="lineCov">          4 :     offsets=new matrix_offsets;</span>
+<span class="lineNum">     297 </span>        [<span class="branchNoCov" title="Branch 3 was not taken"> - </span><span class="branchCov" title="Branch 4 was taken 4 times"> + </span>]:<span class="lineCov">          4 :     if (offsets-&gt;open(fnMat+&quot;.offset&quot;,MATRIX_IO_READ)&lt;0){</span>
+<span class="lineNum">     298 </span>                :<span class="lineNoCov">          0 :       fprintf(stderr,&quot;sparse_matrix_reader::open: cannot open %s.offset\n&quot;,fnMat.c_str());    </span>
+<span class="lineNum">     299 </span>                :<span class="lineNoCov">          0 :       return -1;</span>
+<span class="lineNum">     300 </span>                :            :     }
+<span class="lineNum">     301 </span>                :<span class="lineCov">          4 :     return 0;</span>
+<a name="302"><span class="lineNum">     302 </span>                :            :   }</a>
+<span class="lineNum">     303 </span>                :            : 
+<span class="lineNum">     304 </span>                :<span class="lineCov">         10 :   void sparse_matrix_reader::close()</span>
+<span class="lineNum">     305 </span>                :            :   {
+<span class="lineNum">     306 </span>                :<span class="lineCov">         10 :     dc.detach();</span>
+<span class="lineNum">     307 </span>        [<span class="branchCov" title="Branch 0 was taken 4 times"> + </span><span class="branchCov" title="Branch 1 was taken 6 times"> + </span>]:<span class="lineCov">         10 :     if (offsets) {</span>
+<span class="lineNum">     308 </span>        [<span class="branchCov" title="Branch 0 was taken 4 times"> + </span><span class="branchNoCov" title="Branch 1 was not taken"> - </span>]:<span class="lineCov">          4 :       delete offsets;</span>
+<span class="lineNum">     309 </span>                :<span class="lineCov">          4 :       offsets=NULL;</span>
+<span class="lineNum">     310 </span>                :            :     }
+<a name="311"><span class="lineNum">     311 </span>                :<span class="lineCov">         10 :   }</span></a>
+<span class="lineNum">     312 </span>                :            : 
+<span class="lineNum">     313 </span>                :<span class="lineCov">          2 :   int sparse_matrix_reader::row_num() const</span>
+<span class="lineNum">     314 </span>                :            :   {
+<span class="lineNum">     315 </span>        [<span class="branchNoCov" title="Branch 0 was not taken"> - </span><span class="branchCov" title="Branch 1 was taken 2 times"> + </span>]:<span class="lineCov">          2 :     if (!offsets) return 0;</span>
+<span class="lineNum">     316 </span>                :<span class="lineCov">          2 :     return offsets-&gt;offsets_num();</span>
+<a name="317"><span class="lineNum">     317 </span>                :            :   }</a>
+<span class="lineNum">     318 </span>                :            : 
+<span class="lineNum">     319 </span>                :<span class="lineNoCov">          0 :   int sparse_matrix_reader::get_row_size(int row) const</span>
+<span class="lineNum">     320 </span>                :            :   {
+<span class="lineNum">     321 </span>        [<span class="branchNoExec" title="Branch 0 was not executed"> # </span><span class="branchNoExec" title="Branch 1 was not executed"> # </span>]:<span class="lineNoCov">          0 :     if (!offsets) return 0;</span>
+<span class="lineNum">     322 </span>                :<span class="lineNoCov">          0 :     return offsets-&gt;num(row);</span>
+<span class="lineNum">     323 </span>                :            :   }
+<span class="lineNum">     324 </span>                :            : 
+<span class="lineNum">     325 </span>                :<span class="lineCov">        200 :   void sparse_matrix_reader::get_row(int row, vector&lt;pair&lt;int,unsigned char&gt; &gt;&amp; data)</span>
+<span class="lineNum">     326 </span>                :            :   {
+<span class="lineNum">     327 </span>[<span class="branchCov" title="Branch 1 was taken 200 times"> + </span><span class="branchNoCov" title="Branch 2 was not taken"> - </span>][<span class="branchNoCov" title="Branch 3 was not taken"> - </span><span class="branchCov" title="Branch 4 was taken 200 times"> + </span>]:<span class="lineCov">        200 :     if (!dc.is_open()||!offsets) return;</span>
+<span class="lineNum">         </span>        [<span class="branchCov" title="Branch 5 was taken 200 times"> + </span><span class="branchNoCov" title="Branch 6 was not taken"> - </span>]
+<span class="lineNum">     328 </span>                :            : 
+<span class="lineNum">     329 </span>                :<span class="lineCov">        200 :     int num=offsets-&gt;num(row);</span>
+<span class="lineNum">     330 </span>        [<span class="branchNoCov" title="Branch 0 was not taken"> - </span><span class="branchCov" title="Branch 1 was taken 200 times"> + </span>]:<span class="lineCov">        200 :     if (num&lt;0){</span>
+<span class="lineNum">     331 </span>                :<span class="lineNoCov">          0 :       fprintf(stderr,&quot;sparse_matrix_reader::get_row: offsets.Num error\n&quot;);</span>
+<span class="lineNum">     332 </span>                :<span class="lineNoCov">          0 :       return;</span>
+<span class="lineNum">     333 </span>                :            :     }
+<span class="lineNum">     334 </span>                :<span class="lineCov">        200 :     dc.seek(offsets-&gt;offset(row));</span>
+<span class="lineNum">     335 </span>                :            :   
+<span class="lineNum">     336 </span>                :<span class="lineCov">        200 :     int col=-1;</span>
+<span class="lineNum">     337 </span>                :<span class="lineCov">        200 :     data=vector&lt;pair&lt;int,unsigned char&gt; &gt;(num);</span>
+<span class="lineNum">     338 </span>        [<span class="branchCov" title="Branch 0 was taken 9920 times"> + </span><span class="branchCov" title="Branch 1 was taken 200 times"> + </span>]:<span class="lineCov">      10120 :     for (int i=0;i&lt;num;++i) {</span>
+<span class="lineNum">     339 </span>                :<span class="lineCov">       9920 :       col+=dc.prefix_code();</span>
+<span class="lineNum">     340 </span>                :<span class="lineCov">      19840 :       data[i].first=col;</span>
+<span class="lineNum">     341 </span>                :<span class="lineCov">       9920 :       data[i].second=dc.byte();</span>
+<span class="lineNum">     342 </span>                :            :     }
+<a name="343"><span class="lineNum">     343 </span>                :            :   }</a>
+<span class="lineNum">     344 </span>                :            : 
+<span class="lineNum">     345 </span>                :<span class="lineCov">        200 :   void sparse_matrix_reader::get_row(int row, std::map&lt;int,unsigned char&gt;&amp; data)</span>
+<span class="lineNum">     346 </span>                :            :   {
+<span class="lineNum">     347 </span>[<span class="branchCov" title="Branch 1 was taken 200 times"> + </span><span class="branchNoCov" title="Branch 2 was not taken"> - </span>][<span class="branchNoCov" title="Branch 3 was not taken"> - </span><span class="branchCov" title="Branch 4 was taken 200 times"> + </span>]:<span class="lineCov">        200 :     if (!dc.is_open()||!offsets) return;</span>
+<span class="lineNum">         </span>        [<span class="branchCov" title="Branch 5 was taken 200 times"> + </span><span class="branchNoCov" title="Branch 6 was not taken"> - </span>]
+<span class="lineNum">     348 </span>                :            : 
+<span class="lineNum">     349 </span>                :<span class="lineCov">        200 :     int num=offsets-&gt;num(row);</span>
+<span class="lineNum">     350 </span>        [<span class="branchNoCov" title="Branch 0 was not taken"> - </span><span class="branchCov" title="Branch 1 was taken 200 times"> + </span>]:<span class="lineCov">        200 :     if (num&lt;0){</span>
+<span class="lineNum">     351 </span>                :<span class="lineNoCov">          0 :       fprintf(stderr,&quot;sparse_matrix_reader::get_row: offsets.Num error\n&quot;);</span>
+<span class="lineNum">     352 </span>                :<span class="lineNoCov">          0 :       return;</span>
+<span class="lineNum">     353 </span>                :            :     }
+<span class="lineNum">     354 </span>                :<span class="lineCov">        200 :     dc.seek(offsets-&gt;offset(row));</span>
+<span class="lineNum">     355 </span>                :            :   
+<span class="lineNum">     356 </span>                :<span class="lineCov">        200 :     int col=-1;</span>
+<span class="lineNum">     357 </span>        [<span class="branchCov" title="Branch 0 was taken 9920 times"> + </span><span class="branchCov" title="Branch 1 was taken 200 times"> + </span>]:<span class="lineCov">      10120 :     for (int i=0;i&lt;num;++i) {</span>
+<span class="lineNum">     358 </span>                :<span class="lineCov">       9920 :       col+=dc.prefix_code();</span>
+<span class="lineNum">     359 </span>                :<span class="lineCov">       9920 :       data[col]=dc.byte();</span>
+<span class="lineNum">     360 </span>                :            :     }
+<a name="361"><span class="lineNum">     361 </span>                :            :   }</a>
+<span class="lineNum">     362 </span>                :            : 
+<span class="lineNum">     363 </span>                :<span class="lineCov">        200 :   void sparse_matrix_reader::get_row(int row, pfi::data::unordered_map&lt;int,unsigned char&gt;&amp; data)</span>
+<span class="lineNum">     364 </span>                :            :   {
+<span class="lineNum">     365 </span>[<span class="branchCov" title="Branch 1 was taken 200 times"> + </span><span class="branchNoCov" title="Branch 2 was not taken"> - </span>][<span class="branchNoCov" title="Branch 3 was not taken"> - </span><span class="branchCov" title="Branch 4 was taken 200 times"> + </span>]:<span class="lineCov">        200 :     if (!dc.is_open()||!offsets) return;</span>
+<span class="lineNum">         </span>        [<span class="branchCov" title="Branch 5 was taken 200 times"> + </span><span class="branchNoCov" title="Branch 6 was not taken"> - </span>]
+<span class="lineNum">     366 </span>                :            : 
+<span class="lineNum">     367 </span>                :<span class="lineCov">        200 :     int num=offsets-&gt;num(row);</span>
+<span class="lineNum">     368 </span>        [<span class="branchNoCov" title="Branch 0 was not taken"> - </span><span class="branchCov" title="Branch 1 was taken 200 times"> + </span>]:<span class="lineCov">        200 :     if (num&lt;0){</span>
+<span class="lineNum">     369 </span>                :<span class="lineNoCov">          0 :       fprintf(stderr,&quot;sparse_matrix_reader::get_row: offsets.Num error\n&quot;);</span>
+<span class="lineNum">     370 </span>                :<span class="lineNoCov">          0 :       return;</span>
+<span class="lineNum">     371 </span>                :            :     }
+<span class="lineNum">     372 </span>                :<span class="lineCov">        200 :     dc.seek(offsets-&gt;offset(row));</span>
+<span class="lineNum">     373 </span>                :            :   
+<span class="lineNum">     374 </span>                :<span class="lineCov">        200 :     int col=-1;</span>
+<span class="lineNum">     375 </span>        [<span class="branchCov" title="Branch 0 was taken 9920 times"> + </span><span class="branchCov" title="Branch 1 was taken 200 times"> + </span>]:<span class="lineCov">      10120 :     for (int i=0;i&lt;num;++i) {</span>
+<span class="lineNum">     376 </span>                :<span class="lineCov">       9920 :       col+=dc.prefix_code();</span>
+<span class="lineNum">     377 </span>                :<span class="lineCov">       9920 :       data[col]=dc.byte();</span>
+<span class="lineNum">     378 </span>                :            :     }
+<a name="379"><span class="lineNum">     379 </span>                :            :   }</a>
+<span class="lineNum">     380 </span>                :            : 
+<span class="lineNum">     381 </span>                :<span class="lineNoCov">          0 :   int sparse_matrix_reader::get_row_nonzero_value_num(int row) const</span>
+<span class="lineNum">     382 </span>                :            :   {
+<span class="lineNum">     383 </span>        [<span class="branchNoExec" title="Branch 0 was not executed"> # </span><span class="branchNoExec" title="Branch 1 was not executed"> # </span>]:<span class="lineNoCov">          0 :     if (!offsets) return 0;</span>
+<span class="lineNum">     384 </span>                :<span class="lineNoCov">          0 :     return offsets-&gt;num(row);</span>
+<span class="lineNum">     385 </span>                :            :   }
+<span class="lineNum">     386 </span>                :            : 
+<span class="lineNum">     387 </span>                :            : 
+<span class="lineNum">     388 </span>                :            :   ////////////////////////////////////////////////////////////////
+<span class="lineNum">     389 </span>                :            :   //
+<span class="lineNum">     390 </span>                :            :   // MatrixTranspose
+<span class="lineNum">     391 </span>                :            :   //
+<span class="lineNum">     392 </span>                :            : 
+<span class="lineNum">     393 </span>                :<span class="lineNoCov">          0 :   int matrix_transpose(const string&amp; fnMat, const string&amp; fnMatT)</span>
+<span class="lineNum">     394 </span>                :            :   {
+<span class="lineNum">     395 </span>                :<span class="lineNoCov">          0 :     fputs(&quot;transpose start\n&quot;,stderr);</span>
+<span class="lineNum">     396 </span>                :            :     vector&lt;std::map&lt;int,unsigned char&gt; &gt; hash;
+<span class="lineNum">     397 </span>                :            : 
+<span class="lineNum">     398 </span>                :<span class="lineNoCov">          0 :     sparse_matrix_reader index;</span>
+<span class="lineNum">     399 </span>                :<span class="lineNoCov">          0 :     fprintf(stderr,&quot;index.open(%s)\n&quot;,fnMat.c_str());</span>
+<span class="lineNum">     400 </span>        [<span class="branchNoExec" title="Branch 1 was not executed"> # </span><span class="branchNoExec" title="Branch 2 was not executed"> # </span>]:<span class="lineNoCov">          0 :     if (index.open(fnMat)&lt;0){</span>
+<span class="lineNum">     401 </span>                :<span class="lineNoCov">          0 :       fprintf(stderr,&quot;MatrixTranspose cannot open %s\n&quot;,fnMat.c_str());</span>
+<span class="lineNum">     402 </span>                :<span class="lineNoCov">          0 :       return -1;</span>
+<span class="lineNum">     403 </span>                :            :     }
+<span class="lineNum">     404 </span>                :<span class="lineNoCov">          0 :     sparse_matrix_writer indexT;</span>
+<span class="lineNum">     405 </span>                :<span class="lineNoCov">          0 :     fputs(&quot;indexT.open()\n&quot;,stderr);</span>
+<span class="lineNum">     406 </span>        [<span class="branchNoExec" title="Branch 1 was not executed"> # </span><span class="branchNoExec" title="Branch 2 was not executed"> # </span>]:<span class="lineNoCov">          0 :     if (indexT.open(fnMatT)&lt;0){</span>
+<span class="lineNum">     407 </span>                :<span class="lineNoCov">          0 :       fprintf(stderr,&quot;MatrixTranspose cannot open %s\n&quot;,fnMatT.c_str());</span>
+<span class="lineNum">     408 </span>                :<span class="lineNoCov">          0 :       return -1;</span>
+<span class="lineNum">     409 </span>                :            :     }
+<span class="lineNum">     410 </span>                :<span class="lineNoCov">          0 :     int docNum=index.row_num();</span>
+<span class="lineNum">     411 </span>                :<span class="lineNoCov">          0 :     fprintf(stderr,&quot;index.row_num() = %d\n&quot;,docNum);</span>
+<span class="lineNum">     412 </span>                :            : 
+<span class="lineNum">     413 </span>                :            :     // count how much number of element not equal to zero contains for each column
+<span class="lineNum">     414 </span>                :            :     vector&lt;int&gt; termCount;
+<span class="lineNum">     415 </span>        [<span class="branchNoExec" title="Branch 0 was not executed"> # </span><span class="branchNoExec" title="Branch 1 was not executed"> # </span>]:<span class="lineNoCov">          0 :     for (int i=0;i&lt;docNum;++i) {</span>
+<span class="lineNum">     416 </span>                :            :       vector&lt;pair&lt;int,unsigned char&gt; &gt; docs;
+<span class="lineNum">     417 </span>                :<span class="lineNoCov">          0 :       index.get_row(i,docs);</span>
+<span class="lineNum">     418 </span>        [<span class="branchNoExec" title="Branch 0 was not executed"> # </span><span class="branchNoExec" title="Branch 1 was not executed"> # </span>]:<span class="lineNoCov">          0 :       for (int j=0;j&lt;(int)docs.size();++j) {</span>
+<span class="lineNum">     419 </span>                :<span class="lineNoCov">          0 :         int term=docs[j].first;</span>
+<span class="lineNum">     420 </span>        [<span class="branchNoExec" title="Branch 0 was not executed"> # </span><span class="branchNoExec" title="Branch 1 was not executed"> # </span>]:<span class="lineNoCov">          0 :         if (term&gt;=(int)termCount.size()) termCount.resize(term+1);</span>
+<span class="lineNum">     421 </span>                :<span class="lineNoCov">          0 :         ++termCount[term];</span>
+<span class="lineNum">     422 </span>                :            :       }
+<span class="lineNum">     423 </span>                :            :     }
+<span class="lineNum">     424 </span>                :<span class="lineNoCov">          0 :     int termNum=termCount.size();</span>
+<span class="lineNum">     425 </span>                :            : 
+<span class="lineNum">     426 </span>                :<span class="lineNoCov">          0 :     fputs(&quot;term count finished\n&quot;,stderr);</span>
+<span class="lineNum">     427 </span>                :            : 
+<span class="lineNum">     428 </span>                :            :     // for memory usage, split columns to small pieces
+<span class="lineNum">     429 </span>                :<span class="lineNoCov">          0 :     uint64_t sum=0;</span>
+<span class="lineNum">     430 </span>                :            :     vector&lt;int&gt; boundary;
+<span class="lineNum">     431 </span>                :            :     pfi::system::sysstat::sysstat_ret stat;
+<span class="lineNum">     432 </span>                :<span class="lineNoCov">          0 :     int stat_ret = pfi::system::sysstat::get_sysstat(stat);</span>
+<span class="lineNum">     433 </span>        [<span class="branchNoExec" title="Branch 0 was not executed"> # </span><span class="branchNoExec" title="Branch 1 was not executed"> # </span>]:<span class="lineNoCov">          0 :     if (stat_ret&lt;0){</span>
+<span class="lineNum">     434 </span>                :<span class="lineNoCov">          0 :       fprintf(stderr,&quot;get_sysstat failed\n&quot;);</span>
+<span class="lineNum">     435 </span>                :<span class="lineNoCov">          0 :       return -1;</span>
+<span class="lineNum">     436 </span>                :            :     }
+<span class="lineNum">     437 </span>                :<span class="lineNoCov">          0 :     uint64_t limit=stat.free_memory/20;</span>
+<span class="lineNum">     438 </span>                :            : 
+<span class="lineNum">     439 </span>        [<span class="branchNoExec" title="Branch 0 was not executed"> # </span><span class="branchNoExec" title="Branch 1 was not executed"> # </span>]:<span class="lineNoCov">          0 :     for (int i=0;i&lt;(int)termCount.size();++i) {</span>
+<span class="lineNum">     440 </span>                :<span class="lineNoCov">          0 :       sum+=termCount[i];</span>
+<span class="lineNum">     441 </span>        [<span class="branchNoExec" title="Branch 0 was not executed"> # </span><span class="branchNoExec" title="Branch 1 was not executed"> # </span>]:<span class="lineNoCov">          0 :       if (sum&gt;=limit) {</span>
+<span class="lineNum">     442 </span>                :<span class="lineNoCov">          0 :         fprintf(stderr,&quot;boundary: %d\n&quot;,i);</span>
+<span class="lineNum">     443 </span>                :<span class="lineNoCov">          0 :         boundary.push_back(i+1);</span>
+<span class="lineNum">     444 </span>                :<span class="lineNoCov">          0 :         sum=0;</span>
+<span class="lineNum">     445 </span>                :            :       }
+<span class="lineNum">     446 </span>                :            :     }
+<span class="lineNum">     447 </span>        [<span class="branchNoExec" title="Branch 0 was not executed"> # </span><span class="branchNoExec" title="Branch 1 was not executed"> # </span>]:<span class="lineNoCov">          0 :     if (sum&gt;0) {</span>
+<span class="lineNum">     448 </span>                :<span class="lineNoCov">          0 :       fprintf(stderr,&quot;boundary: %d\n&quot;,termNum);</span>
+<span class="lineNum">     449 </span>                :<span class="lineNoCov">          0 :       boundary.push_back(termNum);</span>
+<span class="lineNum">     450 </span>                :            :     }
+<span class="lineNum">     451 </span>                :            : 
+<span class="lineNum">     452 </span>                :<span class="lineNoCov">          0 :     fputs(&quot;split rows finished\n&quot;,stderr);</span>
+<span class="lineNum">     453 </span>                :            : 
+<span class="lineNum">     454 </span>                :            :     // transpose for each column sets
+<span class="lineNum">     455 </span>                :<span class="lineNoCov">          0 :     int st=0;</span>
+<span class="lineNum">     456 </span>        [<span class="branchNoExec" title="Branch 2 was not executed"> # </span><span class="branchNoExec" title="Branch 3 was not executed"> # </span>]:<span class="lineNoCov">          0 :     for (int i=0;i&lt;(int)boundary.size();++i) {</span>
+<span class="lineNum">     457 </span>                :<span class="lineNoCov">          0 :       fprintf(stderr,&quot;transpose: %d / %d\n&quot;,i,(int)boundary.size());</span>
+<span class="lineNum">     458 </span>                :            : 
+<span class="lineNum">     459 </span>                :<span class="lineNoCov">          0 :       int en=boundary[i];</span>
+<span class="lineNum">     460 </span>                :<span class="lineNoCov">          0 :       vector&lt;std::map&lt;int,unsigned char&gt; &gt; hash(en-st);</span>
+<span class="lineNum">     461 </span>                :            : 
+<span class="lineNum">     462 </span>        [<span class="branchNoExec" title="Branch 0 was not executed"> # </span><span class="branchNoExec" title="Branch 1 was not executed"> # </span>]:<span class="lineNoCov">          0 :       for (int j=0;j&lt;docNum;++j) {</span>
+<span class="lineNum">     463 </span>                :            :         vector&lt;pair&lt;int,unsigned char&gt; &gt; docs;
+<span class="lineNum">     464 </span>                :<span class="lineNoCov">          0 :         index.get_row(j,docs);</span>
+<span class="lineNum">     465 </span>        [<span class="branchNoExec" title="Branch 0 was not executed"> # </span><span class="branchNoExec" title="Branch 1 was not executed"> # </span>]:<span class="lineNoCov">          0 :         for (int k=0;k&lt;(int)docs.size();++k) </span>
+<span class="lineNum">     466 </span>[<span class="branchNoExec" title="Branch 0 was not executed"> # </span><span class="branchNoExec" title="Branch 1 was not executed"> # </span>][<span class="branchNoExec" title="Branch 2 was not executed"> # </span><span class="branchNoExec" title="Branch 3 was not executed"> # </span>]:<span class="lineNoCov">          0 :           if (st&lt;=(int)docs[k].first&amp;&amp;(int)docs[k].first&lt;en) </span>
+<span class="lineNum">         </span>        [<span class="branchNoExec" title="Branch 4 was not executed"> # </span><span class="branchNoExec" title="Branch 5 was not executed"> # </span>]
+<span class="lineNum">     467 </span>                :<span class="lineNoCov">          0 :             hash[docs[k].first-st][j]=docs[k].second;</span>
+<span class="lineNum">     468 </span>                :            :       }
+<span class="lineNum">     469 </span>        [<span class="branchNoExec" title="Branch 1 was not executed"> # </span><span class="branchNoExec" title="Branch 2 was not executed"> # </span>]:<span class="lineNoCov">          0 :       for (int i=st;i&lt;en;++i) indexT.append_row(hash[i-st]);</span>
+<span class="lineNum">     470 </span>                :<span class="lineNoCov">          0 :       st=en;</span>
+<span class="lineNum">     471 </span>                :            :     }
+<span class="lineNum">     472 </span>                :            : 
+<span class="lineNum">     473 </span>                :<span class="lineNoCov">          0 :     index.close();</span>
+<span class="lineNum">     474 </span>                :<span class="lineNoCov">          0 :     indexT.close();</span>
+<span class="lineNum">     475 </span>                :<span class="lineNoCov">          0 :     return 0;</span>
+<span class="lineNum">     476 </span>                :            :   }
+<span class="lineNum">     477 </span>                :            : 
+<a name="478"><span class="lineNum">     478 </span>                :            : } // sparse_matrix</a>
+<span class="lineNum">     479 </span>                :            : } // data
+<span class="lineNum">     480 </span>[<span class="branchCov" title="Branch 0 was taken 34 times"> + </span><span class="branchNoCov" title="Branch 1 was not taken"> - </span>][<span class="branchCov" title="Branch 2 was taken 34 times"> + </span><span class="branchNoCov" title="Branch 3 was not taken"> - </span>]:<span class="lineCov">         68 : } // pfi</span>
+</pre>
+      </td>
+    </tr>
+  </table>
+  <br>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="ruler"><img src="../../glass.png" width=3 height=3 alt=""></td></tr>
+    <tr><td class="versionInfo">Generated by: <a href="http://ltp.sourceforge.net/coverage/lcov.php" target="_parent">LCOV version 1.9</a></td></tr>
+  </table>
+  <br>
+
+</body>
+</html>

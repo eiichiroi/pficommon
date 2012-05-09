@@ -1,0 +1,385 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html lang="en">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+  <title>LCOV - pficommon - network/cgi/base.cpp</title>
+  <link rel="stylesheet" type="text/css" href="../../gcov.css">
+</head>
+
+<body>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="title">LCOV - code coverage report</td></tr>
+    <tr><td class="ruler"><img src="../../glass.png" width=3 height=3 alt=""></td></tr>
+
+    <tr>
+      <td width="100%">
+        <table cellpadding=1 border=0 width="100%">
+          <tr>
+            <td width="10%" class="headerItem">Current view:</td>
+            <td width="35%" class="headerValue"><a href="../../index.html">top level</a> - <a href="index.html">network/cgi</a> - base.cpp<span style="font-size: 80%;"> (source / <a href="base.cpp.func.html">functions</a>)</span></td>
+            <td width="5%"></td>
+            <td width="15%"></td>
+            <td width="10%" class="headerCovTableHead">Hit</td>
+            <td width="10%" class="headerCovTableHead">Total</td>
+            <td width="15%" class="headerCovTableHead">Coverage</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Test:</td>
+            <td class="headerValue">pficommon</td>
+            <td></td>
+            <td class="headerItem">Lines:</td>
+            <td class="headerCovTableEntry">1</td>
+            <td class="headerCovTableEntry">147</td>
+            <td class="headerCovTableEntryLo">0.7 %</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Date:</td>
+            <td class="headerValue">2012-05-09</td>
+            <td></td>
+            <td class="headerItem">Functions:</td>
+            <td class="headerCovTableEntry">1</td>
+            <td class="headerCovTableEntry">9</td>
+            <td class="headerCovTableEntryLo">11.1 %</td>
+          </tr>
+          <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td class="headerItem">Branches:</td>
+            <td class="headerCovTableEntry">2</td>
+            <td class="headerCovTableEntry">146</td>
+            <td class="headerCovTableEntryLo">1.4 %</td>
+          </tr>
+          <tr><td><img src="../../glass.png" width=3 height=3 alt=""></td></tr>
+        </table>
+      </td>
+    </tr>
+
+    <tr><td class="ruler"><img src="../../glass.png" width=3 height=3 alt=""></td></tr>
+  </table>
+
+  <table cellpadding=0 cellspacing=0 border=0>
+    <tr>
+      <td><br></td>
+    </tr>
+    <tr>
+      <td>
+<pre class="sourceHeading">           Branch data     Line data    Source code</pre>
+<pre class="source">
+<a name="1"><span class="lineNum">       1 </span>                :            : // Copyright (c)2008-2011, Preferred Infrastructure Inc.</a>
+<span class="lineNum">       2 </span>                :            : // 
+<span class="lineNum">       3 </span>                :            : // All rights reserved.
+<span class="lineNum">       4 </span>                :            : // 
+<span class="lineNum">       5 </span>                :            : // Redistribution and use in source and binary forms, with or without
+<span class="lineNum">       6 </span>                :            : // modification, are permitted provided that the following conditions are met:
+<span class="lineNum">       7 </span>                :            : // 
+<span class="lineNum">       8 </span>                :            : //     * Redistributions of source code must retain the above copyright
+<span class="lineNum">       9 </span>                :            : //       notice, this list of conditions and the following disclaimer.
+<span class="lineNum">      10 </span>                :            : // 
+<span class="lineNum">      11 </span>                :            : //     * Redistributions in binary form must reproduce the above
+<span class="lineNum">      12 </span>                :            : //       copyright notice, this list of conditions and the following
+<span class="lineNum">      13 </span>                :            : //       disclaimer in the documentation and/or other materials provided
+<span class="lineNum">      14 </span>                :            : //       with the distribution.
+<span class="lineNum">      15 </span>                :            : // 
+<span class="lineNum">      16 </span>                :            : //     * Neither the name of Preferred Infrastructure nor the names of other
+<span class="lineNum">      17 </span>                :            : //       contributors may be used to endorse or promote products derived
+<span class="lineNum">      18 </span>                :            : //       from this software without specific prior written permission.
+<span class="lineNum">      19 </span>                :            : // 
+<span class="lineNum">      20 </span>                :            : // THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+<span class="lineNum">      21 </span>                :            : // &quot;AS IS&quot; AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+<span class="lineNum">      22 </span>                :            : // LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+<span class="lineNum">      23 </span>                :            : // A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
+<span class="lineNum">      24 </span>                :            : // OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+<span class="lineNum">      25 </span>                :            : // SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+<span class="lineNum">      26 </span>                :            : // LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+<span class="lineNum">      27 </span>                :            : // DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+<span class="lineNum">      28 </span>                :            : // THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+<span class="lineNum">      29 </span>                :            : // (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+<span class="lineNum">      30 </span>                :            : // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+<span class="lineNum">      31 </span>                :            : 
+<span class="lineNum">      32 </span>                :            : #include &quot;base.h&quot;
+<span class="lineNum">      33 </span>                :            : 
+<span class="lineNum">      34 </span>                :            : #include &lt;cstring&gt;
+<span class="lineNum">      35 </span>                :            : 
+<span class="lineNum">      36 </span>                :            : #include &quot;tags.h&quot;
+<span class="lineNum">      37 </span>                :            : #include &quot;../uri.h&quot;
+<span class="lineNum">      38 </span>                :            : #include &quot;../../lang/cast.h&quot;
+<span class="lineNum">      39 </span>                :            : 
+<span class="lineNum">      40 </span>                :            : using namespace std;
+<span class="lineNum">      41 </span>                :            : using namespace pfi::lang;
+<span class="lineNum">      42 </span>                :            : 
+<span class="lineNum">      43 </span>                :            : namespace pfi{
+<span class="lineNum">      44 </span>                :            : namespace network{
+<span class="lineNum">      45 </span>                :            : namespace cgi{
+<span class="lineNum">      46 </span>                :            : 
+<span class="lineNum">      47 </span>                :<span class="lineNoCov">          0 : cgi::cgi()</span>
+<span class="lineNum">      48 </span>                :<span class="lineNoCov">          0 :   : max_content_length(4*1024*1024)</span>
+<span class="lineNum">      49 </span>                :            : {
+<a name="50"><span class="lineNum">      50 </span>                :<span class="lineNoCov">          0 : }</span></a>
+<span class="lineNum">      51 </span>                :            : 
+<span class="lineNum">      52 </span>                :<span class="lineNoCov">          0 : void cgi::set_max_content_length(size_t length)</span>
+<span class="lineNum">      53 </span>                :            : {
+<span class="lineNum">      54 </span>                :<span class="lineNoCov">          0 :   max_content_length=length;</span>
+<span class="lineNum">      55 </span>                :<span class="lineNoCov">          0 : }</span>
+<span class="lineNum">      56 </span>                :            : 
+<span class="lineNum">      57 </span>                :<span class="lineNoCov">          0 : void cgi::exec(istream &amp;in,</span>
+<span class="lineNum">      58 </span>                :            :                ostream &amp;out,
+<span class="lineNum">      59 </span>                :            :                ostream &amp;err,
+<span class="lineNum">      60 </span>                :            :                const map&lt;string, string&gt; &amp;cenv)
+<span class="lineNum">      61 </span>                :            : {
+<span class="lineNum">      62 </span>                :<span class="lineNoCov">          0 :   env=cenv;</span>
+<span class="lineNum">      63 </span>                :<span class="lineNoCov">          0 :   map&lt;string,string&gt;().swap(query);</span>
+<span class="lineNum">      64 </span>                :            : 
+<span class="lineNum">      65 </span>                :<span class="lineNoCov">          0 :   bool valid=true;</span>
+<span class="lineNum">      66 </span>                :            :   string invalid_msg;
+<span class="lineNum">      67 </span>                :            : 
+<span class="lineNum">      68 </span>                :<span class="lineNoCov">          0 :   head=http::header();</span>
+<span class="lineNum">      69 </span>                :<span class="lineNoCov">          0 :   query.clear();</span>
+<span class="lineNum">      70 </span>                :<span class="lineNoCov">          0 :   multi_query.clear();</span>
+<span class="lineNum">      71 </span>                :<span class="lineNoCov">          0 :   file.clear();</span>
+<span class="lineNum">      72 </span>                :<span class="lineNoCov">          0 :   file_info.clear();</span>
+<span class="lineNum">      73 </span>                :            : 
+<span class="lineNum">      74 </span>                :<span class="lineNoCov">          0 :   method=env[&quot;REQUEST_METHOD&quot;];</span>
+<span class="lineNum">      75 </span>                :            : 
+<span class="lineNum">      76 </span>        [<span class="branchNoExec" title="Branch 0 was not executed"> # </span><span class="branchNoExec" title="Branch 1 was not executed"> # </span>]:<span class="lineNoCov">          0 :   if (method==&quot;GET&quot;){</span>
+<span class="lineNum">      77 </span>                :<span class="lineNoCov">          0 :     parse_input(env[&quot;QUERY_STRING&quot;]);</span>
+<span class="lineNum">      78 </span>                :            :   }
+<span class="lineNum">      79 </span>        [<span class="branchNoExec" title="Branch 0 was not executed"> # </span><span class="branchNoExec" title="Branch 1 was not executed"> # </span>]:<span class="lineNoCov">          0 :   else if (method==&quot;POST&quot;){</span>
+<span class="lineNum">      80 </span>                :<span class="lineNoCov">          0 :     size_t len=0;</span>
+<span class="lineNum">      81 </span>                :<span class="lineNoCov">          0 :     try{ len=lexical_cast&lt;size_t&gt;(env[&quot;CONTENT_LENGTH&quot;]); } catch(...){}</span>
+<span class="lineNum">      82 </span>        [<span class="branchNoExec" title="Branch 0 was not executed"> # </span><span class="branchNoExec" title="Branch 1 was not executed"> # </span>]:<span class="lineNoCov">          0 :     if (len&gt;max_content_length){</span>
+<span class="lineNum">      83 </span>                :<span class="lineNoCov">          0 :       valid=false;</span>
+<span class="lineNum">      84 </span>                :<span class="lineNoCov">          0 :       ostringstream msg;</span>
+<span class="lineNum">      85 </span>                :<span class="lineNoCov">          0 :       msg&lt;&lt;&quot;Content length is too long: got &quot;&lt;&lt;len&lt;&lt;&quot; bytes, expect less than &quot;&lt;&lt;max_content_length&lt;&lt;&quot; bytes&quot;;</span>
+<span class="lineNum">      86 </span>                :<span class="lineNoCov">          0 :       invalid_msg=msg.str();</span>
+<span class="lineNum">      87 </span>                :            :     }
+<span class="lineNum">      88 </span>                :            :     else{
+<span class="lineNum">      89 </span>                :<span class="lineNoCov">          0 :       string dat(len, '\0');</span>
+<span class="lineNum">      90 </span>                :<span class="lineNoCov">          0 :       in.read(&amp;dat[0], len);</span>
+<span class="lineNum">      91 </span>        [<span class="branchNoExec" title="Branch 0 was not executed"> # </span><span class="branchNoExec" title="Branch 1 was not executed"> # </span>]:<span class="lineNoCov">          0 :       if (in.eof()){</span>
+<span class="lineNum">      92 </span>                :<span class="lineNoCov">          0 :         valid=false;</span>
+<span class="lineNum">      93 </span>                :            :         invalid_msg=&quot;Request is too short&quot;;
+<span class="lineNum">      94 </span>                :            :       }
+<span class="lineNum">      95 </span>                :            :       else{
+<span class="lineNum">      96 </span>        [<span class="branchNoExec" title="Branch 5 was not executed"> # </span><span class="branchNoExec" title="Branch 6 was not executed"> # </span>]:<span class="lineNoCov">          0 :         if (env[&quot;CONTENT_TYPE&quot;].find(&quot;multipart/&quot;)!=string::npos){</span>
+<span class="lineNum">      97 </span>                :<span class="lineNoCov">          0 :           string::size_type ix=env[&quot;CONTENT_TYPE&quot;].find(&quot;boundary=&quot;);</span>
+<span class="lineNum">      98 </span>        [<span class="branchNoExec" title="Branch 0 was not executed"> # </span><span class="branchNoExec" title="Branch 1 was not executed"> # </span>]:<span class="lineNoCov">          0 :           if (ix==string::npos){</span>
+<span class="lineNum">      99 </span>                :<span class="lineNoCov">          0 :             valid=false;</span>
+<span class="lineNum">     100 </span>                :            :             invalid_msg=&quot;Invalid html protocol&quot;;
+<span class="lineNum">     101 </span>                :            :           }
+<span class="lineNum">     102 </span>                :<span class="lineNoCov">          0 :           string boundary=env[&quot;CONTENT_TYPE&quot;].substr(ix+9);</span>
+<span class="lineNum">     103 </span>                :<span class="lineNoCov">          0 :           parse_multipart_input(dat, boundary);</span>
+<span class="lineNum">     104 </span>                :            :         }
+<span class="lineNum">     105 </span>                :            :         else
+<span class="lineNum">     106 </span>                :<span class="lineNoCov">          0 :           parse_input(dat);</span>
+<span class="lineNum">     107 </span>                :<span class="lineNoCov">          0 :       }</span>
+<span class="lineNum">     108 </span>                :            :     }
+<span class="lineNum">     109 </span>                :            :   }
+<span class="lineNum">     110 </span>                :            : 
+<span class="lineNum">     111 </span>                :<span class="lineNoCov">          0 :   head[&quot;Content-Type&quot;]=&quot;text/plain; charset=utf-8&quot;;</span>
+<span class="lineNum">     112 </span>                :            : 
+<span class="lineNum">     113 </span>                :<span class="lineNoCov">          0 :   ostringstream oss;</span>
+<span class="lineNum">     114 </span>        [<span class="branchNoExec" title="Branch 0 was not executed"> # </span><span class="branchNoExec" title="Branch 1 was not executed"> # </span>]:<span class="lineNoCov">          0 :   if (valid)</span>
+<span class="lineNum">     115 </span>                :<span class="lineNoCov">          0 :     run(oss);</span>
+<span class="lineNum">     116 </span>                :            :   else{
+<span class="lineNum">     117 </span>                :<span class="lineNoCov">          0 :     head[&quot;Status&quot;]=&quot;500 Internal Server Error&quot;;</span>
+<span class="lineNum">     118 </span>                :            :     xhtml_builder builder;
+<span class="lineNum">     119 </span>        [<span class="branchNoExec" title="Branch 5 was not executed"> # </span><span class="branchNoExec" title="Branch 6 was not executed"> # </span>]:<span class="lineNoCov">          0 :     body__{</span>
+<span class="lineNum">     120 </span>[<span class="branchNoExec" title="Branch 5 was not executed"> # </span><span class="branchNoExec" title="Branch 6 was not executed"> # </span>][<span class="branchNoExec" title="Branch 12 was not executed"> # </span><span class="branchNoExec" title="Branch 13 was not executed"> # </span>]:<span class="lineNoCov">          0 :       head__ title__ text__(&quot;Internal Server Error&quot;);</span>
+<span class="lineNum">     121 </span>        [<span class="branchNoExec" title="Branch 5 was not executed"> # </span><span class="branchNoExec" title="Branch 6 was not executed"> # </span>]:<span class="lineNoCov">          0 :       body__{</span>
+<span class="lineNum">     122 </span>                :<span class="lineNoCov">          0 :         text__(invalid_msg);</span>
+<span class="lineNum">     123 </span>                :<span class="lineNoCov">          0 :       }</span>
+<span class="lineNum">     124 </span>                :<span class="lineNoCov">          0 :     }</span>
+<span class="lineNum">     125 </span>                :<span class="lineNoCov">          0 :     vector&lt;xhtml_builder::elem_type&gt; &amp;rs=builder.get();</span>
+<span class="lineNum">     126 </span>        [<span class="branchNoExec" title="Branch 0 was not executed"> # </span><span class="branchNoExec" title="Branch 1 was not executed"> # </span>]:<span class="lineNoCov">          0 :     for (int i=0;i&lt;(int)rs.size();i++)</span>
+<span class="lineNum">     127 </span>                :<span class="lineNoCov">          0 :       rs[i]-&gt;pretty(oss);</span>
+<span class="lineNum">     128 </span>                :            :   }
+<span class="lineNum">     129 </span>                :            : 
+<span class="lineNum">     130 </span>        [<span class="branchNoExec" title="Branch 2 was not executed"> # </span><span class="branchNoExec" title="Branch 3 was not executed"> # </span>]:<span class="lineNoCov">          0 :   for (http::header::iterator p=head.begin();</span>
+<span class="lineNum">     131 </span>                :            :        p!=head.end(); p++)
+<span class="lineNum">     132 </span>                :<span class="lineNoCov">          0 :     out&lt;&lt;p-&gt;first&lt;&lt;&quot;: &quot;&lt;&lt;p-&gt;second&lt;&lt;endl;</span>
+<span class="lineNum">     133 </span>                :            :   out&lt;&lt;endl;
+<span class="lineNum">     134 </span>                :            :   
+<span class="lineNum">     135 </span>                :<span class="lineNoCov">          0 :   out&lt;&lt;oss.str();</span>
+<span class="lineNum">     136 </span>                :<span class="lineNoCov">          0 : }</span>
+<span class="lineNum">     137 </span>                :            : 
+<span class="lineNum">     138 </span>                :<span class="lineNoCov">          0 : void cgi::parse_input(const string &amp;s)</span>
+<span class="lineNum">     139 </span>                :            : {
+<span class="lineNum">     140 </span>                :<span class="lineNoCov">          0 :   const char *p=s.c_str();</span>
+<span class="lineNum">     141 </span>                :            :   
+<span class="lineNum">     142 </span>        [<span class="branchNoExec" title="Branch 0 was not executed"> # </span><span class="branchNoExec" title="Branch 1 was not executed"> # </span>]:<span class="lineNoCov">          0 :   while(*p){</span>
+<span class="lineNum">     143 </span>                :            :     const char *q=strchr(p,'&amp;');
+<span class="lineNum">     144 </span>        [<span class="branchNoExec" title="Branch 0 was not executed"> # </span><span class="branchNoExec" title="Branch 1 was not executed"> # </span>]:<span class="lineNoCov">          0 :     if (!q) q=s.c_str()+s.length();</span>
+<span class="lineNum">     145 </span>                :            :     
+<span class="lineNum">     146 </span>                :            :     const char *r=strchr(p,'=');
+<span class="lineNum">     147 </span>        [<span class="branchNoExec" title="Branch 0 was not executed"> # </span><span class="branchNoExec" title="Branch 1 was not executed"> # </span>]:<span class="lineNoCov">          0 :     if (r &amp;&amp; r&lt;q){</span>
+<span class="lineNum">     148 </span>                :<span class="lineNoCov">          0 :       string k = uri_decode(string(p,r));</span>
+<span class="lineNum">     149 </span>                :<span class="lineNoCov">          0 :       string v = uri_decode(string(r+1,q));</span>
+<span class="lineNum">     150 </span>                :<span class="lineNoCov">          0 :       query[k]= v;</span>
+<span class="lineNum">     151 </span>                :<span class="lineNoCov">          0 :       multi_query[k].push_back(v);</span>
+<span class="lineNum">     152 </span>                :            :     }
+<span class="lineNum">     153 </span>                :            :     else{
+<span class="lineNum">     154 </span>                :<span class="lineNoCov">          0 :       string k = uri_decode(string(p,q));</span>
+<span class="lineNum">     155 </span>                :<span class="lineNoCov">          0 :       query[k]=&quot;&quot;;</span>
+<span class="lineNum">     156 </span>                :<span class="lineNoCov">          0 :       multi_query[k].push_back(&quot;&quot;);</span>
+<span class="lineNum">     157 </span>                :            :     }
+<span class="lineNum">     158 </span>                :            :     
+<span class="lineNum">     159 </span>        [<span class="branchNoExec" title="Branch 0 was not executed"> # </span><span class="branchNoExec" title="Branch 1 was not executed"> # </span>]:<span class="lineNoCov">          0 :     p=*q?q+1:q;</span>
+<span class="lineNum">     160 </span>                :            :   }
+<span class="lineNum">     161 </span>                :<span class="lineNoCov">          0 : }</span>
+<span class="lineNum">     162 </span>                :            : 
+<span class="lineNum">     163 </span>                :            : static inline string trim(const string &amp;s)
+<span class="lineNum">     164 </span>                :            : {
+<span class="lineNum">     165 </span>                :<span class="lineNoCov">          0 :   ssize_t st=0, ed=s.length()-1;</span>
+<span class="lineNum">     166 </span>[<span class="branchNoExec" title="Branch 0 was not executed"> # </span><span class="branchNoExec" title="Branch 1 was not executed"> # </span>][<span class="branchNoExec" title="Branch 2 was not executed"> # </span><span class="branchNoExec" title="Branch 3 was not executed"> # </span>]:<span class="lineNoCov">          0 :   while(st&lt;=ed &amp;&amp; isspace(s[st])) st++;</span>
+<span class="lineNum">         </span>        [<span class="branchNoExec" title="Branch 4 was not executed"> # </span><span class="branchNoExec" title="Branch 5 was not executed"> # </span>]
+<span class="lineNum">     167 </span>[<span class="branchNoExec" title="Branch 0 was not executed"> # </span><span class="branchNoExec" title="Branch 1 was not executed"> # </span>][<span class="branchNoExec" title="Branch 2 was not executed"> # </span><span class="branchNoExec" title="Branch 3 was not executed"> # </span>]:<span class="lineNoCov">          0 :   while(st&lt;=ed &amp;&amp; isspace(s[ed])) ed--;</span>
+<span class="lineNum">         </span>        [<span class="branchNoExec" title="Branch 4 was not executed"> # </span><span class="branchNoExec" title="Branch 5 was not executed"> # </span>]
+<span class="lineNum">     168 </span>                :<span class="lineNoCov">          0 :   return s.substr(st, ed-st+1);</span>
+<span class="lineNum">     169 </span>                :            : }
+<span class="lineNum">     170 </span>                :            : 
+<span class="lineNum">     171 </span>                :            : static inline string string_tolower(const string &amp;s)
+<span class="lineNum">     172 </span>                :            : {
+<span class="lineNum">     173 </span>                :<span class="lineNoCov">          0 :   string ret=s;</span>
+<span class="lineNum">     174 </span>        [<span class="branchNoExec" title="Branch 0 was not executed"> # </span><span class="branchNoExec" title="Branch 1 was not executed"> # </span>]:<span class="lineNoCov">          0 :   for (size_t i=0; i&lt;ret.length(); i++)</span>
+<span class="lineNum">     175 </span>                :<span class="lineNoCov">          0 :     ret[i]=tolower(ret[i]);</span>
+<span class="lineNum">     176 </span>                :<span class="lineNoCov">          0 :   return ret;</span>
+<span class="lineNum">     177 </span>                :            : }
+<span class="lineNum">     178 </span>                :            : 
+<span class="lineNum">     179 </span>                :<span class="lineNoCov">          0 : static inline pair&lt;string, string&gt; extract_attr(const string &amp;s)</span>
+<span class="lineNum">     180 </span>                :            : {
+<span class="lineNum">     181 </span>                :<span class="lineNoCov">          0 :   string::size_type ix=s.find('=');</span>
+<span class="lineNum">     182 </span>                :<span class="lineNoCov">          0 :   string key=string_tolower(trim(s.substr(0, ix)));</span>
+<span class="lineNum">     183 </span>        [<span class="branchNoExec" title="Branch 0 was not executed"> # </span><span class="branchNoExec" title="Branch 1 was not executed"> # </span>]:<span class="lineNoCov">          0 :   if (ix==string::npos) return make_pair(key, &quot;&quot;);</span>
+<span class="lineNum">     184 </span>                :<span class="lineNoCov">          0 :   ix++;</span>
+<span class="lineNum">     185 </span>                :<span class="lineNoCov">          0 :   string::size_type jx=s.find('\&quot;', ix);</span>
+<span class="lineNum">     186 </span>        [<span class="branchNoExec" title="Branch 0 was not executed"> # </span><span class="branchNoExec" title="Branch 1 was not executed"> # </span>]:<span class="lineNoCov">          0 :   if (jx==string::npos) return make_pair(key, &quot;&quot;);</span>
+<span class="lineNum">     187 </span>                :<span class="lineNoCov">          0 :   string::size_type kx=s.find('\&quot;', jx+1);</span>
+<span class="lineNum">     188 </span>        [<span class="branchNoExec" title="Branch 0 was not executed"> # </span><span class="branchNoExec" title="Branch 1 was not executed"> # </span>]:<span class="lineNoCov">          0 :   if (kx==string::npos) return make_pair(key, &quot;&quot;);</span>
+<span class="lineNum">     189 </span>                :<span class="lineNoCov">          0 :   return make_pair(key, s.substr(jx+1, kx-jx-1));</span>
+<span class="lineNum">     190 </span>                :            : }
+<span class="lineNum">     191 </span>                :            : 
+<span class="lineNum">     192 </span>                :            : static inline pair&lt;string, map&lt;string, string&gt; &gt;
+<span class="lineNum">     193 </span>                :<span class="lineNoCov">          0 : extract_header(const string &amp;s)</span>
+<span class="lineNum">     194 </span>                :            : {
+<span class="lineNum">     195 </span>                :            :   string val;
+<span class="lineNum">     196 </span>                :            :   map&lt;string, string&gt; attr;
+<span class="lineNum">     197 </span>                :            : 
+<span class="lineNum">     198 </span>                :<span class="lineNoCov">          0 :   string::size_type cur=s.find(';');</span>
+<span class="lineNum">     199 </span>                :<span class="lineNoCov">          0 :   val=s.substr(0, cur);</span>
+<span class="lineNum">     200 </span>                :            : 
+<span class="lineNum">     201 </span>        [<span class="branchNoExec" title="Branch 0 was not executed"> # </span><span class="branchNoExec" title="Branch 1 was not executed"> # </span>]:<span class="lineNoCov">          0 :   for (; cur!=string::npos; ){</span>
+<span class="lineNum">     202 </span>                :<span class="lineNoCov">          0 :     cur++;</span>
+<span class="lineNum">     203 </span>                :<span class="lineNoCov">          0 :     string::size_type next=s.find(';', cur);</span>
+<span class="lineNum">     204 </span>                :<span class="lineNoCov">          0 :     attr.insert(extract_attr(s.substr(cur, next)));</span>
+<span class="lineNum">     205 </span>                :<span class="lineNoCov">          0 :     cur=next;</span>
+<span class="lineNum">     206 </span>                :            :   }
+<span class="lineNum">     207 </span>                :            : 
+<span class="lineNum">     208 </span>                :<span class="lineNoCov">          0 :   return make_pair(val, attr);</span>
+<span class="lineNum">     209 </span>                :            : }
+<span class="lineNum">     210 </span>                :            : 
+<span class="lineNum">     211 </span>                :<span class="lineNoCov">          0 : void cgi::parse_multipart_input(const string &amp;s, const string &amp;boundary)</span>
+<span class="lineNum">     212 </span>                :            : {
+<span class="lineNum">     213 </span>                :<span class="lineNoCov">          0 :   bool end=false;</span>
+<span class="lineNum">     214 </span>                :            : 
+<span class="lineNum">     215 </span>                :<span class="lineNoCov">          0 :   istringstream iss(s);</span>
+<span class="lineNum">     216 </span>        [<span class="branchNoExec" title="Branch 1 was not executed"> # </span><span class="branchNoExec" title="Branch 2 was not executed"> # </span>]:<span class="lineNoCov">          0 :   for (string line; getline(iss, line); ){</span>
+<span class="lineNum">     217 </span>        [<span class="branchNoExec" title="Branch 7 was not executed"> # </span><span class="branchNoExec" title="Branch 8 was not executed"> # </span>]:<span class="lineNoCov">          0 :     if (line.substr(0, boundary.length()+2)==&quot;--&quot;+boundary){</span>
+<span class="lineNum">     218 </span>        [<span class="branchNoExec" title="Branch 9 was not executed"> # </span><span class="branchNoExec" title="Branch 10 was not executed"> # </span>]:<span class="lineNoCov">          0 :       if (line.substr(0, boundary.length()+4)==&quot;--&quot;+boundary+&quot;--&quot;)</span>
+<span class="lineNum">     219 </span>                :<span class="lineNoCov">          0 :         end=true;</span>
+<span class="lineNum">     220 </span>                :            :       break;
+<span class="lineNum">     221 </span>                :            :     }
+<span class="lineNum">     222 </span>                :<span class="lineNoCov">          0 :   }</span>
+<span class="lineNum">     223 </span>                :            : 
+<span class="lineNum">     224 </span>        [<span class="branchNoExec" title="Branch 8 was not executed"> # </span><span class="branchNoExec" title="Branch 9 was not executed"> # </span>]:<span class="lineNoCov">          0 :   for (; !end; ){</span>
+<span class="lineNum">     225 </span>                :            :     string str;
+<span class="lineNum">     226 </span>                :<span class="lineNoCov">          0 :     ssize_t cnt=0;</span>
+<span class="lineNum">     227 </span>        [<span class="branchNoExec" title="Branch 1 was not executed"> # </span><span class="branchNoExec" title="Branch 2 was not executed"> # </span>]:<span class="lineNoCov">          0 :     for (char a=0, b=0, c=0; iss.get(c); a=b, b=c, cnt++){</span>
+<span class="lineNum">     228 </span>[<span class="branchNoExec" title="Branch 0 was not executed"> # </span><span class="branchNoExec" title="Branch 1 was not executed"> # </span>][<span class="branchNoExec" title="Branch 2 was not executed"> # </span><span class="branchNoExec" title="Branch 3 was not executed"> # </span>]:<span class="lineNoCov">          0 :       if (a=='\n' &amp;&amp; b=='-' &amp;&amp; c=='-'){</span>
+<span class="lineNum">     229 </span>                :<span class="lineNoCov">          0 :         string chk(boundary.length(), ' ');</span>
+<span class="lineNum">     230 </span>                :<span class="lineNoCov">          0 :         iss.read(&amp;chk[0], boundary.length());</span>
+<span class="lineNum">     231 </span>        [<span class="branchNoExec" title="Branch 1 was not executed"> # </span><span class="branchNoExec" title="Branch 2 was not executed"> # </span>]:<span class="lineNoCov">          0 :         if (chk==boundary){</span>
+<span class="lineNum">     232 </span>                :<span class="lineNoCov">          0 :           int cnt=0;</span>
+<span class="lineNum">     233 </span>[<span class="branchNoExec" title="Branch 1 was not executed"> # </span><span class="branchNoExec" title="Branch 2 was not executed"> # </span>][<span class="branchNoExec" title="Branch 3 was not executed"> # </span><span class="branchNoExec" title="Branch 4 was not executed"> # </span>]:<span class="lineNoCov">          0 :           while(iss.get(a) &amp;&amp; a!='\n'){</span>
+<span class="lineNum">         </span>        [<span class="branchNoExec" title="Branch 5 was not executed"> # </span><span class="branchNoExec" title="Branch 6 was not executed"> # </span>]
+<span class="lineNum">     234 </span>[<span class="branchNoExec" title="Branch 0 was not executed"> # </span><span class="branchNoExec" title="Branch 1 was not executed"> # </span>][<span class="branchNoExec" title="Branch 2 was not executed"> # </span><span class="branchNoExec" title="Branch 3 was not executed"> # </span>]:<span class="lineNoCov">          0 :             if (a=='-'){ if (cnt&gt;=0 &amp;&amp; ++cnt==2) end=true; }</span>
+<span class="lineNum">         </span>[<span class="branchNoExec" title="Branch 4 was not executed"> # </span><span class="branchNoExec" title="Branch 5 was not executed"> # </span>][<span class="branchNoExec" title="Branch 6 was not executed"> # </span><span class="branchNoExec" title="Branch 7 was not executed"> # </span>]
+<span class="lineNum">     235 </span>                :<span class="lineNoCov">          0 :             else cnt=-1;</span>
+<span class="lineNum">     236 </span>                :            :           }
+<span class="lineNum">     237 </span>  [<span class="branchNoExec" title="Branch 0 was not executed"> # </span><span class="branchNoExec" title="Branch 1 was not executed"> # </span><span class="branchNoExec" title="Branch 2 was not executed"> # </span><span class="branchNoExec" title="Branch 3 was not executed"> # </span>]:<span class="lineNoCov">          0 :           if (str.length()&gt;0 &amp;&amp; str[str.length()-1]=='\r')</span>
+<span class="lineNum">         </span>        [<span class="branchNoExec" title="Branch 4 was not executed"> # </span><span class="branchNoExec" title="Branch 5 was not executed"> # </span>]
+<span class="lineNum">     238 </span>                :<span class="lineNoCov">          0 :             str.resize(str.length()-1);</span>
+<span class="lineNum">     239 </span>                :            :           break;
+<span class="lineNum">     240 </span>                :            :         }
+<span class="lineNum">     241 </span>                :<span class="lineNoCov">          0 :         str+=a;</span>
+<span class="lineNum">     242 </span>                :            :         str+=&quot;--&quot;;
+<span class="lineNum">     243 </span>                :            :         str+=chk;
+<span class="lineNum">     244 </span>                :<span class="lineNoCov">          0 :         cnt=-1;</span>
+<span class="lineNum">     245 </span>                :<span class="lineNoCov">          0 :         continue;</span>
+<span class="lineNum">     246 </span>                :            :       }
+<span class="lineNum">     247 </span>        [<span class="branchNoExec" title="Branch 0 was not executed"> # </span><span class="branchNoExec" title="Branch 1 was not executed"> # </span>]:<span class="lineNoCov">          0 :       if (cnt&gt;=2) str+=a;</span>
+<span class="lineNum">     248 </span>                :            :     }
+<span class="lineNum">     249 </span>                :            : 
+<span class="lineNum">     250 </span>                :<span class="lineNoCov">          0 :     istringstream jss(str);</span>
+<span class="lineNum">     251 </span>                :<span class="lineNoCov">          0 :     http::header hd(jss);</span>
+<span class="lineNum">     252 </span>[<span class="branchNoExec" title="Branch 0 was not executed"> # </span><span class="branchNoExec" title="Branch 1 was not executed"> # </span>][<span class="branchNoExec" title="Branch 5 was not executed"> # </span><span class="branchNoExec" title="Branch 6 was not executed"> # </span>]:<span class="lineNoCov">          0 :     string body=(jss?str.substr(jss.tellg()):&quot;&quot;);</span>
+<span class="lineNum">         </span>        [<span class="branchNoExec" title="Branch 7 was not executed"> # </span><span class="branchNoExec" title="Branch 8 was not executed"> # </span>]
+<span class="lineNum">     253 </span>                :<span class="lineNoCov">          0 :     const string &amp;ct=hd[&quot;Content-Type&quot;];</span>
+<span class="lineNum">     254 </span>        [<span class="branchNoExec" title="Branch 1 was not executed"> # </span><span class="branchNoExec" title="Branch 2 was not executed"> # </span>]:<span class="lineNoCov">          0 :     if (ct.find(&quot;multipart/&quot;)!=string::npos){</span>
+<span class="lineNum">     255 </span>                :<span class="lineNoCov">          0 :       string::size_type ix=ct.find(&quot;boundary=&quot;);</span>
+<span class="lineNum">     256 </span>                :<span class="lineNoCov">          0 :       string bd=ct.substr(ix+9);</span>
+<span class="lineNum">     257 </span>                :<span class="lineNoCov">          0 :       parse_multipart_input(body, bd);</span>
+<span class="lineNum">     258 </span>                :            :     }
+<span class="lineNum">     259 </span>                :            :     else{
+<span class="lineNum">     260 </span>                :<span class="lineNoCov">          0 :       const string &amp;cd=hd[&quot;Content-Disposition&quot;];</span>
+<span class="lineNum">     261 </span>                :<span class="lineNoCov">          0 :       pair&lt;string, map&lt;string, string&gt; &gt; p=extract_header(cd);</span>
+<span class="lineNum">     262 </span>                :            : 
+<span class="lineNum">     263 </span>[<span class="branchNoExec" title="Branch 0 was not executed"> # </span><span class="branchNoExec" title="Branch 1 was not executed"> # </span>][<span class="branchNoExec" title="Branch 4 was not executed"> # </span><span class="branchNoExec" title="Branch 5 was not executed"> # </span>]:<span class="lineNoCov">          0 :       if (p.first==&quot;form-data&quot; &amp;&amp;</span>
+<span class="lineNum">         </span>[<span class="branchNoExec" title="Branch 8 was not executed"> # </span><span class="branchNoExec" title="Branch 9 was not executed"> # </span>][<span class="branchNoExec" title="Branch 10 was not executed"> # </span><span class="branchNoExec" title="Branch 11 was not executed"> # </span>]
+<span class="lineNum">         </span>[<span class="branchNoExec" title="Branch 12 was not executed"> # </span><span class="branchNoExec" title="Branch 13 was not executed"> # </span>][<span class="branchNoExec" title="Branch 17 was not executed"> # </span><span class="branchNoExec" title="Branch 18 was not executed"> # </span>]
+<span class="lineNum">         </span>[<span class="branchNoExec" title="Branch 19 was not executed"> # </span><span class="branchNoExec" title="Branch 20 was not executed"> # </span>][<span class="branchNoExec" title="Branch 21 was not executed"> # </span><span class="branchNoExec" title="Branch 22 was not executed"> # </span>]
+<span class="lineNum">         </span>[<span class="branchNoExec" title="Branch 25 was not executed"> # </span><span class="branchNoExec" title="Branch 26 was not executed"> # </span>][<span class="branchNoExec" title="Branch 28 was not executed"> # </span><span class="branchNoExec" title="Branch 29 was not executed"> # </span>]
+<span class="lineNum">         </span>[<span class="branchNoExec" title="Branch 30 was not executed"> # </span><span class="branchNoExec" title="Branch 31 was not executed"> # </span>][<span class="branchNoExec" title="Branch 32 was not executed"> # </span><span class="branchNoExec" title="Branch 33 was not executed"> # </span>]
+<span class="lineNum">     264 </span>                :            :           p.second.count(&quot;name&quot;)&gt;0 &amp;&amp;
+<span class="lineNum">     265 </span>                :            :           p.second.count(&quot;filename&quot;)&gt;0){
+<span class="lineNum">     266 </span>                :<span class="lineNoCov">          0 :         query[p.second[&quot;name&quot;]]=p.second[&quot;filename&quot;];</span>
+<span class="lineNum">     267 </span>                :<span class="lineNoCov">          0 :         multi_query[p.second[&quot;name&quot;]].push_back(p.second[&quot;filename&quot;]);</span>
+<span class="lineNum">     268 </span>                :<span class="lineNoCov">          0 :         file[p.second[&quot;filename&quot;]]=body;</span>
+<span class="lineNum">     269 </span>                :<span class="lineNoCov">          0 :         file_info[p.second[&quot;filename&quot;]]=hd;</span>
+<span class="lineNum">     270 </span>                :            :       }
+<span class="lineNum">     271 </span>[<span class="branchNoExec" title="Branch 0 was not executed"> # </span><span class="branchNoExec" title="Branch 1 was not executed"> # </span>][<span class="branchNoExec" title="Branch 4 was not executed"> # </span><span class="branchNoExec" title="Branch 5 was not executed"> # </span>]:<span class="lineNoCov">          0 :       else if (p.first==&quot;form-data&quot; &amp;&amp;</span>
+<span class="lineNum">         </span>[<span class="branchNoExec" title="Branch 6 was not executed"> # </span><span class="branchNoExec" title="Branch 7 was not executed"> # </span>][<span class="branchNoExec" title="Branch 8 was not executed"> # </span><span class="branchNoExec" title="Branch 9 was not executed"> # </span>]
+<span class="lineNum">         </span>[<span class="branchNoExec" title="Branch 13 was not executed"> # </span><span class="branchNoExec" title="Branch 14 was not executed"> # </span>][<span class="branchNoExec" title="Branch 15 was not executed"> # </span><span class="branchNoExec" title="Branch 16 was not executed"> # </span>]
+<span class="lineNum">         </span>        [<span class="branchNoExec" title="Branch 17 was not executed"> # </span><span class="branchNoExec" title="Branch 18 was not executed"> # </span>]
+<span class="lineNum">     272 </span>                :            :                p.second.count(&quot;name&quot;)&gt;0){
+<span class="lineNum">     273 </span>                :<span class="lineNoCov">          0 :         query[p.second[&quot;name&quot;]]=body;</span>
+<span class="lineNum">     274 </span>                :<span class="lineNoCov">          0 :         multi_query[p.second[&quot;name&quot;]].push_back(body);</span>
+<span class="lineNum">     275 </span>                :            :       }
+<span class="lineNum">     276 </span>        [<span class="branchNoExec" title="Branch 0 was not executed"> # </span><span class="branchNoExec" title="Branch 1 was not executed"> # </span>]:<span class="lineNoCov">          0 :       else if (p.first==&quot;attachment&quot;){</span>
+<span class="lineNum">     277 </span>                :<span class="lineNoCov">          0 :         file[p.second[&quot;filename&quot;]]=body;</span>
+<span class="lineNum">     278 </span>                :<span class="lineNoCov">          0 :         file_info[p.second[&quot;filename&quot;]]=hd;</span>
+<span class="lineNum">     279 </span>                :<span class="lineNoCov">          0 :       }</span>
+<span class="lineNum">     280 </span>                :            :     }
+<span class="lineNum">     281 </span>                :<span class="lineNoCov">          0 :   }</span>
+<span class="lineNum">     282 </span>                :<span class="lineNoCov">          0 : }</span>
+<span class="lineNum">     283 </span>                :            : 
+<a name="284"><span class="lineNum">     284 </span>                :            : } // cgi</a>
+<span class="lineNum">     285 </span>                :            : } // network
+<span class="lineNum">     286 </span>[<span class="branchCov" title="Branch 0 was taken 4 times"> + </span><span class="branchNoCov" title="Branch 1 was not taken"> - </span>][<span class="branchCov" title="Branch 2 was taken 4 times"> + </span><span class="branchNoCov" title="Branch 3 was not taken"> - </span>]:<span class="lineCov">          8 : } // pfi</span>
+</pre>
+      </td>
+    </tr>
+  </table>
+  <br>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="ruler"><img src="../../glass.png" width=3 height=3 alt=""></td></tr>
+    <tr><td class="versionInfo">Generated by: <a href="http://ltp.sourceforge.net/coverage/lcov.php" target="_parent">LCOV version 1.9</a></td></tr>
+  </table>
+  <br>
+
+</body>
+</html>

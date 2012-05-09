@@ -1,0 +1,395 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html lang="en">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+  <title>LCOV - pficommon - data/serialization/reflect.h</title>
+  <link rel="stylesheet" type="text/css" href="../../gcov.css">
+</head>
+
+<body>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="title">LCOV - code coverage report</td></tr>
+    <tr><td class="ruler"><img src="../../glass.png" width=3 height=3 alt=""></td></tr>
+
+    <tr>
+      <td width="100%">
+        <table cellpadding=1 border=0 width="100%">
+          <tr>
+            <td width="10%" class="headerItem">Current view:</td>
+            <td width="35%" class="headerValue"><a href="../../index.html">top level</a> - <a href="index.html">data/serialization</a> - reflect.h<span style="font-size: 80%;"> (source / <a href="reflect.h.func.html">functions</a>)</span></td>
+            <td width="5%"></td>
+            <td width="15%"></td>
+            <td width="10%" class="headerCovTableHead">Hit</td>
+            <td width="10%" class="headerCovTableHead">Total</td>
+            <td width="15%" class="headerCovTableHead">Coverage</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Test:</td>
+            <td class="headerValue">pficommon</td>
+            <td></td>
+            <td class="headerItem">Lines:</td>
+            <td class="headerCovTableEntry">27</td>
+            <td class="headerCovTableEntry">28</td>
+            <td class="headerCovTableEntryHi">96.4 %</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Date:</td>
+            <td class="headerValue">2012-05-09</td>
+            <td></td>
+            <td class="headerItem">Functions:</td>
+            <td class="headerCovTableEntry">15</td>
+            <td class="headerCovTableEntry">17</td>
+            <td class="headerCovTableEntryMed">88.2 %</td>
+          </tr>
+          <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td class="headerItem">Branches:</td>
+            <td class="headerCovTableEntry">4</td>
+            <td class="headerCovTableEntry">6</td>
+            <td class="headerCovTableEntryLo">66.7 %</td>
+          </tr>
+          <tr><td><img src="../../glass.png" width=3 height=3 alt=""></td></tr>
+        </table>
+      </td>
+    </tr>
+
+    <tr><td class="ruler"><img src="../../glass.png" width=3 height=3 alt=""></td></tr>
+  </table>
+
+  <table cellpadding=0 cellspacing=0 border=0>
+    <tr>
+      <td><br></td>
+    </tr>
+    <tr>
+      <td>
+<pre class="sourceHeading">           Branch data     Line data    Source code</pre>
+<pre class="source">
+<a name="1"><span class="lineNum">       1 </span>                :            : // Copyright (c)2008-2011, Preferred Infrastructure Inc.</a>
+<span class="lineNum">       2 </span>                :            : // 
+<span class="lineNum">       3 </span>                :            : // All rights reserved.
+<span class="lineNum">       4 </span>                :            : // 
+<span class="lineNum">       5 </span>                :            : // Redistribution and use in source and binary forms, with or without
+<span class="lineNum">       6 </span>                :            : // modification, are permitted provided that the following conditions are met:
+<span class="lineNum">       7 </span>                :            : // 
+<span class="lineNum">       8 </span>                :            : //     * Redistributions of source code must retain the above copyright
+<span class="lineNum">       9 </span>                :            : //       notice, this list of conditions and the following disclaimer.
+<span class="lineNum">      10 </span>                :            : // 
+<span class="lineNum">      11 </span>                :            : //     * Redistributions in binary form must reproduce the above
+<span class="lineNum">      12 </span>                :            : //       copyright notice, this list of conditions and the following
+<span class="lineNum">      13 </span>                :            : //       disclaimer in the documentation and/or other materials provided
+<span class="lineNum">      14 </span>                :            : //       with the distribution.
+<span class="lineNum">      15 </span>                :            : // 
+<span class="lineNum">      16 </span>                :            : //     * Neither the name of Preferred Infrastructure nor the names of other
+<span class="lineNum">      17 </span>                :            : //       contributors may be used to endorse or promote products derived
+<span class="lineNum">      18 </span>                :            : //       from this software without specific prior written permission.
+<span class="lineNum">      19 </span>                :            : // 
+<span class="lineNum">      20 </span>                :            : // THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+<span class="lineNum">      21 </span>                :            : // &quot;AS IS&quot; AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+<span class="lineNum">      22 </span>                :            : // LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+<span class="lineNum">      23 </span>                :            : // A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
+<span class="lineNum">      24 </span>                :            : // OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+<span class="lineNum">      25 </span>                :            : // SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+<span class="lineNum">      26 </span>                :            : // LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+<span class="lineNum">      27 </span>                :            : // DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+<span class="lineNum">      28 </span>                :            : // THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+<span class="lineNum">      29 </span>                :            : // (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+<span class="lineNum">      30 </span>                :            : // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+<span class="lineNum">      31 </span>                :            : 
+<span class="lineNum">      32 </span>                :            : #ifndef INCLUDE_GUARD_PFI_DATA_SERIALIZATION_REFLECT_H_
+<span class="lineNum">      33 </span>                :            : #define INCLUDE_GUARD_PFI_DATA_SERIALIZATION_REFLECT_H_
+<span class="lineNum">      34 </span>                :            : 
+<span class="lineNum">      35 </span>                :            : #include &quot;base.h&quot;
+<span class="lineNum">      36 </span>                :            : 
+<span class="lineNum">      37 </span>                :            : #include &lt;vector&gt;
+<span class="lineNum">      38 </span>                :            : #include &lt;utility&gt;
+<span class="lineNum">      39 </span>                :            : #include &lt;string&gt;
+<span class="lineNum">      40 </span>                :            : #include &lt;stack&gt;
+<span class="lineNum">      41 </span>                :            : 
+<span class="lineNum">      42 </span>                :            : #include &quot;../../lang/shared_ptr.h&quot;
+<span class="lineNum">      43 </span>                :            : #include &quot;../../lang/function.h&quot;
+<span class="lineNum">      44 </span>                :            : 
+<span class="lineNum">      45 </span>                :            : namespace pfi{
+<span class="lineNum">      46 </span>                :            : namespace data{
+<span class="lineNum">      47 </span>                :            : namespace serialization{
+<span class="lineNum">      48 </span>                :            : 
+<a name="49"><span class="lineNum">      49 </span>                :<span class="lineCov">         24 : class type_rep{</span></a>
+<a name="50"><span class="lineNum">      50 </span>                :            : public:</a>
+<span class="lineNum">      51 </span>        [<span class="branchNoCov" title="Branch 0 was not taken"> - </span><span class="branchCov" title="Branch 1 was taken 24 times"> + </span>]:<span class="lineCov">         24 :   virtual ~type_rep(){}</span>
+<span class="lineNum">      52 </span>                :<span class="lineNoCov">          0 :   virtual void traverse(pfi::lang::function&lt;void(type_rep*)&gt; f){ f(this); };</span>
+<span class="lineNum">      53 </span>                :            :   virtual void print(std::ostream &amp;os)=0;
+<span class="lineNum">      54 </span>                :            : };
+<span class="lineNum">      55 </span>                :            : 
+<span class="lineNum">      56 </span>                :            : class bool_type : public type_rep {
+<span class="lineNum">      57 </span>                :            : public:
+<span class="lineNum">      58 </span>                :            :   bool_type(){}
+<span class="lineNum">      59 </span>                :            : 
+<span class="lineNum">      60 </span>                :            :   void print(std::ostream &amp;os){
+<span class="lineNum">      61 </span>                :            :     os&lt;&lt;&quot;bool&quot;;
+<span class="lineNum">      62 </span>                :            :   }
+<span class="lineNum">      63 </span>                :            : 
+<span class="lineNum">      64 </span>                :            : private:
+<span class="lineNum">      65 </span>                :            :   bool sign;
+<span class="lineNum">      66 </span>                :            :   int size;
+<a name="67"><span class="lineNum">      67 </span>                :            : };</a>
+<span class="lineNum">      68 </span>                :            : 
+<span class="lineNum">      69 </span>        [<span class="branchNoCov" title="Branch 1 was not taken"> - </span><span class="branchCov" title="Branch 2 was taken 8 times"> + </span>]:<span class="lineCov">         16 : class int_type : public type_rep {</span>
+<span class="lineNum">      70 </span>                :            : public:
+<span class="lineNum">      71 </span>                :<span class="lineCov">         16 :   int_type(bool sign, int size): sign_(sign), size_(size){}</span>
+<span class="lineNum">      72 </span>                :            : 
+<span class="lineNum">      73 </span>                :            :   bool sign() const { return sign_; }
+<a name="74"><span class="lineNum">      74 </span>                :            :   int size() const { return size_; }</a>
+<span class="lineNum">      75 </span>                :            : 
+<span class="lineNum">      76 </span>                :<span class="lineCov">          8 :   void print(std::ostream &amp;os){</span>
+<span class="lineNum">      77 </span>        [<span class="branchCov" title="Branch 0 was taken 6 times"> + </span><span class="branchCov" title="Branch 1 was taken 2 times"> + </span>]:<span class="lineCov">          8 :     os&lt;&lt;(sign_?&quot;int&quot;:&quot;uint&quot;)&lt;&lt;&quot;(&quot;&lt;&lt;size_&lt;&lt;&quot;)&quot;;</span>
+<span class="lineNum">      78 </span>                :<span class="lineCov">          8 :   }</span>
+<span class="lineNum">      79 </span>                :            : 
+<span class="lineNum">      80 </span>                :            : private:
+<span class="lineNum">      81 </span>                :            :   bool sign_;
+<span class="lineNum">      82 </span>                :            :   int size_;
+<span class="lineNum">      83 </span>                :            : };
+<span class="lineNum">      84 </span>                :            : 
+<span class="lineNum">      85 </span>                :            : class float_type : public type_rep {
+<span class="lineNum">      86 </span>                :            : public:
+<span class="lineNum">      87 </span>                :            :   float_type(){}
+<span class="lineNum">      88 </span>                :            : 
+<span class="lineNum">      89 </span>                :            :   void print(std::ostream &amp;os){
+<span class="lineNum">      90 </span>                :            :     os&lt;&lt;&quot;float&quot;;
+<span class="lineNum">      91 </span>                :            :   }
+<span class="lineNum">      92 </span>                :            : };
+<span class="lineNum">      93 </span>                :            : 
+<span class="lineNum">      94 </span>                :            : class char_type : public type_rep {
+<span class="lineNum">      95 </span>                :            : public:
+<span class="lineNum">      96 </span>                :            :   char_type(){}
+<span class="lineNum">      97 </span>                :            : 
+<span class="lineNum">      98 </span>                :            :   void print(std::ostream &amp;os){
+<span class="lineNum">      99 </span>                :            :     os&lt;&lt;&quot;char&quot;;
+<span class="lineNum">     100 </span>                :            :   }
+<span class="lineNum">     101 </span>                :            : };
+<span class="lineNum">     102 </span>                :            : 
+<span class="lineNum">     103 </span>                :            : class class_type : public type_rep {
+<span class="lineNum">     104 </span>                :            : public:
+<span class="lineNum">     105 </span>                :            :   typedef std::vector&lt;std::pair&lt;std::string, pfi::lang::shared_ptr&lt;type_rep&gt; &gt; &gt; member_type;
+<span class="lineNum">     106 </span>                :            :   typedef member_type::iterator iterator;
+<span class="lineNum">     107 </span>                :            : 
+<span class="lineNum">     108 </span>                :            :   class_type(){}
+<span class="lineNum">     109 </span>                :            : 
+<span class="lineNum">     110 </span>                :            :   const std::string &amp;get_name() const { return name; }
+<span class="lineNum">     111 </span>                :            : 
+<span class="lineNum">     112 </span>                :            :   void set_name(const std::string &amp;name){
+<span class="lineNum">     113 </span>                :            :     this-&gt;name=name;
+<span class="lineNum">     114 </span>                :            :   }
+<span class="lineNum">     115 </span>                :            : 
+<span class="lineNum">     116 </span>                :            :   void add(const std::string &amp;name, pfi::lang::shared_ptr&lt;type_rep&gt; type){
+<span class="lineNum">     117 </span>                :            :     member.push_back(make_pair(name, type));
+<span class="lineNum">     118 </span>                :            :   }
+<span class="lineNum">     119 </span>                :            : 
+<span class="lineNum">     120 </span>                :            :   iterator begin(){
+<span class="lineNum">     121 </span>                :            :     return member.begin();
+<span class="lineNum">     122 </span>                :            :   }
+<span class="lineNum">     123 </span>                :            : 
+<span class="lineNum">     124 </span>                :            :   iterator end(){
+<span class="lineNum">     125 </span>                :            :     return member.end();
+<span class="lineNum">     126 </span>                :            :   }
+<span class="lineNum">     127 </span>                :            : 
+<span class="lineNum">     128 </span>                :            :   void traverse(pfi::lang::function&lt;void(type_rep*)&gt; f){
+<span class="lineNum">     129 </span>                :            :     f(this);
+<span class="lineNum">     130 </span>                :            :     for (iterator p=begin(); p!=end(); p++)
+<span class="lineNum">     131 </span>                :            :       p-&gt;second-&gt;traverse(f);
+<span class="lineNum">     132 </span>                :            :   }
+<span class="lineNum">     133 </span>                :            : 
+<span class="lineNum">     134 </span>                :            :   void print(std::ostream &amp;os){
+<span class="lineNum">     135 </span>                :            :     os&lt;&lt;&quot;class(&quot;&lt;&lt;name&lt;&lt;&quot;){&quot;;
+<span class="lineNum">     136 </span>                :            :     for (int i=0;i&lt;(int)member.size();i++){
+<span class="lineNum">     137 </span>                :            :       if (i&gt;0) os&lt;&lt;&quot;,&quot;;
+<span class="lineNum">     138 </span>                :            :       member[i].second-&gt;print(os);
+<span class="lineNum">     139 </span>                :            :       if (member[i].first!=&quot;&quot;){
+<span class="lineNum">     140 </span>                :            :         os&lt;&lt;&quot;:&quot;&lt;&lt;member[i].first;
+<span class="lineNum">     141 </span>                :            :       }
+<span class="lineNum">     142 </span>                :            :     }
+<span class="lineNum">     143 </span>                :            :     os&lt;&lt;&quot;}&quot;;
+<span class="lineNum">     144 </span>                :            :   }
+<span class="lineNum">     145 </span>                :            : 
+<span class="lineNum">     146 </span>                :            : private:
+<span class="lineNum">     147 </span>                :            :   std::string name;
+<span class="lineNum">     148 </span>                :            :   member_type member;
+<a name="149"><span class="lineNum">     149 </span>                :            : };</a>
+<span class="lineNum">     150 </span>                :            : 
+<span class="lineNum">     151 </span>                :<span class="lineCov">         24 : class reflection{</span>
+<span class="lineNum">     152 </span>                :            : public:
+<span class="lineNum">     153 </span>                :<span class="lineCov">         48 :   reflection(){</span>
+<span class="lineNum">     154 </span>                :            :     enter_class();
+<span class="lineNum">     155 </span>                :<span class="lineCov">         24 :   }</span>
+<span class="lineNum">     156 </span>                :            : 
+<span class="lineNum">     157 </span>                :            :   void enter_class(){
+<span class="lineNum">     158 </span>                :<span class="lineCov">         24 :     stk.push(std::vector&lt;std::pair&lt;std::string, pfi::lang::shared_ptr&lt;type_rep&gt; &gt; &gt;());</span>
+<span class="lineNum">     159 </span>                :<span class="lineCov">         48 :     names.push(&quot;&quot;);</span>
+<span class="lineNum">     160 </span>                :            :   }
+<span class="lineNum">     161 </span>                :            : 
+<span class="lineNum">     162 </span>                :            :   void leave_class(){
+<span class="lineNum">     163 </span>                :            :     pfi::lang::shared_ptr&lt;class_type&gt; cls(new class_type());
+<span class="lineNum">     164 </span>                :            :     std::vector&lt;std::pair&lt;std::string, pfi::lang::shared_ptr&lt;type_rep&gt; &gt; &gt; &amp;ms=stk.top();
+<span class="lineNum">     165 </span>                :            :     for (int i=0;i&lt;(int)ms.size();i++){
+<span class="lineNum">     166 </span>                :            :       cls-&gt;add(ms[i].first, ms[i].second);
+<span class="lineNum">     167 </span>                :            :     }
+<span class="lineNum">     168 </span>                :            :     stk.pop();
+<span class="lineNum">     169 </span>                :            : 
+<span class="lineNum">     170 </span>                :            :     std::string cname=names.top();
+<span class="lineNum">     171 </span>                :            :     names.pop();
+<span class="lineNum">     172 </span>                :            : 
+<span class="lineNum">     173 </span>                :            :     cls-&gt;set_name(cname);
+<span class="lineNum">     174 </span>                :            : 
+<span class="lineNum">     175 </span>                :            :     add(&quot;&quot;, cls);
+<span class="lineNum">     176 </span>                :            :   }
+<span class="lineNum">     177 </span>                :            : 
+<span class="lineNum">     178 </span>                :            :   void set_name(const std::string &amp;name){
+<span class="lineNum">     179 </span>                :            :     names.pop();
+<span class="lineNum">     180 </span>                :            :     names.push(name);
+<a name="181"><span class="lineNum">     181 </span>                :            :   }</a>
+<span class="lineNum">     182 </span>                :            : 
+<span class="lineNum">     183 </span>                :<span class="lineCov">         24 :   void add(const std::string &amp;name, pfi::lang::shared_ptr&lt;type_rep&gt; type){</span>
+<span class="lineNum">     184 </span>                :<span class="lineCov">         48 :     stk.top().push_back(make_pair(name, type));</span>
+<a name="185"><span class="lineNum">     185 </span>                :<span class="lineCov">         24 :   }</span></a>
+<span class="lineNum">     186 </span>                :            : 
+<span class="lineNum">     187 </span>                :<span class="lineCov">         24 :   pfi::lang::shared_ptr&lt;type_rep&gt; get(){</span>
+<span class="lineNum">     188 </span>                :<span class="lineCov">         48 :     return stk.top()[0].second;</span>
+<span class="lineNum">     189 </span>                :            :   }
+<span class="lineNum">     190 </span>                :            : 
+<span class="lineNum">     191 </span>                :            :   static const bool is_read = true;
+<span class="lineNum">     192 </span>                :            : 
+<span class="lineNum">     193 </span>                :            : private:
+<span class="lineNum">     194 </span>                :            :   std::stack&lt;std::vector&lt;std::pair&lt;std::string, pfi::lang::shared_ptr&lt;type_rep&gt; &gt; &gt; &gt; stk;
+<span class="lineNum">     195 </span>                :            :   std::stack&lt;std::string&gt; names;
+<span class="lineNum">     196 </span>                :            : };
+<span class="lineNum">     197 </span>                :            : 
+<span class="lineNum">     198 </span>                :            : template &lt;class T&gt;
+<span class="lineNum">     199 </span>                :            : inline void serialize(reflection &amp;ref, T &amp;v)
+<span class="lineNum">     200 </span>                :            : {
+<span class="lineNum">     201 </span>                :            :   ref.enter_class();
+<span class="lineNum">     202 </span>                :            :   access::serialize(ref, v);
+<span class="lineNum">     203 </span>                :            :   ref.leave_class();
+<span class="lineNum">     204 </span>                :            : }
+<span class="lineNum">     205 </span>                :            : 
+<span class="lineNum">     206 </span>                :            : // reflection of primitive types
+<span class="lineNum">     207 </span>                :            : 
+<span class="lineNum">     208 </span>                :            : #define def_ref(t, v)                                           \
+<span class="lineNum">     209 </span>                :            :   template &lt;&gt;                                                     \
+<span class="lineNum">     210 </span>                :            :   inline void serialize(reflection &amp;ref, t &amp;)                   \
+<span class="lineNum">     211 </span>                :            :   {                                                             \
+<span class="lineNum">     212 </span>                :            :     ref.add(&quot;&quot;, pfi::lang::shared_ptr&lt;type_rep&gt;(v));            \
+<span class="lineNum">     213 </span>                :            :   }
+<span class="lineNum">     214 </span>                :            : 
+<span class="lineNum">     215 </span>                :            : def_ref(bool, new bool_type());
+<span class="lineNum">     216 </span>                :            : def_ref(char, new char_type());
+<span class="lineNum">     217 </span>                :            : 
+<span class="lineNum">     218 </span>                :            : def_ref(  signed char,      new int_type(true,  sizeof(  signed char)));
+<span class="lineNum">     219 </span>                :            : def_ref(unsigned char,      new int_type(false, sizeof(unsigned char)));
+<span class="lineNum">     220 </span>                :            : def_ref(         short,     new int_type(true,  sizeof(         short)));
+<span class="lineNum">     221 </span>                :<span class="lineCov">          6 : def_ref(unsigned short,     new int_type(false, sizeof(unsigned short)));</span>
+<span class="lineNum">     222 </span>                :<span class="lineCov">         18 : def_ref(         int,       new int_type(true,  sizeof(         int)));</span>
+<span class="lineNum">     223 </span>                :            : def_ref(unsigned int,       new int_type(false, sizeof(unsigned int)));
+<span class="lineNum">     224 </span>                :            : def_ref(         long,      new int_type(true,  sizeof(         long)));
+<span class="lineNum">     225 </span>                :            : def_ref(unsigned long,      new int_type(false, sizeof(unsigned long)));
+<span class="lineNum">     226 </span>                :            : def_ref(         long long, new int_type(true,  sizeof(         long long)));
+<span class="lineNum">     227 </span>                :            : def_ref(unsigned long long, new int_type(false, sizeof(unsigned long long)));
+<span class="lineNum">     228 </span>                :            : def_ref(float ,             new float_type());
+<span class="lineNum">     229 </span>                :            : def_ref(double ,            new float_type());
+<span class="lineNum">     230 </span>                :            : def_ref(long double ,       new float_type());
+<span class="lineNum">     231 </span>                :            : 
+<span class="lineNum">     232 </span>                :            : #undef def_ref
+<span class="lineNum">     233 </span>                :            : 
+<span class="lineNum">     234 </span>                :            : template &lt;class T&gt;
+<span class="lineNum">     235 </span>                :            : inline void reflect(reflection &amp;ref, T &amp;v)
+<span class="lineNum">     236 </span>                :            : {
+<span class="lineNum">     237 </span>                :            :   serialize(ref, v);
+<span class="lineNum">     238 </span>                :            : }
+<span class="lineNum">     239 </span>                :            : 
+<span class="lineNum">     240 </span>                :            : template &lt;class T&gt;
+<a name="241"><span class="lineNum">     241 </span>                :            : inline reflection &amp;operator&lt;&lt;(reflection &amp;ref, T &amp;v)</a>
+<span class="lineNum">     242 </span>                :            : {
+<span class="lineNum">     243 </span>                :<span class="lineCov">         12 :   ref &amp; v;</span>
+<span class="lineNum">     244 </span>                :<span class="lineCov">         24 :   return ref;</span>
+<span class="lineNum">     245 </span>                :            : }
+<span class="lineNum">     246 </span>                :            : 
+<span class="lineNum">     247 </span>                :            : template &lt;class T&gt;
+<span class="lineNum">     248 </span>                :<span class="lineCov">         22 : pfi::lang::shared_ptr&lt;type_rep&gt; get_type()</span>
+<span class="lineNum">     249 </span>                :            : {
+<span class="lineNum">     250 </span>                :<span class="lineCov">         24 :   reflection ref;</span>
+<span class="lineNum">     251 </span>                :            :   T v;
+<span class="lineNum">     252 </span>                :            :   ref&lt;&lt;v;
+<span class="lineNum">     253 </span>                :<span class="lineCov">         30 :   return ref.get();</span>
+<span class="lineNum">     254 </span>                :            : }
+<span class="lineNum">     255 </span>                :            : 
+<span class="lineNum">     256 </span>                :            : // anotating
+<span class="lineNum">     257 </span>                :            : 
+<span class="lineNum">     258 </span>                :            : template &lt;class T&gt;
+<span class="lineNum">     259 </span>                :<span class="lineCov">        224 : class named_value{</span>
+<span class="lineNum">     260 </span>                :            : public:
+<span class="lineNum">     261 </span>                :<span class="lineCov">        224 :   named_value(const std::string &amp;name, T &amp;v) : name(name), v(v){}</span>
+<span class="lineNum">     262 </span>                :            : 
+<span class="lineNum">     263 </span>                :<span class="lineCov">        224 :   named_value &amp;get(){ return *this; }</span>
+<span class="lineNum">     264 </span>                :            : 
+<span class="lineNum">     265 </span>                :            :   std::string name;
+<span class="lineNum">     266 </span>                :            :   T &amp;v;
+<span class="lineNum">     267 </span>                :            : };
+<span class="lineNum">     268 </span>                :            : 
+<span class="lineNum">     269 </span>                :            : template &lt;class Ar, class T&gt;
+<span class="lineNum">     270 </span>                :            : inline void serialize(Ar &amp;ar, named_value&lt;T&gt; &amp;nv)
+<span class="lineNum">     271 </span>                :            : {
+<span class="lineNum">     272 </span>                :            :   ar &amp; nv.v;
+<span class="lineNum">     273 </span>                :            : }
+<span class="lineNum">     274 </span>                :            : 
+<span class="lineNum">     275 </span>                :            : template &lt;class T&gt;
+<span class="lineNum">     276 </span>                :            : inline void serialize(reflection &amp;ref, named_value&lt;T&gt; &amp;nv)
+<span class="lineNum">     277 </span>                :            : {
+<span class="lineNum">     278 </span>                :            :   ref.add(nv.name, get_type&lt;T&gt;());
+<span class="lineNum">     279 </span>                :            : }
+<span class="lineNum">     280 </span>                :            : 
+<span class="lineNum">     281 </span>                :            : class class_name{
+<span class="lineNum">     282 </span>                :            : public:
+<span class="lineNum">     283 </span>                :            :   class_name(const std::string &amp;name): name(name){}
+<span class="lineNum">     284 </span>                :            :   class_name &amp;get(){ return *this; }
+<span class="lineNum">     285 </span>                :            :   std::string name;
+<span class="lineNum">     286 </span>                :            : };
+<span class="lineNum">     287 </span>                :            : 
+<span class="lineNum">     288 </span>                :            : template &lt;class Ar&gt;
+<span class="lineNum">     289 </span>                :            : inline void serialize(Ar &amp;ar, class_name &amp;)
+<span class="lineNum">     290 </span>                :            : {
+<span class="lineNum">     291 </span>                :            : }
+<span class="lineNum">     292 </span>                :            : 
+<span class="lineNum">     293 </span>                :            : inline void serialize(reflection &amp;ref, class_name &amp;cn)
+<span class="lineNum">     294 </span>                :            : {
+<span class="lineNum">     295 </span>                :            :   ref.set_name(cn.name);
+<span class="lineNum">     296 </span>                :            : }
+<span class="lineNum">     297 </span>                :            : 
+<span class="lineNum">     298 </span>                :            : } // serialization
+<span class="lineNum">     299 </span>                :            : } // data
+<span class="lineNum">     300 </span>                :            : } // pfi
+<span class="lineNum">     301 </span>                :            : 
+<span class="lineNum">     302 </span>                :            : #define NAME(x) pfi::data::serialization::class_name(#x).get()
+<span class="lineNum">     303 </span>                :            : #ifdef __GXX_EXPERIMENTAL_CXX0X__ // C++11
+<span class="lineNum">     304 </span>                :            : #define MEMBER(x) pfi::data::serialization::named_value&lt;decltype(x)&gt;(#x, x).get()
+<span class="lineNum">     305 </span>                :            : #define NAMED_MEMBER(n, x) pfi::data::serialization::named_value&lt;decltype(x)&gt;(n, x).get()
+<span class="lineNum">     306 </span>                :            : #else
+<span class="lineNum">     307 </span>                :            : #define MEMBER(x) pfi::data::serialization::named_value&lt;typeof(x)&gt;(#x, x).get()
+<span class="lineNum">     308 </span>                :            : #define NAMED_MEMBER(n, x) pfi::data::serialization::named_value&lt;typeof(x)&gt;(n, x).get()
+<span class="lineNum">     309 </span>                :            : #endif
+<span class="lineNum">     310 </span>                :            : #endif // #ifndef INCLUDE_GUARD_PFI_DATA_SERIALIZATION_REFLECT_H_
+</pre>
+      </td>
+    </tr>
+  </table>
+  <br>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="ruler"><img src="../../glass.png" width=3 height=3 alt=""></td></tr>
+    <tr><td class="versionInfo">Generated by: <a href="http://ltp.sourceforge.net/coverage/lcov.php" target="_parent">LCOV version 1.9</a></td></tr>
+  </table>
+  <br>
+
+</body>
+</html>

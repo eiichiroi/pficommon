@@ -1,0 +1,203 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html lang="en">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+  <title>LCOV - pficommon - data/config_file.cpp</title>
+  <link rel="stylesheet" type="text/css" href="../gcov.css">
+</head>
+
+<body>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="title">LCOV - code coverage report</td></tr>
+    <tr><td class="ruler"><img src="../glass.png" width=3 height=3 alt=""></td></tr>
+
+    <tr>
+      <td width="100%">
+        <table cellpadding=1 border=0 width="100%">
+          <tr>
+            <td width="10%" class="headerItem">Current view:</td>
+            <td width="35%" class="headerValue"><a href="../index.html">top level</a> - <a href="index.html">data</a> - config_file.cpp<span style="font-size: 80%;"> (source / <a href="config_file.cpp.func.html">functions</a>)</span></td>
+            <td width="5%"></td>
+            <td width="15%"></td>
+            <td width="10%" class="headerCovTableHead">Hit</td>
+            <td width="10%" class="headerCovTableHead">Total</td>
+            <td width="15%" class="headerCovTableHead">Coverage</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Test:</td>
+            <td class="headerValue">pficommon</td>
+            <td></td>
+            <td class="headerItem">Lines:</td>
+            <td class="headerCovTableEntry">1</td>
+            <td class="headerCovTableEntry">43</td>
+            <td class="headerCovTableEntryLo">2.3 %</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Date:</td>
+            <td class="headerValue">2012-05-09</td>
+            <td></td>
+            <td class="headerItem">Functions:</td>
+            <td class="headerCovTableEntry">1</td>
+            <td class="headerCovTableEntry">5</td>
+            <td class="headerCovTableEntryLo">20.0 %</td>
+          </tr>
+          <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td class="headerItem">Branches:</td>
+            <td class="headerCovTableEntry">2</td>
+            <td class="headerCovTableEntry">44</td>
+            <td class="headerCovTableEntryLo">4.5 %</td>
+          </tr>
+          <tr><td><img src="../glass.png" width=3 height=3 alt=""></td></tr>
+        </table>
+      </td>
+    </tr>
+
+    <tr><td class="ruler"><img src="../glass.png" width=3 height=3 alt=""></td></tr>
+  </table>
+
+  <table cellpadding=0 cellspacing=0 border=0>
+    <tr>
+      <td><br></td>
+    </tr>
+    <tr>
+      <td>
+<pre class="sourceHeading">           Branch data     Line data    Source code</pre>
+<pre class="source">
+<a name="1"><span class="lineNum">       1 </span>                :            : // Copyright (c)2008-2011, Preferred Infrastructure Inc.</a>
+<span class="lineNum">       2 </span>                :            : // 
+<span class="lineNum">       3 </span>                :            : // All rights reserved.
+<span class="lineNum">       4 </span>                :            : // 
+<span class="lineNum">       5 </span>                :            : // Redistribution and use in source and binary forms, with or without
+<span class="lineNum">       6 </span>                :            : // modification, are permitted provided that the following conditions are met:
+<span class="lineNum">       7 </span>                :            : // 
+<span class="lineNum">       8 </span>                :            : //     * Redistributions of source code must retain the above copyright
+<span class="lineNum">       9 </span>                :            : //       notice, this list of conditions and the following disclaimer.
+<span class="lineNum">      10 </span>                :            : // 
+<span class="lineNum">      11 </span>                :            : //     * Redistributions in binary form must reproduce the above
+<span class="lineNum">      12 </span>                :            : //       copyright notice, this list of conditions and the following
+<span class="lineNum">      13 </span>                :            : //       disclaimer in the documentation and/or other materials provided
+<span class="lineNum">      14 </span>                :            : //       with the distribution.
+<span class="lineNum">      15 </span>                :            : // 
+<span class="lineNum">      16 </span>                :            : //     * Neither the name of Preferred Infrastructure nor the names of other
+<span class="lineNum">      17 </span>                :            : //       contributors may be used to endorse or promote products derived
+<span class="lineNum">      18 </span>                :            : //       from this software without specific prior written permission.
+<span class="lineNum">      19 </span>                :            : // 
+<span class="lineNum">      20 </span>                :            : // THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+<span class="lineNum">      21 </span>                :            : // &quot;AS IS&quot; AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+<span class="lineNum">      22 </span>                :            : // LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+<span class="lineNum">      23 </span>                :            : // A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
+<span class="lineNum">      24 </span>                :            : // OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+<span class="lineNum">      25 </span>                :            : // SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+<span class="lineNum">      26 </span>                :            : // LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+<span class="lineNum">      27 </span>                :            : // DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+<span class="lineNum">      28 </span>                :            : // THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+<span class="lineNum">      29 </span>                :            : // (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+<span class="lineNum">      30 </span>                :            : // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+<span class="lineNum">      31 </span>                :            : 
+<span class="lineNum">      32 </span>                :            : #include &quot;config_file.h&quot;
+<span class="lineNum">      33 </span>                :            : 
+<span class="lineNum">      34 </span>                :            : #include &lt;cstring&gt;
+<span class="lineNum">      35 </span>                :            : 
+<span class="lineNum">      36 </span>                :            : #include &quot;../lang/exception.h&quot;
+<span class="lineNum">      37 </span>                :            : 
+<span class="lineNum">      38 </span>                :            : using namespace std;
+<span class="lineNum">      39 </span>                :            : using namespace pfi::lang;
+<span class="lineNum">      40 </span>                :            : 
+<span class="lineNum">      41 </span>                :            : namespace pfi{
+<span class="lineNum">      42 </span>                :            : namespace data{
+<span class="lineNum">      43 </span>                :            : 
+<span class="lineNum">      44 </span>                :<span class="lineNoCov">          0 : config_file::config_file(const string &amp;filename)</span>
+<span class="lineNum">      45 </span>                :            : {
+<span class="lineNum">      46 </span>                :<span class="lineNoCov">          0 :   ifstream ifs(filename.c_str());</span>
+<span class="lineNum">      47 </span>                :<span class="lineNoCov">          0 :   init(filename, ifs);</span>
+<a name="48"><span class="lineNum">      48 </span>                :<span class="lineNoCov">          0 : }</span></a>
+<span class="lineNum">      49 </span>                :            : 
+<span class="lineNum">      50 </span>                :<span class="lineNoCov">          0 : config_file::config_file(const istream &amp;is)</span>
+<span class="lineNum">      51 </span>                :            : {
+<span class="lineNum">      52 </span>                :<span class="lineNoCov">          0 :   init(&quot;&quot;, is);</span>
+<span class="lineNum">      53 </span>                :<span class="lineNoCov">          0 : }</span>
+<span class="lineNum">      54 </span>                :            : 
+<span class="lineNum">      55 </span>                :<span class="lineNoCov">          0 : static string trim(const string &amp;s)</span>
+<span class="lineNum">      56 </span>                :            : {
+<span class="lineNum">      57 </span>                :<span class="lineNoCov">          0 :   int st=0, ed=s.length()-1;</span>
+<span class="lineNum">      58 </span>[<span class="branchNoExec" title="Branch 0 was not executed"> # </span><span class="branchNoExec" title="Branch 1 was not executed"> # </span>][<span class="branchNoExec" title="Branch 2 was not executed"> # </span><span class="branchNoExec" title="Branch 3 was not executed"> # </span>]:<span class="lineNoCov">          0 :   while(st&lt;(int)s.length() &amp;&amp; isspace(s[st])) st++;</span>
+<span class="lineNum">         </span>        [<span class="branchNoExec" title="Branch 4 was not executed"> # </span><span class="branchNoExec" title="Branch 5 was not executed"> # </span>]
+<span class="lineNum">      59 </span>[<span class="branchNoExec" title="Branch 0 was not executed"> # </span><span class="branchNoExec" title="Branch 1 was not executed"> # </span>][<span class="branchNoExec" title="Branch 2 was not executed"> # </span><span class="branchNoExec" title="Branch 3 was not executed"> # </span>]:<span class="lineNoCov">          0 :   while(ed&gt;=0 &amp;&amp; isspace(s[ed])) ed--;</span>
+<span class="lineNum">         </span>        [<span class="branchNoExec" title="Branch 4 was not executed"> # </span><span class="branchNoExec" title="Branch 5 was not executed"> # </span>]
+<span class="lineNum">      60 </span>        [<span class="branchNoExec" title="Branch 0 was not executed"> # </span><span class="branchNoExec" title="Branch 1 was not executed"> # </span>]:<span class="lineNoCov">          0 :   if (st&gt;ed) return string(&quot;&quot;);</span>
+<span class="lineNum">      61 </span>                :<span class="lineNoCov">          0 :   return s.substr(st, ed-st+1);</span>
+<span class="lineNum">      62 </span>                :            : }
+<span class="lineNum">      63 </span>                :            : 
+<span class="lineNum">      64 </span>                :            : static const char *skip_spaces(const char *p)
+<span class="lineNum">      65 </span>                :            : {
+<span class="lineNum">      66 </span>[<span class="branchNoExec" title="Branch 0 was not executed"> # </span><span class="branchNoExec" title="Branch 1 was not executed"> # </span>][<span class="branchNoExec" title="Branch 2 was not executed"> # </span><span class="branchNoExec" title="Branch 3 was not executed"> # </span>]:<span class="lineNoCov">          0 :   while(isspace(*p)) p++;</span>
+<span class="lineNum">      67 </span>                :<span class="lineNoCov">          0 :   return p;</span>
+<span class="lineNum">      68 </span>                :            : }
+<span class="lineNum">      69 </span>                :            : 
+<span class="lineNum">      70 </span>                :<span class="lineNoCov">          0 : void config_file::init(const string &amp;filename, const istream &amp;cis)</span>
+<span class="lineNum">      71 </span>                :            : {
+<span class="lineNum">      72 </span>                :<span class="lineNoCov">          0 :   istream &amp;is=const_cast&lt;istream&amp;&gt;(cis);</span>
+<span class="lineNum">      73 </span>                :            :   string cur_sect;
+<span class="lineNum">      74 </span>                :            :   
+<span class="lineNum">      75 </span>                :<span class="lineNoCov">          0 :   int lineno=1;</span>
+<span class="lineNum">      76 </span>        [<span class="branchNoExec" title="Branch 5 was not executed"> # </span><span class="branchNoExec" title="Branch 6 was not executed"> # </span>]:<span class="lineNoCov">          0 :   for (string line; getline(is, line); lineno++){</span>
+<span class="lineNum">      77 </span>                :<span class="lineNoCov">          0 :     const char *p=line.c_str(), *st=p;</span>
+<span class="lineNum">      78 </span>                :<span class="lineNoCov">          0 :     p=skip_spaces(p);</span>
+<span class="lineNum">      79 </span>                :            :     
+<span class="lineNum">      80 </span>        [<span class="branchNoExec" title="Branch 0 was not executed"> # </span><span class="branchNoExec" title="Branch 1 was not executed"> # </span>]:<span class="lineNoCov">          0 :     if (*p=='\0') continue;</span>
+<span class="lineNum">      81 </span>        [<span class="branchNoExec" title="Branch 0 was not executed"> # </span><span class="branchNoExec" title="Branch 1 was not executed"> # </span>]:<span class="lineNoCov">          0 :     if (*p==';') continue;</span>
+<span class="lineNum">      82 </span>                :            :     
+<span class="lineNum">      83 </span>        [<span class="branchNoExec" title="Branch 0 was not executed"> # </span><span class="branchNoExec" title="Branch 1 was not executed"> # </span>]:<span class="lineNoCov">          0 :     if (*p=='['){</span>
+<span class="lineNum">      84 </span>                :            :       const char *q=strchr(p, ']');
+<span class="lineNum">      85 </span>        [<span class="branchNoExec" title="Branch 0 was not executed"> # </span><span class="branchNoExec" title="Branch 1 was not executed"> # </span>]:<span class="lineNoCov">          0 :       if (q==NULL)</span>
+<span class="lineNum">      86 </span>                :<span class="lineNoCov">          0 :         throw parse_error(filename, lineno, line.length(), &quot;']' missing&quot;);</span>
+<span class="lineNum">      87 </span>                :<span class="lineNoCov">          0 :       cur_sect=string(p+1, q);</span>
+<span class="lineNum">      88 </span>                :<span class="lineNoCov">          0 :       q=skip_spaces(q+1);</span>
+<span class="lineNum">      89 </span>        [<span class="branchNoExec" title="Branch 0 was not executed"> # </span><span class="branchNoExec" title="Branch 1 was not executed"> # </span>]:<span class="lineNoCov">          0 :       if (*q!='\0') </span>
+<span class="lineNum">      90 </span>                :<span class="lineNoCov">          0 :         throw parse_error(filename, lineno, q-st, &quot;invalid character&quot;);</span>
+<span class="lineNum">      91 </span>                :            :       
+<span class="lineNum">      92 </span>                :<span class="lineNoCov">          0 :       (void)dat[cur_sect];</span>
+<span class="lineNum">      93 </span>                :            :       
+<span class="lineNum">      94 </span>                :<span class="lineNoCov">          0 :       continue;</span>
+<span class="lineNum">      95 </span>                :            :     }
+<span class="lineNum">      96 </span>                :            :     
+<span class="lineNum">      97 </span>                :            :     const char *q=strchr(p, '=');
+<span class="lineNum">      98 </span>        [<span class="branchNoExec" title="Branch 0 was not executed"> # </span><span class="branchNoExec" title="Branch 1 was not executed"> # </span>]:<span class="lineNoCov">          0 :     if (q==NULL)</span>
+<span class="lineNum">      99 </span>                :<span class="lineNoCov">          0 :       throw parse_error(filename, lineno, line.length(), &quot;'=' missing&quot;);</span>
+<span class="lineNum">     100 </span>                :            :     
+<span class="lineNum">     101 </span>                :<span class="lineNoCov">          0 :     string key(trim(string(p, q)));</span>
+<span class="lineNum">     102 </span>                :<span class="lineNoCov">          0 :     string val(trim(string(q+1)));</span>
+<span class="lineNum">     103 </span>                :            :     
+<span class="lineNum">     104 </span>        [<span class="branchNoExec" title="Branch 0 was not executed"> # </span><span class="branchNoExec" title="Branch 1 was not executed"> # </span>]:<span class="lineNoCov">          0 :     if (val.length()&gt;=2){</span>
+<span class="lineNum">     105 </span>  [<span class="branchNoExec" title="Branch 0 was not executed"> # </span><span class="branchNoExec" title="Branch 1 was not executed"> # </span><span class="branchNoExec" title="Branch 2 was not executed"> # </span><span class="branchNoExec" title="Branch 3 was not executed"> # </span>]:<span class="lineNoCov">          0 :       if (val[0]=='\&quot;' &amp;&amp;</span>
+<span class="lineNum">         </span>        [<span class="branchNoExec" title="Branch 4 was not executed"> # </span><span class="branchNoExec" title="Branch 5 was not executed"> # </span>]
+<span class="lineNum">     106 </span>                :            :           val[val.length()-1]=='\&quot;')
+<span class="lineNum">     107 </span>                :<span class="lineNoCov">          0 :         val=val.substr(1, val.length()-2);</span>
+<span class="lineNum">     108 </span>                :            :     }
+<span class="lineNum">     109 </span>                :            :     
+<span class="lineNum">     110 </span>                :<span class="lineNoCov">          0 :     dat[cur_sect][key]=val;</span>
+<span class="lineNum">     111 </span>                :<span class="lineNoCov">          0 :   }</span>
+<span class="lineNum">     112 </span>                :<span class="lineNoCov">          0 : }</span>
+<a name="113"><span class="lineNum">     113 </span>                :            : </a>
+<span class="lineNum">     114 </span>                :            : } // data
+<span class="lineNum">     115 </span>[<span class="branchCov" title="Branch 0 was taken 34 times"> + </span><span class="branchNoCov" title="Branch 1 was not taken"> - </span>][<span class="branchCov" title="Branch 2 was taken 34 times"> + </span><span class="branchNoCov" title="Branch 3 was not taken"> - </span>]:<span class="lineCov">         68 : } // pfi</span>
+</pre>
+      </td>
+    </tr>
+  </table>
+  <br>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="ruler"><img src="../glass.png" width=3 height=3 alt=""></td></tr>
+    <tr><td class="versionInfo">Generated by: <a href="http://ltp.sourceforge.net/coverage/lcov.php" target="_parent">LCOV version 1.9</a></td></tr>
+  </table>
+  <br>
+
+</body>
+</html>

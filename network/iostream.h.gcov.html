@@ -1,0 +1,278 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html lang="en">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+  <title>LCOV - pficommon - network/iostream.h</title>
+  <link rel="stylesheet" type="text/css" href="../gcov.css">
+</head>
+
+<body>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="title">LCOV - code coverage report</td></tr>
+    <tr><td class="ruler"><img src="../glass.png" width=3 height=3 alt=""></td></tr>
+
+    <tr>
+      <td width="100%">
+        <table cellpadding=1 border=0 width="100%">
+          <tr>
+            <td width="10%" class="headerItem">Current view:</td>
+            <td width="35%" class="headerValue"><a href="../index.html">top level</a> - <a href="index.html">network</a> - iostream.h<span style="font-size: 80%;"> (source / <a href="iostream.h.func.html">functions</a>)</span></td>
+            <td width="5%"></td>
+            <td width="15%"></td>
+            <td width="10%" class="headerCovTableHead">Hit</td>
+            <td width="10%" class="headerCovTableHead">Total</td>
+            <td width="15%" class="headerCovTableHead">Coverage</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Test:</td>
+            <td class="headerValue">pficommon</td>
+            <td></td>
+            <td class="headerItem">Lines:</td>
+            <td class="headerCovTableEntry">45</td>
+            <td class="headerCovTableEntry">54</td>
+            <td class="headerCovTableEntryMed">83.3 %</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Date:</td>
+            <td class="headerValue">2012-05-09</td>
+            <td></td>
+            <td class="headerItem">Functions:</td>
+            <td class="headerCovTableEntry">12</td>
+            <td class="headerCovTableEntry">16</td>
+            <td class="headerCovTableEntryMed">75.0 %</td>
+          </tr>
+          <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td class="headerItem">Branches:</td>
+            <td class="headerCovTableEntry">14</td>
+            <td class="headerCovTableEntry">30</td>
+            <td class="headerCovTableEntryLo">46.7 %</td>
+          </tr>
+          <tr><td><img src="../glass.png" width=3 height=3 alt=""></td></tr>
+        </table>
+      </td>
+    </tr>
+
+    <tr><td class="ruler"><img src="../glass.png" width=3 height=3 alt=""></td></tr>
+  </table>
+
+  <table cellpadding=0 cellspacing=0 border=0>
+    <tr>
+      <td><br></td>
+    </tr>
+    <tr>
+      <td>
+<pre class="sourceHeading">           Branch data     Line data    Source code</pre>
+<pre class="source">
+<a name="1"><span class="lineNum">       1 </span>                :            : // Copyright (c)2008-2011, Preferred Infrastructure Inc.</a>
+<span class="lineNum">       2 </span>                :            : // 
+<span class="lineNum">       3 </span>                :            : // All rights reserved.
+<span class="lineNum">       4 </span>                :            : // 
+<span class="lineNum">       5 </span>                :            : // Redistribution and use in source and binary forms, with or without
+<span class="lineNum">       6 </span>                :            : // modification, are permitted provided that the following conditions are met:
+<span class="lineNum">       7 </span>                :            : // 
+<span class="lineNum">       8 </span>                :            : //     * Redistributions of source code must retain the above copyright
+<span class="lineNum">       9 </span>                :            : //       notice, this list of conditions and the following disclaimer.
+<span class="lineNum">      10 </span>                :            : // 
+<span class="lineNum">      11 </span>                :            : //     * Redistributions in binary form must reproduce the above
+<span class="lineNum">      12 </span>                :            : //       copyright notice, this list of conditions and the following
+<span class="lineNum">      13 </span>                :            : //       disclaimer in the documentation and/or other materials provided
+<span class="lineNum">      14 </span>                :            : //       with the distribution.
+<span class="lineNum">      15 </span>                :            : // 
+<span class="lineNum">      16 </span>                :            : //     * Neither the name of Preferred Infrastructure nor the names of other
+<span class="lineNum">      17 </span>                :            : //       contributors may be used to endorse or promote products derived
+<span class="lineNum">      18 </span>                :            : //       from this software without specific prior written permission.
+<span class="lineNum">      19 </span>                :            : // 
+<span class="lineNum">      20 </span>                :            : // THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+<span class="lineNum">      21 </span>                :            : // &quot;AS IS&quot; AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+<span class="lineNum">      22 </span>                :            : // LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+<span class="lineNum">      23 </span>                :            : // A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
+<span class="lineNum">      24 </span>                :            : // OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+<span class="lineNum">      25 </span>                :            : // SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+<span class="lineNum">      26 </span>                :            : // LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+<span class="lineNum">      27 </span>                :            : // DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+<span class="lineNum">      28 </span>                :            : // THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+<span class="lineNum">      29 </span>                :            : // (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+<span class="lineNum">      30 </span>                :            : // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+<span class="lineNum">      31 </span>                :            : 
+<span class="lineNum">      32 </span>                :            : #ifndef INCLUDE_GUARD_PFI_NETWORK_IOSTREAM_H_
+<span class="lineNum">      33 </span>                :            : #define INCLUDE_GUARD_PFI_NETWORK_IOSTREAM_H_
+<span class="lineNum">      34 </span>                :            : 
+<span class="lineNum">      35 </span>                :            : #include &lt;streambuf&gt;
+<span class="lineNum">      36 </span>                :            : #include &lt;stdexcept&gt;
+<span class="lineNum">      37 </span>                :            : #include &lt;stdint.h&gt;
+<span class="lineNum">      38 </span>                :            : 
+<span class="lineNum">      39 </span>                :            : #include &quot;socket.h&quot;
+<span class="lineNum">      40 </span>                :            : #include &quot;../lang/shared_ptr.h&quot;
+<span class="lineNum">      41 </span>                :            : 
+<span class="lineNum">      42 </span>                :            : namespace pfi{
+<span class="lineNum">      43 </span>                :            : namespace network{
+<span class="lineNum">      44 </span>                :            : 
+<span class="lineNum">      45 </span>                :            : template &lt;class C, class T = std::char_traits&lt;C&gt; &gt;
+<span class="lineNum">      46 </span>                :            : class basic_socketstreambuf : public std::basic_streambuf&lt;C,T&gt;{
+<span class="lineNum">      47 </span>                :            : public:
+<span class="lineNum">      48 </span>                :            :   typedef C char_type;
+<span class="lineNum">      49 </span>                :            : 
+<a name="50"><span class="lineNum">      50 </span>                :            :   basic_socketstreambuf()</a>
+<span class="lineNum">      51 </span>                :            :     : buf(T::eof())
+<span class="lineNum">      52 </span>                :<span class="lineCov">          8 :     , sock(){</span>
+<a name="53"><span class="lineNum">      53 </span>                :            :   }</a>
+<span class="lineNum">      54 </span>                :            : 
+<span class="lineNum">      55 </span>        [<span class="branchNoCov" title="Branch 3 was not taken"> - </span><span class="branchCov" title="Branch 4 was taken 6 times"> + </span>]:<span class="lineCov">          6 :   ~basic_socketstreambuf(){</span>
+<span class="lineNum">      56 </span>                :<span class="lineCov">          6 :   }</span>
+<span class="lineNum">      57 </span>                :            : 
+<span class="lineNum">      58 </span>                :            :   bool connect(const std::string &amp;host, uint16_t port){
+<span class="lineNum">      59 </span>                :<span class="lineCov">          4 :     pfi::lang::shared_ptr&lt;stream_socket&gt; sock(new stream_socket());</span>
+<span class="lineNum">      60 </span>                :<span class="lineCov">          8 :     this-&gt;sock=</span>
+<span class="lineNum">      61 </span>                :            :       pfi::lang::shared_ptr&lt;socket_holder&gt;
+<span class="lineNum">      62 </span>                :            :       (new socket_holder_impl&lt;pfi::lang::shared_ptr&lt;stream_socket&gt; &gt;(sock));
+<span class="lineNum">      63 </span>                :<span class="lineCov">          4 :     return sock-&gt;connect(host, port);</span>
+<span class="lineNum">      64 </span>                :            :   }
+<span class="lineNum">      65 </span>                :            : 
+<span class="lineNum">      66 </span>                :            : private:
+<a name="67"><span class="lineNum">      67 </span>                :<span class="lineCov">          8 :   class socket_holder{</span></a>
+<span class="lineNum">      68 </span>                :            :   public:
+<span class="lineNum">      69 </span>        [<span class="branchNoCov" title="Branch 0 was not taken"> - </span><span class="branchCov" title="Branch 1 was taken 6 times"> + </span>]:<span class="lineCov">          6 :     virtual ~socket_holder(){}</span>
+<span class="lineNum">      70 </span>                :            :     virtual stream_socket *get()=0;
+<span class="lineNum">      71 </span>                :            :   };
+<a name="72"><span class="lineNum">      72 </span>                :            : </a>
+<span class="lineNum">      73 </span>                :            :   template &lt;class PSOCK&gt;
+<span class="lineNum">      74 </span>        [<span class="branchNoCov" title="Branch 3 was not taken"> - </span><span class="branchCov" title="Branch 4 was taken 6 times"> + </span>]:<span class="lineCov">         12 :   class socket_holder_impl : public socket_holder{</span>
+<a name="75"><span class="lineNum">      75 </span>                :            :   public:</a>
+<span class="lineNum">      76 </span>                :<span class="lineCov">         16 :     socket_holder_impl(PSOCK sock): sock(sock) {}</span>
+<span class="lineNum">      77 </span>                :<span class="lineCov">     531842 :     stream_socket *get(){ return sock.get(); }</span>
+<span class="lineNum">      78 </span>                :            :   private:
+<span class="lineNum">      79 </span>                :            :     PSOCK sock;
+<span class="lineNum">      80 </span>                :            :   };
+<span class="lineNum">      81 </span>                :            : 
+<span class="lineNum">      82 </span>                :            : public:
+<span class="lineNum">      83 </span>                :            :   template &lt;class PSOCK&gt;
+<span class="lineNum">      84 </span>                :            :   void setsock(PSOCK sock){
+<span class="lineNum">      85 </span>                :<span class="lineCov">          8 :     this-&gt;sock=pfi::lang::shared_ptr&lt;socket_holder&gt;(new socket_holder_impl&lt;PSOCK&gt;(sock));</span>
+<span class="lineNum">      86 </span>                :            :   }
+<span class="lineNum">      87 </span>                :            : 
+<span class="lineNum">      88 </span>                :            :   bool is_connected() const{
+<span class="lineNum">      89 </span>                :            :     if (!sock-&gt;get()) return false;
+<span class="lineNum">      90 </span>                :            :     return sock-&gt;get()-&gt;is_connected();
+<span class="lineNum">      91 </span>                :            :   }
+<span class="lineNum">      92 </span>                :            : 
+<span class="lineNum">      93 </span>                :            :   stream_socket *socket() const{
+<span class="lineNum">      94 </span>                :<span class="lineCov">          4 :     return sock-&gt;get();</span>
+<span class="lineNum">      95 </span>                :            :   }
+<span class="lineNum">      96 </span>                :            : 
+<a name="97"><span class="lineNum">      97 </span>                :            :   // virtual protected members</a>
+<span class="lineNum">      98 </span>                :            : 
+<span class="lineNum">      99 </span>                :<span class="lineNoCov">          0 :   std::streamsize xsputn(const char_type *s, std::streamsize n){</span>
+<span class="lineNum">     100 </span>        [<span class="branchNoExec" title="Branch 1 was not executed"> # </span><span class="branchNoExec" title="Branch 2 was not executed"> # </span>]:<span class="lineNoCov">          0 :     if (!sock-&gt;get()) return 0;</span>
+<span class="lineNum">     101 </span>                :<span class="lineNoCov">          0 :     int res=sock-&gt;get()-&gt;write(s, sizeof(char_type)*n);</span>
+<span class="lineNum">     102 </span>        [<span class="branchNoExec" title="Branch 0 was not executed"> # </span><span class="branchNoExec" title="Branch 1 was not executed"> # </span>]:<span class="lineNoCov">          0 :     if (res&lt;0) return 0;</span>
+<span class="lineNum">     103 </span>                :<span class="lineNoCov">          0 :     return res;</span>
+<a name="104"><span class="lineNum">     104 </span>                :            :   }</a>
+<span class="lineNum">     105 </span>                :            : 
+<span class="lineNum">     106 </span>                :<span class="lineCov">     131964 :   int overflow(int c){</span>
+<span class="lineNum">     107 </span>        [<span class="branchNoCov" title="Branch 1 was not taken"> - </span><span class="branchCov" title="Branch 2 was taken 131964 times"> + </span>]:<span class="lineCov">     131964 :     if (!sock-&gt;get()) return T::eof();</span>
+<span class="lineNum">     108 </span>                :<span class="lineCov">     131964 :     char d=static_cast&lt;char&gt;(c);</span>
+<span class="lineNum">     109 </span>                :<span class="lineCov">     131964 :     int res=sock-&gt;get()-&gt;write(&amp;d, sizeof(char_type));</span>
+<span class="lineNum">     110 </span>        [<span class="branchNoCov" title="Branch 0 was not taken"> - </span><span class="branchCov" title="Branch 1 was taken 131964 times"> + </span>]:<span class="lineCov">     131964 :     if (res&lt;0) return T::eof();</span>
+<span class="lineNum">     111 </span>        [<span class="branchNoCov" title="Branch 0 was not taken"> - </span><span class="branchCov" title="Branch 1 was taken 131964 times"> + </span>]:<span class="lineCov">     131964 :     return res==0?T::eof():0;</span>
+<a name="112"><span class="lineNum">     112 </span>                :            :   }</a>
+<span class="lineNum">     113 </span>                :            : 
+<span class="lineNum">     114 </span>                :<span class="lineCov">       4010 :   int sync(){</span>
+<span class="lineNum">     115 </span>                :<span class="lineCov">       4010 :     int res=sock-&gt;get()-&gt;flush();</span>
+<span class="lineNum">     116 </span>        [<span class="branchCov" title="Branch 0 was taken 4008 times"> + </span><span class="branchCov" title="Branch 1 was taken 2 times"> + </span>]:<span class="lineCov">       4010 :     return res&lt;0?0:-1;</span>
+<a name="117"><span class="lineNum">     117 </span>                :            :   }</a>
+<span class="lineNum">     118 </span>                :            : 
+<span class="lineNum">     119 </span>                :<span class="lineCov">     131948 :   int uflow(){</span>
+<span class="lineNum">     120 </span>                :<span class="lineCov">     131948 :     int ret=underflow();</span>
+<span class="lineNum">     121 </span>                :<span class="lineCov">     131946 :     buf=T::eof();</span>
+<span class="lineNum">     122 </span>                :<span class="lineCov">     131946 :     return ret;</span>
+<a name="123"><span class="lineNum">     123 </span>                :            :   }</a>
+<span class="lineNum">     124 </span>                :            : 
+<span class="lineNum">     125 </span>                :<span class="lineCov">     193634 :   int underflow(){</span>
+<span class="lineNum">     126 </span>        [<span class="branchCov" title="Branch 0 was taken 131950 times"> + </span><span class="branchCov" title="Branch 1 was taken 61684 times"> + </span>]:<span class="lineCov">     193634 :     if (buf==T::eof()){</span>
+<span class="lineNum">     127 </span>        [<span class="branchNoCov" title="Branch 1 was not taken"> - </span><span class="branchCov" title="Branch 2 was taken 131950 times"> + </span>]:<span class="lineCov">     131950 :       if (!sock-&gt;get()) return T::eof();</span>
+<span class="lineNum">     128 </span>                :<span class="lineCov">     131950 :       buf=sock-&gt;get()-&gt;getc();</span>
+<span class="lineNum">     129 </span>                :            :     }
+<span class="lineNum">     130 </span>                :<span class="lineCov">     193632 :     return buf;</span>
+<span class="lineNum">     131 </span>                :            :   }
+<span class="lineNum">     132 </span>                :            : 
+<span class="lineNum">     133 </span>                :            : private:
+<span class="lineNum">     134 </span>                :            :   int buf;
+<span class="lineNum">     135 </span>                :            :   pfi::lang::shared_ptr&lt;socket_holder&gt; sock;
+<span class="lineNum">     136 </span>                :            : };
+<span class="lineNum">     137 </span>                :            : 
+<span class="lineNum">     138 </span>                :            : template &lt;class C, class T = std::char_traits&lt;C&gt; &gt;
+<span class="lineNum">     139 </span>                :            : class basic_socketstream : public std::basic_iostream&lt;C,T&gt;{
+<span class="lineNum">     140 </span>                :            : public:
+<span class="lineNum">     141 </span>                :            :   basic_socketstream()
+<span class="lineNum">     142 </span>                :            :     : std::basic_iostream&lt;C,T&gt;(){
+<span class="lineNum">     143 </span>                :            :     this-&gt;init(&amp;sockbuf);
+<span class="lineNum">     144 </span>                :            :   }
+<span class="lineNum">     145 </span>                :            : 
+<span class="lineNum">     146 </span>                :<span class="lineCov">          4 :   basic_socketstream(const std::string &amp;host, uint16_t port)</span>
+<span class="lineNum">     147 </span>                :<span class="lineCov">          4 :     : std::basic_iostream&lt;C,T&gt;(){</span>
+<span class="lineNum">     148 </span>                :<span class="lineCov">          4 :     this-&gt;init(&amp;sockbuf);</span>
+<span class="lineNum">     149 </span>                :<span class="lineNoCov">          0 :     connect(host, port);</span>
+<span class="lineNum">     150 </span>                :<span class="lineCov">          4 :   }</span>
+<span class="lineNum">     151 </span>                :            : 
+<span class="lineNum">     152 </span>                :            :   template &lt;class PSOCK&gt;
+<span class="lineNum">     153 </span>                :<span class="lineNoCov">          0 :   basic_socketstream(PSOCK sock)</span>
+<span class="lineNum">     154 </span>                :<span class="lineCov">          4 :     : std::basic_iostream&lt;C,T&gt;(){</span>
+<span class="lineNum">     155 </span>                :<span class="lineCov">          4 :     this-&gt;init(&amp;sockbuf);</span>
+<span class="lineNum">     156 </span>                :<span class="lineCov">          4 :     setsock(sock);</span>
+<a name="157"><span class="lineNum">     157 </span>                :<span class="lineNoCov">          0 :   }</span></a>
+<span class="lineNum">     158 </span>                :            : 
+<span class="lineNum">     159 </span>[<span class="branchNoExec" title="Branch 3 was not executed"> # </span><span class="branchNoExec" title="Branch 4 was not executed"> # </span>][<span class="branchCov" title="Branch 7 was taken 6 times"> + </span><span class="branchNoCov" title="Branch 8 was not taken"> - </span>]:<span class="lineCov">          6 :   ~basic_socketstream(){</span>
+<span class="lineNum">         </span>        [<span class="branchNoCov" title="Branch 10 was not taken"> - </span><span class="branchCov" title="Branch 11 was taken 6 times"> + </span>]
+<span class="lineNum">     160 </span>                :<span class="lineCov">         10 :   }</span>
+<span class="lineNum">     161 </span>                :            : 
+<span class="lineNum">     162 </span>                :            :   void connect(const std::string &amp;host, uint16_t port){
+<span class="lineNum">     163 </span>        [<span class="branchNoCov" title="Branch 0 was not taken"> - </span><span class="branchCov" title="Branch 1 was taken 4 times"> + </span>]:<span class="lineCov">          4 :     if (!sockbuf.connect(host, port))</span>
+<span class="lineNum">     164 </span>                :<span class="lineNoCov">          0 :       this-&gt;setstate(std::ios_base::failbit);</span>
+<span class="lineNum">     165 </span>                :            :     else
+<span class="lineNum">     166 </span>                :<span class="lineCov">          4 :       this-&gt;clear();</span>
+<span class="lineNum">     167 </span>                :            :   }
+<span class="lineNum">     168 </span>                :            : 
+<span class="lineNum">     169 </span>                :            :   template &lt;class PSOCK&gt;
+<span class="lineNum">     170 </span>                :            :   void setsock(PSOCK sock){
+<span class="lineNum">     171 </span>                :<span class="lineCov">          4 :     sockbuf.setsock(sock);</span>
+<span class="lineNum">     172 </span>                :<span class="lineCov">          4 :     this-&gt;clear();</span>
+<span class="lineNum">     173 </span>                :            :   }
+<span class="lineNum">     174 </span>                :            : 
+<span class="lineNum">     175 </span>                :            :   bool is_connected() const{
+<span class="lineNum">     176 </span>                :            :     return sockbuf.is_connected();
+<span class="lineNum">     177 </span>                :            :   }
+<span class="lineNum">     178 </span>                :            : 
+<span class="lineNum">     179 </span>                :            :   stream_socket *socket() const{
+<span class="lineNum">     180 </span>                :<span class="lineCov">          8 :     return sockbuf.socket();</span>
+<span class="lineNum">     181 </span>                :            :   }
+<span class="lineNum">     182 </span>                :            : 
+<span class="lineNum">     183 </span>                :            : private:
+<span class="lineNum">     184 </span>                :            :   basic_socketstreambuf&lt;C,T&gt; sockbuf;
+<span class="lineNum">     185 </span>                :            : };
+<span class="lineNum">     186 </span>                :            : 
+<span class="lineNum">     187 </span>                :            : typedef basic_socketstreambuf&lt;char&gt; socketstreambuf;
+<span class="lineNum">     188 </span>                :            : typedef basic_socketstream&lt;char&gt; socketstream;
+<span class="lineNum">     189 </span>                :            : 
+<span class="lineNum">     190 </span>                :            : } // network
+<span class="lineNum">     191 </span>                :            : } // pfi
+<span class="lineNum">     192 </span>                :            : #endif // #ifndef INCLUDE_GUARD_PFI_NETWORK_IOSTREAM_H_
+</pre>
+      </td>
+    </tr>
+  </table>
+  <br>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="ruler"><img src="../glass.png" width=3 height=3 alt=""></td></tr>
+    <tr><td class="versionInfo">Generated by: <a href="http://ltp.sourceforge.net/coverage/lcov.php" target="_parent">LCOV version 1.9</a></td></tr>
+  </table>
+  <br>
+
+</body>
+</html>

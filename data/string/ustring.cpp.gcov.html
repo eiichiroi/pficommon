@@ -1,0 +1,452 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html lang="en">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+  <title>LCOV - pficommon - data/string/ustring.cpp</title>
+  <link rel="stylesheet" type="text/css" href="../../gcov.css">
+</head>
+
+<body>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="title">LCOV - code coverage report</td></tr>
+    <tr><td class="ruler"><img src="../../glass.png" width=3 height=3 alt=""></td></tr>
+
+    <tr>
+      <td width="100%">
+        <table cellpadding=1 border=0 width="100%">
+          <tr>
+            <td width="10%" class="headerItem">Current view:</td>
+            <td width="35%" class="headerValue"><a href="../../index.html">top level</a> - <a href="index.html">data/string</a> - ustring.cpp<span style="font-size: 80%;"> (source / <a href="ustring.cpp.func.html">functions</a>)</span></td>
+            <td width="5%"></td>
+            <td width="15%"></td>
+            <td width="10%" class="headerCovTableHead">Hit</td>
+            <td width="10%" class="headerCovTableHead">Total</td>
+            <td width="15%" class="headerCovTableHead">Coverage</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Test:</td>
+            <td class="headerValue">pficommon</td>
+            <td></td>
+            <td class="headerItem">Lines:</td>
+            <td class="headerCovTableEntry">69</td>
+            <td class="headerCovTableEntry">148</td>
+            <td class="headerCovTableEntryLo">46.6 %</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Date:</td>
+            <td class="headerValue">2012-05-09</td>
+            <td></td>
+            <td class="headerItem">Functions:</td>
+            <td class="headerCovTableEntry">15</td>
+            <td class="headerCovTableEntry">20</td>
+            <td class="headerCovTableEntryMed">75.0 %</td>
+          </tr>
+          <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td class="headerItem">Branches:</td>
+            <td class="headerCovTableEntry">41</td>
+            <td class="headerCovTableEntry">254</td>
+            <td class="headerCovTableEntryLo">16.1 %</td>
+          </tr>
+          <tr><td><img src="../../glass.png" width=3 height=3 alt=""></td></tr>
+        </table>
+      </td>
+    </tr>
+
+    <tr><td class="ruler"><img src="../../glass.png" width=3 height=3 alt=""></td></tr>
+  </table>
+
+  <table cellpadding=0 cellspacing=0 border=0>
+    <tr>
+      <td><br></td>
+    </tr>
+    <tr>
+      <td>
+<pre class="sourceHeading">           Branch data     Line data    Source code</pre>
+<pre class="source">
+<a name="1"><span class="lineNum">       1 </span>                :            : // Copyright (c)2008-2011, Preferred Infrastructure Inc.</a>
+<span class="lineNum">       2 </span>                :            : // 
+<span class="lineNum">       3 </span>                :            : // All rights reserved.
+<span class="lineNum">       4 </span>                :            : // 
+<span class="lineNum">       5 </span>                :            : // Redistribution and use in source and binary forms, with or without
+<span class="lineNum">       6 </span>                :            : // modification, are permitted provided that the following conditions are met:
+<span class="lineNum">       7 </span>                :            : // 
+<span class="lineNum">       8 </span>                :            : //     * Redistributions of source code must retain the above copyright
+<span class="lineNum">       9 </span>                :            : //       notice, this list of conditions and the following disclaimer.
+<span class="lineNum">      10 </span>                :            : // 
+<span class="lineNum">      11 </span>                :            : //     * Redistributions in binary form must reproduce the above
+<span class="lineNum">      12 </span>                :            : //       copyright notice, this list of conditions and the following
+<span class="lineNum">      13 </span>                :            : //       disclaimer in the documentation and/or other materials provided
+<span class="lineNum">      14 </span>                :            : //       with the distribution.
+<span class="lineNum">      15 </span>                :            : // 
+<span class="lineNum">      16 </span>                :            : //     * Neither the name of Preferred Infrastructure nor the names of other
+<span class="lineNum">      17 </span>                :            : //       contributors may be used to endorse or promote products derived
+<span class="lineNum">      18 </span>                :            : //       from this software without specific prior written permission.
+<span class="lineNum">      19 </span>                :            : // 
+<span class="lineNum">      20 </span>                :            : // THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+<span class="lineNum">      21 </span>                :            : // &quot;AS IS&quot; AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+<span class="lineNum">      22 </span>                :            : // LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+<span class="lineNum">      23 </span>                :            : // A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
+<span class="lineNum">      24 </span>                :            : // OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+<span class="lineNum">      25 </span>                :            : // SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+<span class="lineNum">      26 </span>                :            : // LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+<span class="lineNum">      27 </span>                :            : // DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+<span class="lineNum">      28 </span>                :            : // THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+<span class="lineNum">      29 </span>                :            : // (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+<span class="lineNum">      30 </span>                :            : // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+<span class="lineNum">      31 </span>                :            : 
+<span class="lineNum">      32 </span>                :            : #include &quot;ustring.h&quot;
+<span class="lineNum">      33 </span>                :            : 
+<span class="lineNum">      34 </span>                :            : #include &lt;iterator&gt;
+<span class="lineNum">      35 </span>                :            : 
+<span class="lineNum">      36 </span>                :            : using namespace std;
+<span class="lineNum">      37 </span>                :            : 
+<span class="lineNum">      38 </span>                :            : namespace pfi {
+<span class="lineNum">      39 </span>                :            : namespace data {
+<span class="lineNum">      40 </span>                :            : namespace string {
+<span class="lineNum">      41 </span>                :            : 
+<span class="lineNum">      42 </span>                :            : #define UTF_ZENKAKU_BAR 0x30fc // ー
+<span class="lineNum">      43 </span>                :            : #define UTF_HANKAKU_BAR 0x002d // -
+<span class="lineNum">      44 </span>                :            : #define UTF_ZENKAKU_SPACE 0x3000
+<span class="lineNum">      45 </span>                :            : #define UTF_HANKAKU_SPACE 0x0020
+<span class="lineNum">      46 </span>                :            : #define UTF_HANKAKU_DAKUTEN 0xff9e 
+<span class="lineNum">      47 </span>                :            : #define UTF_ZENKAKU_DAKUTEN 0x3099 
+<span class="lineNum">      48 </span>                :            : #define UTF_HANKAKU_HANDAKUTEN 0xff9f 
+<span class="lineNum">      49 </span>                :            : #define UTF_ZENKAKU_HANDAKUTEN 0x309a 
+<span class="lineNum">      50 </span>                :            : 
+<span class="lineNum">      51 </span>                :            : static int hankaku_zenkaku_tbl[]={
+<span class="lineNum">      52 </span>                :            :   0x0000,0x3002,0x300c,0x300d,0x3001,0x30fb,0x30f2,0x30a1,0x30a3,0x30a5,0x30a7,0x30a9,0x30e3,0x30e5,0x30e7,0x30c3, // 0xff60 - 0xff6f
+<span class="lineNum">      53 </span>                :            :   0x30fc,0x30a2,0x30a4,0x30a6,0x30a8,0x30aa,0x30ab,0x30ad,0x30af,0x30b1,0x30b3,0x30b5,0x30b7,0x30b9,0x30bb,0x30bd, // 0xff70 - 0xff7f
+<span class="lineNum">      54 </span>                :            :   0x30bf,0x30c1,0x30c4,0x30c6,0x30c8,0x30ca,0x30cb,0x30cc,0x30cd,0x30ce,0x30cf,0x30d2,0x30d5,0x30d8,0x30db,0x30de, // 0xff80 - 0xff8f
+<span class="lineNum">      55 </span>                :            :   0x30df,0x30e0,0x30e1,0x30e2,0x30e4,0x30e6,0x30e8,0x30e9,0x30ea,0x30eb,0x30ec,0x30ed,0x30ef,0x30f3,0x3099,0x309a // 0xff90 - 0x9f
+<span class="lineNum">      56 </span>                :            : };
+<span class="lineNum">      57 </span>                :            : 
+<span class="lineNum">      58 </span>                :            : static int take_dakuten_tbl[]={
+<span class="lineNum">      59 </span>                :            :   //  ァアィイゥウェエォオカガキギク
+<span class="lineNum">      60 </span>                :            :   0,0,0,0,0,0,1,0,0,0,0,1,0,1,0,1,
+<span class="lineNum">      61 </span>                :            :   //グケゲコゴサザシジスズセゼソゾタ
+<span class="lineNum">      62 </span>                :            :   0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,
+<span class="lineNum">      63 </span>                :            :   //ダチヂッツヅテデトドナニヌネノハ
+<span class="lineNum">      64 </span>                :            :   0,1,0,0,1,0,1,0,1,0,0,0,0,0,0,1,
+<span class="lineNum">      65 </span>                :            :   //バパヒビピフブプヘベペホボポマミ
+<span class="lineNum">      66 </span>                :            :   0,0,1,0,0,1,0,0,1,0,0,1,0,0,0,0,
+<span class="lineNum">      67 </span>                :            :   //ムメモャヤュユョヨラリルレロヮワ
+<span class="lineNum">      68 </span>                :            :   0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+<span class="lineNum">      69 </span>                :            :   //
+<span class="lineNum">      70 </span>                :            :   0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,
+<span class="lineNum">      71 </span>                :            : };
+<span class="lineNum">      72 </span>                :            : 
+<span class="lineNum">      73 </span>                :            : static int take_handakuten_tbl[]={
+<span class="lineNum">      74 </span>                :            :   //  ァアィイゥウェエォオカガキギク
+<span class="lineNum">      75 </span>                :            :   0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,1,
+<span class="lineNum">      76 </span>                :            :   //グケゲコゴサザシジスズセゼソゾタ
+<span class="lineNum">      77 </span>                :            :   0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,
+<span class="lineNum">      78 </span>                :            :   //ダチヂッツヅテデトドナニヌネノハ
+<span class="lineNum">      79 </span>                :            :   0,1,0,0,1,0,1,0,1,0,0,0,0,0,0,1,
+<span class="lineNum">      80 </span>                :            :   //バパヒビピフブプヘベペホボポマミ
+<span class="lineNum">      81 </span>                :            :   0,0,1,0,0,1,0,0,1,0,0,1,0,0,0,0,
+<span class="lineNum">      82 </span>                :            :   //ムメモャヤュユョヨラリルレロヮワ
+<span class="lineNum">      83 </span>                :            :   0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+<span class="lineNum">      84 </span>                :            :   //
+<span class="lineNum">      85 </span>                :            :   0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+<span class="lineNum">      86 </span>                :            : };
+<span class="lineNum">      87 </span>                :            : 
+<span class="lineNum">      88 </span>                :<span class="lineCov">         44 : ustring string_to_ustring(const char* p) {</span>
+<span class="lineNum">      89 </span>                :<span class="lineCov">         44 :   ustring res;</span>
+<span class="lineNum">      90 </span>        [<span class="branchCov" title="Branch 1 was taken 1678 times"> + </span><span class="branchCov" title="Branch 2 was taken 44 times"> + </span>]:<span class="lineCov">       1722 :   while(*p) res+=chars_to_uchar(p);</span>
+<span class="lineNum">      91 </span>                :<span class="lineCov">         44 :   return res;</span>
+<span class="lineNum">      92 </span>                :            : }
+<span class="lineNum">      93 </span>                :            : 
+<span class="lineNum">      94 </span>                :<span class="lineCov">          2 : ustring string_to_ustring(const std::string&amp; s) {</span>
+<span class="lineNum">      95 </span>                :<span class="lineCov">          2 :   return string_to_ustring(s.c_str());</span>
+<span class="lineNum">      96 </span>                :            : }
+<span class="lineNum">      97 </span>                :            : 
+<span class="lineNum">      98 </span>                :<span class="lineCov">          4 : std::string ustring_to_string(const ustring&amp; us) {</span>
+<span class="lineNum">      99 </span>                :<span class="lineCov">          4 :   std::string res;</span>
+<span class="lineNum">     100 </span>                :<span class="lineCov">          4 :   std::back_insert_iterator&lt;std::string&gt; ins(res);</span>
+<span class="lineNum">     101 </span>        [<span class="branchCov" title="Branch 0 was taken 40 times"> + </span><span class="branchCov" title="Branch 1 was taken 4 times"> + </span>]:<span class="lineCov">         44 :   for(size_t i = 0 ; i &lt; us.size() ; i ++)</span>
+<span class="lineNum">     102 </span>                :<span class="lineCov">         40 :     uchar_to_chars(us[i], ins);</span>
+<span class="lineNum">     103 </span>                :<span class="lineCov">          4 :   return res;</span>
+<span class="lineNum">     104 </span>                :            : }
+<span class="lineNum">     105 </span>                :            : 
+<span class="lineNum">     106 </span>                :<span class="lineCov">         14 : std::string uchar_to_string(uchar c){</span>
+<span class="lineNum">     107 </span>                :<span class="lineCov">         14 :   std::string res;</span>
+<span class="lineNum">     108 </span>                :<span class="lineCov">         14 :   std::back_insert_iterator&lt;std::string&gt; ins(res);</span>
+<span class="lineNum">     109 </span>                :<span class="lineCov">         14 :   uchar_to_chars(c, ins);</span>
+<span class="lineNum">     110 </span>                :<span class="lineCov">         14 :   return res;</span>
+<a name="111"><span class="lineNum">     111 </span>                :            : }</a>
+<span class="lineNum">     112 </span>                :            : 
+<span class="lineNum">     113 </span>                :<span class="lineCov">          2 : uchar string_to_uchar(const char* p) {</span>
+<span class="lineNum">     114 </span>                :<span class="lineCov">          2 :   return chars_to_uchar(p);</span>
+<span class="lineNum">     115 </span>                :            : }
+<span class="lineNum">     116 </span>                :            : 
+<span class="lineNum">     117 </span>                :<span class="lineCov">         12 : uchar string_to_uchar(const std::string&amp; s) {</span>
+<span class="lineNum">     118 </span>                :<span class="lineCov">         12 :   const char *p=s.c_str();</span>
+<span class="lineNum">     119 </span>                :<span class="lineCov">         12 :   return chars_to_uchar(p);</span>
+<a name="120"><span class="lineNum">     120 </span>                :            : }</a>
+<span class="lineNum">     121 </span>                :            : 
+<span class="lineNum">     122 </span>                :<span class="lineNoCov">          0 : bool is_basic_latin(uchar uc) {</span>
+<a name="123"><span class="lineNum">     123 </span>                :<span class="lineNoCov">          0 :   return uc&lt;=0x007f;</span></a>
+<span class="lineNum">     124 </span>                :            : }
+<span class="lineNum">     125 </span>                :<span class="lineNoCov">          0 : bool is_alnum(uchar uc) {</span>
+<a name="126"><span class="lineNum">     126 </span>[<span class="branchNoExec" title="Branch 0 was not executed"> # </span><span class="branchNoExec" title="Branch 1 was not executed"> # </span>][<span class="branchNoExec" title="Branch 2 was not executed"> # </span><span class="branchNoExec" title="Branch 3 was not executed"> # </span>]:<span class="lineNoCov">          0 :   return uc&lt;=0x007f&amp;&amp;isalnum((char)(uc));</span></a>
+<span class="lineNum">     127 </span>                :            : }
+<span class="lineNum">     128 </span>                :<span class="lineCov">        872 : bool is_hiragana(uchar uc) {</span>
+<a name="129"><span class="lineNum">     129 </span>                :<span class="lineCov">        872 :   return (0x3040&lt;=uc&amp;&amp;uc&lt;=0x309f); //||uc==UTF_ZENKAKU_BAR;</span></a>
+<span class="lineNum">     130 </span>                :            : }
+<span class="lineNum">     131 </span>                :<span class="lineCov">        922 : bool is_katakana(uchar uc) {</span>
+<a name="132"><span class="lineNum">     132 </span>                :<span class="lineCov">        922 :   return 0x30a0&lt;=uc&amp;&amp;uc&lt;=0x30ff;</span></a>
+<span class="lineNum">     133 </span>                :            : }
+<span class="lineNum">     134 </span>                :<span class="lineCov">        872 : bool is_kanji(uchar uc) {</span>
+<a name="135"><span class="lineNum">     135 </span>                :<span class="lineCov">        872 :   return 0x4e00&lt;=uc&amp;&amp;uc&lt;=0x9fff;</span></a>
+<span class="lineNum">     136 </span>                :            : }
+<span class="lineNum">     137 </span>                :<span class="lineCov">        208 : bool is_hankaku(uchar uc) {</span>
+<span class="lineNum">     138 </span>                :<span class="lineCov">        208 :   return 0xff60&lt;=uc&amp;&amp;uc&lt;=0xff9f;</span>
+<span class="lineNum">     139 </span>                :            : }
+<span class="lineNum">     140 </span>                :            : 
+<span class="lineNum">     141 </span>                :            : namespace {
+<span class="lineNum">     142 </span>                :            : inline bool utf8_invalid2(unsigned char* p){
+<span class="lineNum">     143 </span>[<span class="branchNoExec" title="Branch 0 was not executed"> # </span><span class="branchNoExec" title="Branch 1 was not executed"> # </span>][<span class="branchNoExec" title="Branch 2 was not executed"> # </span><span class="branchNoExec" title="Branch 3 was not executed"> # </span>]:<span class="lineNoCov">          0 :   return *p &lt; 0xC2 || (p[1] &amp; 0x80) == 0 || (p[1] &amp; 0xC0) == 0xC0;</span>
+<span class="lineNum">         </span>        [<span class="branchNoExec" title="Branch 4 was not executed"> # </span><span class="branchNoExec" title="Branch 5 was not executed"> # </span>]
+<span class="lineNum">     144 </span>                :            : }
+<span class="lineNum">     145 </span>                :            : 
+<span class="lineNum">     146 </span>                :            : inline bool utf8_invalid3(unsigned char* p){
+<span class="lineNum">     147 </span>                :<span class="lineNoCov">          0 :   return (p[2] &amp; 0x80) == 0</span>
+<span class="lineNum">     148 </span>                :<span class="lineNoCov">          0 :     || ((*p) == 0xEF &amp;&amp; p[1] == 0xBF ? p[2] &gt; 0xBD : (p[2] &amp; 0xC0) == 0xC0)</span>
+<span class="lineNum">     149 </span>                :<span class="lineNoCov">          0 :     ||   (*p == 0xE0 ? p[1] &lt; 0xA0</span>
+<span class="lineNum">     150 </span>                :<span class="lineNoCov">          0 :       || (p[1] &amp; 0xC0) == 0xC0 : (p[1] &amp; 0x80) == 0</span>
+<span class="lineNum">     151 </span>[<span class="branchNoExec" title="Branch 0 was not executed"> # </span><span class="branchNoExec" title="Branch 1 was not executed"> # </span>][<span class="branchNoExec" title="Branch 2 was not executed"> # </span><span class="branchNoExec" title="Branch 3 was not executed"> # </span>]:<span class="lineNoCov">          0 :       || (*p == 0xED ? p[1] &gt; 0x9F : (p[1] &amp; 0xC0) == 0xC0));</span>
+<span class="lineNum">         </span>[<span class="branchNoExec" title="Branch 4 was not executed"> # </span><span class="branchNoExec" title="Branch 5 was not executed"> # </span>][<span class="branchNoExec" title="Branch 6 was not executed"> # </span><span class="branchNoExec" title="Branch 7 was not executed"> # </span>]
+<span class="lineNum">         </span>[<span class="branchNoExec" title="Branch 8 was not executed"> # </span><span class="branchNoExec" title="Branch 9 was not executed"> # </span>][<span class="branchNoExec" title="Branch 10 was not executed"> # </span><span class="branchNoExec" title="Branch 11 was not executed"> # </span>]
+<span class="lineNum">         </span>[<span class="branchNoExec" title="Branch 12 was not executed"> # </span><span class="branchNoExec" title="Branch 13 was not executed"> # </span>][<span class="branchNoExec" title="Branch 14 was not executed"> # </span><span class="branchNoExec" title="Branch 15 was not executed"> # </span>]
+<span class="lineNum">         </span>[<span class="branchNoExec" title="Branch 16 was not executed"> # </span><span class="branchNoExec" title="Branch 17 was not executed"> # </span>][<span class="branchNoExec" title="Branch 18 was not executed"> # </span><span class="branchNoExec" title="Branch 19 was not executed"> # </span>]
+<span class="lineNum">         </span>[<span class="branchNoExec" title="Branch 20 was not executed"> # </span><span class="branchNoExec" title="Branch 21 was not executed"> # </span>][<span class="branchNoExec" title="Branch 22 was not executed"> # </span><span class="branchNoExec" title="Branch 23 was not executed"> # </span>]
+<span class="lineNum">     152 </span>                :            : }
+<span class="lineNum">     153 </span>                :            : 
+<span class="lineNum">     154 </span>                :            : inline bool utf8_invalid4(unsigned char* p){
+<span class="lineNum">     155 </span>                :<span class="lineNoCov">          0 :   return (p[3] &amp; 0x80) == 0 || (p[3] &amp; 0xC0) == 0xC0 || (p[2] &amp; 0x80) == 0 || (p[2] &amp; 0xC0) == 0xC0</span>
+<span class="lineNum">     156 </span>                :<span class="lineNoCov">          0 :     || (*p == 0xF0 ? p[1] &lt; 0x90 || (p[1] &amp; 0xC0) == 0xC0 : (p[1] &amp; 0x80) == 0 || </span>
+<span class="lineNum">     157 </span>[<span class="branchNoExec" title="Branch 0 was not executed"> # </span><span class="branchNoExec" title="Branch 1 was not executed"> # </span>][<span class="branchNoExec" title="Branch 2 was not executed"> # </span><span class="branchNoExec" title="Branch 3 was not executed"> # </span>]:<span class="lineNoCov">          0 :         (*p == 0xF4 ? p[1] &gt; 0x8F : (p[1] &amp; 0xC0) == 0xC0));</span>
+<span class="lineNum">         </span>[<span class="branchNoExec" title="Branch 4 was not executed"> # </span><span class="branchNoExec" title="Branch 5 was not executed"> # </span>][<span class="branchNoExec" title="Branch 6 was not executed"> # </span><span class="branchNoExec" title="Branch 7 was not executed"> # </span>]
+<span class="lineNum">         </span>[<span class="branchNoExec" title="Branch 8 was not executed"> # </span><span class="branchNoExec" title="Branch 9 was not executed"> # </span>][<span class="branchNoExec" title="Branch 10 was not executed"> # </span><span class="branchNoExec" title="Branch 11 was not executed"> # </span>]
+<span class="lineNum">         </span>[<span class="branchNoExec" title="Branch 12 was not executed"> # </span><span class="branchNoExec" title="Branch 13 was not executed"> # </span>][<span class="branchNoExec" title="Branch 14 was not executed"> # </span><span class="branchNoExec" title="Branch 15 was not executed"> # </span>]
+<span class="lineNum">         </span>[<span class="branchNoExec" title="Branch 16 was not executed"> # </span><span class="branchNoExec" title="Branch 17 was not executed"> # </span>][<span class="branchNoExec" title="Branch 18 was not executed"> # </span><span class="branchNoExec" title="Branch 19 was not executed"> # </span>]
+<span class="lineNum">         </span>        [<span class="branchNoExec" title="Branch 20 was not executed"> # </span><span class="branchNoExec" title="Branch 21 was not executed"> # </span>]
+<span class="lineNum">     158 </span>                :            : }
+<span class="lineNum">     159 </span>                :            :   
+<span class="lineNum">     160 </span>                :            : int utf8_skip(const std::string&amp; s, size_t p){
+<span class="lineNum">     161 </span>        [<span class="branchNoExec" title="Branch 0 was not executed"> # </span><span class="branchNoExec" title="Branch 1 was not executed"> # </span>]:<span class="lineNoCov">          0 :   if (s[p] == 0) return -1;</span>
+<span class="lineNum">     162 </span>        [<span class="branchNoExec" title="Branch 0 was not executed"> # </span><span class="branchNoExec" title="Branch 1 was not executed"> # </span>]:<span class="lineNoCov">          0 :   if ((s[p] &amp; 0x80) == 0x00) return 0;</span>
+<span class="lineNum">     163 </span>        [<span class="branchNoExec" title="Branch 0 was not executed"> # </span><span class="branchNoExec" title="Branch 1 was not executed"> # </span>]:<span class="lineNoCov">          0 :   else if ((s[p]&amp;0xc0) == 0x80) return -1;</span>
+<span class="lineNum">     164 </span>        [<span class="branchNoExec" title="Branch 0 was not executed"> # </span><span class="branchNoExec" title="Branch 1 was not executed"> # </span>]:<span class="lineNoCov">          0 :   else if ((s[p]&amp;0xe0) == 0xc0) return 1;</span>
+<span class="lineNum">     165 </span>        [<span class="branchNoExec" title="Branch 0 was not executed"> # </span><span class="branchNoExec" title="Branch 1 was not executed"> # </span>]:<span class="lineNoCov">          0 :   else if ((s[p]&amp;0xf0) == 0xe0) return 2;</span>
+<span class="lineNum">     166 </span>        [<span class="branchNoExec" title="Branch 0 was not executed"> # </span><span class="branchNoExec" title="Branch 1 was not executed"> # </span>]:<span class="lineNoCov">          0 :   else if ((s[p]&amp;0xf8) == 0xf0) return 3;</span>
+<span class="lineNum">     167 </span>                :<span class="lineNoCov">          0 :   return -1;</span>
+<span class="lineNum">     168 </span>                :            : }
+<span class="lineNum">     169 </span>                :            : } // namespace
+<span class="lineNum">     170 </span>                :            : 
+<span class="lineNum">     171 </span>                :<span class="lineNoCov">          0 : std::string sanitize_utf8(const std::string&amp; s){</span>
+<span class="lineNum">     172 </span>                :<span class="lineNoCov">          0 :   std::string ret;</span>
+<span class="lineNum">     173 </span>                :            :   unsigned char buf[10];
+<span class="lineNum">     174 </span>        [<span class="branchNoExec" title="Branch 3 was not executed"> # </span><span class="branchNoExec" title="Branch 4 was not executed"> # </span>]:<span class="lineNoCov">          0 :   for (size_t p = 0; p &lt; s.size();) {</span>
+<span class="lineNum">     175 </span>                :<span class="lineNoCov">          0 :     const int ccc = utf8_skip(s, p);</span>
+<span class="lineNum">     176 </span>        [<span class="branchNoExec" title="Branch 0 was not executed"> # </span><span class="branchNoExec" title="Branch 1 was not executed"> # </span>]:<span class="lineNoCov">          0 :     if (ccc &lt; 0) {</span>
+<span class="lineNum">     177 </span>                :<span class="lineNoCov">          0 :       p++;</span>
+<span class="lineNum">     178 </span>                :<span class="lineNoCov">          0 :       continue;</span>
+<span class="lineNum">     179 </span>                :            :     }
+<span class="lineNum">     180 </span>                :<span class="lineNoCov">          0 :     size_t orgp = p;</span>
+<span class="lineNum">     181 </span>                :<span class="lineNoCov">          0 :     p++;</span>
+<span class="lineNum">     182 </span>                :<span class="lineNoCov">          0 :     int i = 0;</span>
+<span class="lineNum">     183 </span>                :<span class="lineNoCov">          0 :     buf[i] = s[orgp];</span>
+<span class="lineNum">     184 </span>[<span class="branchNoExec" title="Branch 0 was not executed"> # </span><span class="branchNoExec" title="Branch 1 was not executed"> # </span>][<span class="branchNoExec" title="Branch 2 was not executed"> # </span><span class="branchNoExec" title="Branch 3 was not executed"> # </span>]:<span class="lineNoCov">          0 :     for (; p &lt;= ccc + orgp &amp;&amp; p &lt; s.size(); p++) {</span>
+<span class="lineNum">         </span>        [<span class="branchNoExec" title="Branch 4 was not executed"> # </span><span class="branchNoExec" title="Branch 5 was not executed"> # </span>]
+<span class="lineNum">     185 </span>        [<span class="branchNoExec" title="Branch 0 was not executed"> # </span><span class="branchNoExec" title="Branch 1 was not executed"> # </span>]:<span class="lineNoCov">          0 :       if ((s[p]&amp;0xc0) != 0x80) break;</span>
+<span class="lineNum">     186 </span>                :            :     }
+<span class="lineNum">     187 </span>                :<span class="lineNoCov">          0 :     int cccc = ccc + 1;</span>
+<span class="lineNum">     188 </span>                :            :     std::string retpartial;
+<span class="lineNum">     189 </span>        [<span class="branchNoExec" title="Branch 0 was not executed"> # </span><span class="branchNoExec" title="Branch 1 was not executed"> # </span>]:<span class="lineNoCov">          0 :     if (p == ccc + orgp + 1) {</span>
+<span class="lineNum">     190 </span>        [<span class="branchNoExec" title="Branch 0 was not executed"> # </span><span class="branchNoExec" title="Branch 1 was not executed"> # </span>]:<span class="lineNoCov">          0 :       for (size_t t = orgp; t &lt; p; t++) {</span>
+<span class="lineNum">     191 </span>                :<span class="lineNoCov">          0 :         retpartial += s[t];</span>
+<span class="lineNum">     192 </span>                :<span class="lineNoCov">          0 :         buf[i] = s[t];</span>
+<span class="lineNum">     193 </span>                :<span class="lineNoCov">          0 :         i++;</span>
+<span class="lineNum">     194 </span>                :            :       }
+<span class="lineNum">     195 </span>                :            :     } else {
+<span class="lineNum">     196 </span>                :<span class="lineNoCov">          0 :       continue;</span>
+<span class="lineNum">     197 </span>                :            :     }
+<span class="lineNum">     198 </span>                :<span class="lineNoCov">          0 :     bool invalid = true;</span>
+<span class="lineNum">     199 </span>        [<span class="branchNoExec" title="Branch 0 was not executed"> # </span><span class="branchNoExec" title="Branch 1 was not executed"> # </span>]:<span class="lineNoCov">          0 :     if (cccc == 1) {</span>
+<span class="lineNum">     200 </span>        [<span class="branchNoExec" title="Branch 0 was not executed"> # </span><span class="branchNoExec" title="Branch 1 was not executed"> # </span>]:<span class="lineNoCov">          0 :       if (buf[0] &lt; 0x20) continue;</span>
+<span class="lineNum">     201 </span>                :<span class="lineNoCov">          0 :       invalid = false;</span>
+<span class="lineNum">     202 </span>                :            :     }
+<span class="lineNum">     203 </span>        [<span class="branchNoExec" title="Branch 0 was not executed"> # </span><span class="branchNoExec" title="Branch 1 was not executed"> # </span>]:<span class="lineNoCov">          0 :     if (cccc == 2) {</span>
+<span class="lineNum">     204 </span>        [<span class="branchNoExec" title="Branch 0 was not executed"> # </span><span class="branchNoExec" title="Branch 1 was not executed"> # </span>]:<span class="lineNoCov">          0 :       if (utf8_invalid2(buf)) continue;</span>
+<span class="lineNum">     205 </span>[<span class="branchNoExec" title="Branch 0 was not executed"> # </span><span class="branchNoExec" title="Branch 1 was not executed"> # </span>][<span class="branchNoExec" title="Branch 2 was not executed"> # </span><span class="branchNoExec" title="Branch 3 was not executed"> # </span>]:<span class="lineNoCov">          0 :       if (0xc2 &lt;= buf[0] &amp;&amp; buf[0] &lt;= 0xdf &amp;&amp; 0x80 &lt;= buf[1] &amp;&amp; buf[1] &lt;= 0xbf) invalid = false;</span>
+<span class="lineNum">         </span>        [<span class="branchNoExec" title="Branch 4 was not executed"> # </span><span class="branchNoExec" title="Branch 5 was not executed"> # </span>]
+<span class="lineNum">     206 </span>                :            :     }
+<span class="lineNum">     207 </span>        [<span class="branchNoExec" title="Branch 0 was not executed"> # </span><span class="branchNoExec" title="Branch 1 was not executed"> # </span>]:<span class="lineNoCov">          0 :     if (cccc == 3) {</span>
+<span class="lineNum">     208 </span>        [<span class="branchNoExec" title="Branch 0 was not executed"> # </span><span class="branchNoExec" title="Branch 1 was not executed"> # </span>]:<span class="lineNoCov">          0 :       if (utf8_invalid3(buf)) continue;</span>
+<span class="lineNum">     209 </span>[<span class="branchNoExec" title="Branch 0 was not executed"> # </span><span class="branchNoExec" title="Branch 1 was not executed"> # </span>][<span class="branchNoExec" title="Branch 2 was not executed"> # </span><span class="branchNoExec" title="Branch 3 was not executed"> # </span>]:<span class="lineNoCov">          0 :       if (buf[0] == 0xe0 &amp;&amp; 0xa0 &lt;= buf[1] &amp;&amp; buf[1] &lt;= 0xbf &amp;&amp; 0x80 &lt;= buf[2] &amp;&amp; buf[2] &lt;= 0xbf) invalid = false;</span>
+<span class="lineNum">         </span>[<span class="branchNoExec" title="Branch 4 was not executed"> # </span><span class="branchNoExec" title="Branch 5 was not executed"> # </span>][<span class="branchNoExec" title="Branch 6 was not executed"> # </span><span class="branchNoExec" title="Branch 7 was not executed"> # </span>]
+<span class="lineNum">         </span>        [<span class="branchNoExec" title="Branch 8 was not executed"> # </span><span class="branchNoExec" title="Branch 9 was not executed"> # </span>]
+<span class="lineNum">     210 </span>[<span class="branchNoExec" title="Branch 0 was not executed"> # </span><span class="branchNoExec" title="Branch 1 was not executed"> # </span>][<span class="branchNoExec" title="Branch 2 was not executed"> # </span><span class="branchNoExec" title="Branch 3 was not executed"> # </span>]:<span class="lineNoCov">          0 :       if (0xe1 &lt;= buf[0] &amp;&amp; buf[0] &lt;= 0xec &amp;&amp; 0x80 &lt;= buf[1] &amp;&amp; buf[1] &lt;= 0xbf &amp;&amp; 0x80 &lt;= buf[2] &amp;&amp; buf[2] &lt;= 0xbf) invalid = false;</span>
+<span class="lineNum">         </span>[<span class="branchNoExec" title="Branch 4 was not executed"> # </span><span class="branchNoExec" title="Branch 5 was not executed"> # </span>][<span class="branchNoExec" title="Branch 6 was not executed"> # </span><span class="branchNoExec" title="Branch 7 was not executed"> # </span>]
+<span class="lineNum">         </span>        [<span class="branchNoExec" title="Branch 8 was not executed"> # </span><span class="branchNoExec" title="Branch 9 was not executed"> # </span>]
+<span class="lineNum">     211 </span>[<span class="branchNoExec" title="Branch 0 was not executed"> # </span><span class="branchNoExec" title="Branch 1 was not executed"> # </span>][<span class="branchNoExec" title="Branch 2 was not executed"> # </span><span class="branchNoExec" title="Branch 3 was not executed"> # </span>]:<span class="lineNoCov">          0 :       if (buf[0] == 0xed &amp;&amp; 0x80 &lt;= buf[1] &amp;&amp; buf[1] &lt;= 0x9f &amp;&amp; 0x80 &lt;= buf[2] &amp;&amp; buf[2] &lt;= 0xbf) invalid = false;</span>
+<span class="lineNum">         </span>[<span class="branchNoExec" title="Branch 4 was not executed"> # </span><span class="branchNoExec" title="Branch 5 was not executed"> # </span>][<span class="branchNoExec" title="Branch 6 was not executed"> # </span><span class="branchNoExec" title="Branch 7 was not executed"> # </span>]
+<span class="lineNum">         </span>        [<span class="branchNoExec" title="Branch 8 was not executed"> # </span><span class="branchNoExec" title="Branch 9 was not executed"> # </span>]
+<span class="lineNum">     212 </span>[<span class="branchNoExec" title="Branch 0 was not executed"> # </span><span class="branchNoExec" title="Branch 1 was not executed"> # </span>][<span class="branchNoExec" title="Branch 2 was not executed"> # </span><span class="branchNoExec" title="Branch 3 was not executed"> # </span>]:<span class="lineNoCov">          0 :       if (0xee &lt;= buf[0] &amp;&amp; buf[0] &lt;= 0xef &amp;&amp; 0x80 &lt;= buf[1] &amp;&amp; buf[1] &lt;= 0xbf &amp;&amp; 0x80 &lt;= buf[2] &amp;&amp; buf[2] &lt;= 0xbf) invalid = false;</span>
+<span class="lineNum">         </span>[<span class="branchNoExec" title="Branch 4 was not executed"> # </span><span class="branchNoExec" title="Branch 5 was not executed"> # </span>][<span class="branchNoExec" title="Branch 6 was not executed"> # </span><span class="branchNoExec" title="Branch 7 was not executed"> # </span>]
+<span class="lineNum">         </span>        [<span class="branchNoExec" title="Branch 8 was not executed"> # </span><span class="branchNoExec" title="Branch 9 was not executed"> # </span>]
+<span class="lineNum">     213 </span>                :            :     }
+<span class="lineNum">     214 </span>        [<span class="branchNoExec" title="Branch 0 was not executed"> # </span><span class="branchNoExec" title="Branch 1 was not executed"> # </span>]:<span class="lineNoCov">          0 :     if (cccc == 4) {</span>
+<span class="lineNum">     215 </span>        [<span class="branchNoExec" title="Branch 0 was not executed"> # </span><span class="branchNoExec" title="Branch 1 was not executed"> # </span>]:<span class="lineNoCov">          0 :       if (utf8_invalid4(buf)) continue;</span>
+<span class="lineNum">     216 </span>[<span class="branchNoExec" title="Branch 0 was not executed"> # </span><span class="branchNoExec" title="Branch 1 was not executed"> # </span>][<span class="branchNoExec" title="Branch 2 was not executed"> # </span><span class="branchNoExec" title="Branch 3 was not executed"> # </span>]:<span class="lineNoCov">          0 :       if (buf[0] == 0xf0 &amp;&amp; 0x90 &lt;= buf[1] &amp;&amp; buf[1] &lt;= 0xbf &amp;&amp; 0x80 &lt;= buf[2] &amp;&amp; buf[2] &lt;= 0xbf &amp;&amp; 0x80 &lt;= buf[3] &amp;&amp; buf[3] &lt;= 0xbf) invalid = false;</span>
+<span class="lineNum">         </span>[<span class="branchNoExec" title="Branch 4 was not executed"> # </span><span class="branchNoExec" title="Branch 5 was not executed"> # </span>][<span class="branchNoExec" title="Branch 6 was not executed"> # </span><span class="branchNoExec" title="Branch 7 was not executed"> # </span>]
+<span class="lineNum">         </span>[<span class="branchNoExec" title="Branch 8 was not executed"> # </span><span class="branchNoExec" title="Branch 9 was not executed"> # </span>][<span class="branchNoExec" title="Branch 10 was not executed"> # </span><span class="branchNoExec" title="Branch 11 was not executed"> # </span>]
+<span class="lineNum">         </span>        [<span class="branchNoExec" title="Branch 12 was not executed"> # </span><span class="branchNoExec" title="Branch 13 was not executed"> # </span>]
+<span class="lineNum">     217 </span>                :            : 
+<span class="lineNum">     218 </span>[<span class="branchNoExec" title="Branch 0 was not executed"> # </span><span class="branchNoExec" title="Branch 1 was not executed"> # </span>][<span class="branchNoExec" title="Branch 2 was not executed"> # </span><span class="branchNoExec" title="Branch 3 was not executed"> # </span>]:<span class="lineNoCov">          0 :       if (0xf1 &lt;= buf[0] &amp;&amp; buf[0] &lt;= 0xf3 &amp;&amp; 0x80 &lt;= buf[1] &amp;&amp; buf[1] &lt;= 0xbf &amp;&amp; 0x80 &lt;= buf[2] &amp;&amp; buf[2] &lt;= 0xbf &amp;&amp; 0x80 &lt;= buf[3] &amp;&amp; buf[3] &lt;=</span>
+<span class="lineNum">         </span>[<span class="branchNoExec" title="Branch 4 was not executed"> # </span><span class="branchNoExec" title="Branch 5 was not executed"> # </span>][<span class="branchNoExec" title="Branch 6 was not executed"> # </span><span class="branchNoExec" title="Branch 7 was not executed"> # </span>]
+<span class="lineNum">         </span>[<span class="branchNoExec" title="Branch 8 was not executed"> # </span><span class="branchNoExec" title="Branch 9 was not executed"> # </span>][<span class="branchNoExec" title="Branch 10 was not executed"> # </span><span class="branchNoExec" title="Branch 11 was not executed"> # </span>]
+<span class="lineNum">         </span>        [<span class="branchNoExec" title="Branch 12 was not executed"> # </span><span class="branchNoExec" title="Branch 13 was not executed"> # </span>]
+<span class="lineNum">     219 </span>                :<span class="lineNoCov">          0 :           0xbf) invalid = false;</span>
+<span class="lineNum">     220 </span>[<span class="branchNoExec" title="Branch 0 was not executed"> # </span><span class="branchNoExec" title="Branch 1 was not executed"> # </span>][<span class="branchNoExec" title="Branch 2 was not executed"> # </span><span class="branchNoExec" title="Branch 3 was not executed"> # </span>]:<span class="lineNoCov">          0 :       if (buf[0] == 0xf4 &amp;&amp; 0x80 &lt;= buf[1] &amp;&amp; buf[1] &lt;= 0x8f &amp;&amp; 0x80 &lt;= buf[2] &amp;&amp; buf[2] &lt;= 0xbf &amp;&amp; 0x80 &lt;= buf[3] &amp;&amp; buf[3] &lt;= 0xbf) invalid = false;</span>
+<span class="lineNum">         </span>[<span class="branchNoExec" title="Branch 4 was not executed"> # </span><span class="branchNoExec" title="Branch 5 was not executed"> # </span>][<span class="branchNoExec" title="Branch 6 was not executed"> # </span><span class="branchNoExec" title="Branch 7 was not executed"> # </span>]
+<span class="lineNum">         </span>[<span class="branchNoExec" title="Branch 8 was not executed"> # </span><span class="branchNoExec" title="Branch 9 was not executed"> # </span>][<span class="branchNoExec" title="Branch 10 was not executed"> # </span><span class="branchNoExec" title="Branch 11 was not executed"> # </span>]
+<span class="lineNum">         </span>        [<span class="branchNoExec" title="Branch 12 was not executed"> # </span><span class="branchNoExec" title="Branch 13 was not executed"> # </span>]
+<span class="lineNum">     221 </span>                :            :     }
+<span class="lineNum">     222 </span>                :            :     // TODO: check cccc == 5, cccc == 6
+<span class="lineNum">     223 </span>        [<span class="branchNoExec" title="Branch 0 was not executed"> # </span><span class="branchNoExec" title="Branch 1 was not executed"> # </span>]:<span class="lineNoCov">          0 :     if (invalid) continue;</span>
+<span class="lineNum">     224 </span>                :<span class="lineNoCov">          0 :     ret += retpartial;</span>
+<span class="lineNum">     225 </span>                :            :   }
+<span class="lineNum">     226 </span>                :<span class="lineNoCov">          0 :   return ret;</span>
+<span class="lineNum">     227 </span>                :            : }
+<span class="lineNum">     228 </span>                :            : 
+<span class="lineNum">     229 </span>                :<span class="lineCov">          2 : ustring hankaku_to_zenkaku(const ustring&amp; ustr){</span>
+<span class="lineNum">     230 </span>                :<span class="lineCov">          2 :   ustring res;</span>
+<span class="lineNum">     231 </span>        [<span class="branchCov" title="Branch 0 was taken 208 times"> + </span><span class="branchCov" title="Branch 1 was taken 2 times"> + </span>]:<span class="lineCov">        210 :   for (size_t i=0;i&lt;ustr.size();++i) {</span>
+<span class="lineNum">     232 </span>        [<span class="branchCov" title="Branch 0 was taken 206 times"> + </span><span class="branchCov" title="Branch 1 was taken 2 times"> + </span>]:<span class="lineCov">        208 :     uchar c=res.size()&gt;0?res[res.size()-1]:0xFFFFFFFFU;</span>
+<span class="lineNum">     233 </span>        [<span class="branchCov" title="Branch 1 was taken 206 times"> + </span><span class="branchCov" title="Branch 2 was taken 2 times"> + </span>]:<span class="lineCov">        208 :     if (is_hankaku(ustr[i])) {</span>
+<span class="lineNum">     234 </span>        [<span class="branchCov" title="Branch 0 was taken 40 times"> + </span><span class="branchCov" title="Branch 1 was taken 166 times"> + </span>]:<span class="lineCov">        206 :       if (ustr[i]==UTF_HANKAKU_DAKUTEN) { </span>
+<span class="lineNum">     235 </span>[<span class="branchCov" title="Branch 0 was taken 40 times"> + </span><span class="branchNoCov" title="Branch 1 was not taken"> - </span>][<span class="branchCov" title="Branch 3 was taken 40 times"> + </span><span class="branchNoCov" title="Branch 4 was not taken"> - </span>]:<span class="lineCov">         40 :         if (c!=0xFFFFFFFFU&amp;&amp;is_katakana(c)&amp;&amp;take_dakuten_tbl[c-0x30a0]) {</span>
+<span class="lineNum">         </span>[<span class="branchCov" title="Branch 5 was taken 40 times"> + </span><span class="branchNoCov" title="Branch 6 was not taken"> - </span>][<span class="branchCov" title="Branch 7 was taken 40 times"> + </span><span class="branchNoCov" title="Branch 8 was not taken"> - </span>]
+<span class="lineNum">     236 </span>        [<span class="branchNoCov" title="Branch 0 was not taken"> - </span><span class="branchCov" title="Branch 1 was taken 40 times"> + </span>]:<span class="lineCov">         40 :           if (c==0x30a6) { // ウ</span>
+<span class="lineNum">     237 </span>                :<span class="lineNoCov">          0 :             res[res.size()-1]=0x30f4;</span>
+<span class="lineNum">     238 </span>        [<span class="branchNoCov" title="Branch 0 was not taken"> - </span><span class="branchCov" title="Branch 1 was taken 40 times"> + </span>]:<span class="lineCov">         40 :           } else if (c==0x30f2) { // ヲ</span>
+<span class="lineNum">     239 </span>                :<span class="lineNoCov">          0 :             res[res.size()-1]=0x30fa;</span>
+<span class="lineNum">     240 </span>                :            :           } else {
+<span class="lineNum">     241 </span>                :<span class="lineCov">         40 :             ++res[res.size()-1];</span>
+<span class="lineNum">     242 </span>                :            :           }
+<span class="lineNum">     243 </span>                :            :         } else {
+<span class="lineNum">     244 </span>                :<span class="lineNoCov">          0 :           res.push_back(UTF_ZENKAKU_DAKUTEN); // zenkaku dakuten</span>
+<span class="lineNum">     245 </span>                :            :         }
+<span class="lineNum">     246 </span>        [<span class="branchCov" title="Branch 0 was taken 10 times"> + </span><span class="branchCov" title="Branch 1 was taken 156 times"> + </span>]:<span class="lineCov">        166 :       } else if (ustr[i]==UTF_HANKAKU_HANDAKUTEN) {</span>
+<span class="lineNum">     247 </span>[<span class="branchCov" title="Branch 0 was taken 10 times"> + </span><span class="branchNoCov" title="Branch 1 was not taken"> - </span>][<span class="branchCov" title="Branch 3 was taken 10 times"> + </span><span class="branchNoCov" title="Branch 4 was not taken"> - </span>]:<span class="lineCov">         10 :         if (c!=0xFFFFFFFFU&amp;&amp;is_katakana(c)&amp;&amp;take_handakuten_tbl[c-0x30a0]) {</span>
+<span class="lineNum">         </span>[<span class="branchCov" title="Branch 5 was taken 10 times"> + </span><span class="branchNoCov" title="Branch 6 was not taken"> - </span>][<span class="branchCov" title="Branch 7 was taken 10 times"> + </span><span class="branchNoCov" title="Branch 8 was not taken"> - </span>]
+<span class="lineNum">     248 </span>                :<span class="lineCov">         10 :           res[res.size()-1]+=2;</span>
+<span class="lineNum">     249 </span>                :            :         } else {
+<span class="lineNum">     250 </span>                :<span class="lineNoCov">          0 :           res.push_back(UTF_ZENKAKU_HANDAKUTEN); // zenkaku dakuten</span>
+<span class="lineNum">     251 </span>                :            :         }
+<span class="lineNum">     252 </span>                :            :       } else {
+<span class="lineNum">     253 </span>                :<span class="lineCov">        156 :         res.push_back(hankaku_zenkaku_tbl[ustr[i]-0xff60]);</span>
+<span class="lineNum">     254 </span>                :            :       }
+<span class="lineNum">     255 </span>        [<span class="branchNoCov" title="Branch 0 was not taken"> - </span><span class="branchCov" title="Branch 1 was taken 2 times"> + </span>]:<span class="lineCov">          2 :     } else if (ustr[i]==UTF_HANKAKU_BAR) { // -</span>
+<span class="lineNum">     256 </span>[<span class="branchNoExec" title="Branch 0 was not executed"> # </span><span class="branchNoExec" title="Branch 1 was not executed"> # </span>][<span class="branchNoExec" title="Branch 3 was not executed"> # </span><span class="branchNoExec" title="Branch 4 was not executed"> # </span>]:<span class="lineNoCov">          0 :       if (c!=0xFFFFFFFFU&amp;&amp;!is_basic_latin(c)) {</span>
+<span class="lineNum">         </span>        [<span class="branchNoExec" title="Branch 5 was not executed"> # </span><span class="branchNoExec" title="Branch 6 was not executed"> # </span>]
+<span class="lineNum">     257 </span>                :<span class="lineNoCov">          0 :         res.push_back(UTF_ZENKAKU_BAR);</span>
+<span class="lineNum">     258 </span>                :            :       } else {
+<span class="lineNum">     259 </span>                :<span class="lineNoCov">          0 :         res.push_back(ustr[i]);</span>
+<span class="lineNum">     260 </span>                :            :       }
+<span class="lineNum">     261 </span>                :            :     } else {
+<span class="lineNum">     262 </span>                :<span class="lineCov">          2 :       res.push_back(ustr[i]);</span>
+<span class="lineNum">     263 </span>                :            :     }
+<span class="lineNum">     264 </span>                :            :   } 
+<span class="lineNum">     265 </span>                :<span class="lineCov">          2 :   return res;</span>
+<span class="lineNum">     266 </span>                :            : }
+<span class="lineNum">     267 </span>                :            : 
+<span class="lineNum">     268 </span>                :            : namespace {
+<a name="269"><span class="lineNum">     269 </span>                :            : inline uchar zenkaku_latin_to_basic_latin_impl(uchar uc)</a>
+<span class="lineNum">     270 </span>                :            : {
+<span class="lineNum">     271 </span>  [<span class="branchCov" title="Branch 0 was taken 188 times"> + </span><span class="branchCov" title="Branch 1 was taken 2 times"> + </span><span class="branchCov" title="Branch 2 was taken 240 times"> + </span><span class="branchCov" title="Branch 3 was taken 2 times"> + </span>]:<span class="lineCov">        432 :   if (0xff01&lt;=uc&amp;&amp;uc&lt;=0xff5e)</span>
+<span class="lineNum">     272 </span>                :<span class="lineCov">        428 :     return uc-0xff00+0x0020;</span>
+<span class="lineNum">     273 </span>[<span class="branchCov" title="Branch 0 was taken 2 times"> + </span><span class="branchNoCov" title="Branch 1 was not taken"> - </span>][<span class="branchCov" title="Branch 2 was taken 2 times"> + </span><span class="branchNoCov" title="Branch 3 was not taken"> - </span>]:<span class="lineCov">          4 :   else if (uc==UTF_ZENKAKU_SPACE)</span>
+<span class="lineNum">     274 </span>                :<span class="lineCov">          4 :     return UTF_HANKAKU_SPACE;</span>
+<span class="lineNum">     275 </span>                :            :   else
+<span class="lineNum">     276 </span>                :<span class="lineNoCov">          0 :     return uc;</span>
+<span class="lineNum">     277 </span>                :            : }
+<span class="lineNum">     278 </span>                :            : 
+<a name="279"><span class="lineNum">     279 </span>                :            : inline uchar basic_latin_to_zenkaku_latin_impl(uchar uc)</a>
+<span class="lineNum">     280 </span>                :            : {
+<span class="lineNum">     281 </span>  [<span class="branchCov" title="Branch 0 was taken 188 times"> + </span><span class="branchCov" title="Branch 1 was taken 2 times"> + </span><span class="branchCov" title="Branch 2 was taken 188 times"> + </span><span class="branchCov" title="Branch 3 was taken 2 times"> + </span>]:<span class="lineCov">        380 :   if (0x0021&lt;=uc&amp;&amp;uc&lt;=0x007e)</span>
+<span class="lineNum">     282 </span>                :<span class="lineCov">        376 :     return uc-0x0020+0xff00;</span>
+<span class="lineNum">     283 </span>[<span class="branchCov" title="Branch 0 was taken 2 times"> + </span><span class="branchNoCov" title="Branch 1 was not taken"> - </span>][<span class="branchCov" title="Branch 2 was taken 2 times"> + </span><span class="branchNoCov" title="Branch 3 was not taken"> - </span>]:<span class="lineCov">          4 :   else if (uc==UTF_HANKAKU_SPACE)</span>
+<span class="lineNum">     284 </span>                :<span class="lineCov">          4 :     return UTF_ZENKAKU_SPACE;</span>
+<span class="lineNum">     285 </span>                :            :   else
+<span class="lineNum">     286 </span>                :<span class="lineNoCov">          0 :     return uc;</span>
+<span class="lineNum">     287 </span>                :            : }
+<span class="lineNum">     288 </span>                :            : } // namespace
+<span class="lineNum">     289 </span>                :            : 
+<span class="lineNum">     290 </span>                :<span class="lineCov">          4 : ustring zenkaku_latin_to_basic_latin(const ustring&amp; us)</span>
+<span class="lineNum">     291 </span>                :            : {
+<span class="lineNum">     292 </span>                :<span class="lineCov">          4 :   ustring res=us;</span>
+<span class="lineNum">     293 </span>        [<span class="branchCov" title="Branch 0 was taken 242 times"> + </span><span class="branchCov" title="Branch 1 was taken 4 times"> + </span>]:<span class="lineCov">        246 :   for (size_t i=0;i&lt;us.size();++i) {</span>
+<span class="lineNum">     294 </span>                :<span class="lineCov">        242 :     res[i]=zenkaku_latin_to_basic_latin_impl(us[i]);</span>
+<span class="lineNum">     295 </span>                :            :   }
+<span class="lineNum">     296 </span>                :<span class="lineCov">          4 :   return res;</span>
+<span class="lineNum">     297 </span>                :            : }
+<span class="lineNum">     298 </span>                :            : 
+<span class="lineNum">     299 </span>                :<span class="lineCov">          2 : ustring basic_latin_to_zenkaku_latin(const ustring&amp; us)</span>
+<span class="lineNum">     300 </span>                :            : {
+<span class="lineNum">     301 </span>                :<span class="lineCov">          2 :   ustring res=us;</span>
+<span class="lineNum">     302 </span>        [<span class="branchCov" title="Branch 0 was taken 190 times"> + </span><span class="branchCov" title="Branch 1 was taken 2 times"> + </span>]:<span class="lineCov">        192 :   for (size_t i=0;i&lt;us.size();++i) {</span>
+<span class="lineNum">     303 </span>                :<span class="lineCov">        190 :     res[i]=basic_latin_to_zenkaku_latin_impl(us[i]);</span>
+<span class="lineNum">     304 </span>                :            :   }
+<span class="lineNum">     305 </span>                :<span class="lineCov">          2 :   return res;</span>
+<span class="lineNum">     306 </span>                :            : }
+<span class="lineNum">     307 </span>                :            : 
+<span class="lineNum">     308 </span>                :<span class="lineCov">        190 : uchar zenkaku_latin_to_basic_latin(uchar uc)</span>
+<span class="lineNum">     309 </span>                :            : {
+<span class="lineNum">     310 </span>                :<span class="lineCov">        190 :   return zenkaku_latin_to_basic_latin_impl(uc);</span>
+<span class="lineNum">     311 </span>                :            : }
+<span class="lineNum">     312 </span>                :            : 
+<span class="lineNum">     313 </span>                :<span class="lineCov">        190 : uchar basic_latin_to_zenkaku_latin(uchar uc)</span>
+<span class="lineNum">     314 </span>                :            : {
+<span class="lineNum">     315 </span>                :<span class="lineCov">        190 :   return basic_latin_to_zenkaku_latin_impl(uc);</span>
+<span class="lineNum">     316 </span>                :            : }
+<span class="lineNum">     317 </span>                :            : 
+<span class="lineNum">     318 </span>                :<span class="lineNoCov">          0 : ostream&amp; operator&lt;&lt;(ostream&amp; out, const ustring&amp; us) {</span>
+<span class="lineNum">     319 </span>                :            :   ostreambuf_iterator&lt;char&gt; it(out);
+<span class="lineNum">     320 </span>        [<span class="branchNoExec" title="Branch 0 was not executed"> # </span><span class="branchNoExec" title="Branch 1 was not executed"> # </span>]:<span class="lineNoCov">          0 :   for (size_t i=0; i&lt;us.size(); i++)</span>
+<span class="lineNum">     321 </span>                :<span class="lineNoCov">          0 :     uchar_to_chars(us[i], it);</span>
+<span class="lineNum">     322 </span>                :<span class="lineNoCov">          0 :   return out;</span>
+<span class="lineNum">     323 </span>                :            : }
+<span class="lineNum">     324 </span>                :            : 
+<span class="lineNum">     325 </span>                :<span class="lineNoCov">          0 : istream&amp; operator&gt;&gt;(istream&amp; in, ustring&amp; us) {</span>
+<span class="lineNum">     326 </span>                :            :   std::string s;
+<span class="lineNum">     327 </span>                :<span class="lineNoCov">          0 :   in&gt;&gt;s;</span>
+<span class="lineNum">     328 </span>                :<span class="lineNoCov">          0 :   us=string_to_ustring(s);</span>
+<span class="lineNum">     329 </span>                :<span class="lineNoCov">          0 :   return in;</span>
+<span class="lineNum">     330 </span>                :            : }
+<span class="lineNum">     331 </span>                :            : 
+<span class="lineNum">     332 </span>                :            : } // string
+<span class="lineNum">     333 </span>                :            : } // data
+<span class="lineNum">     334 </span>                :            : } // pfi
+</pre>
+      </td>
+    </tr>
+  </table>
+  <br>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="ruler"><img src="../../glass.png" width=3 height=3 alt=""></td></tr>
+    <tr><td class="versionInfo">Generated by: <a href="http://ltp.sourceforge.net/coverage/lcov.php" target="_parent">LCOV version 1.9</a></td></tr>
+  </table>
+  <br>
+
+</body>
+</html>

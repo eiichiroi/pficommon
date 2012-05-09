@@ -1,0 +1,382 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html lang="en">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+  <title>LCOV - pficommon - visualization/ppm.h</title>
+  <link rel="stylesheet" type="text/css" href="../gcov.css">
+</head>
+
+<body>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="title">LCOV - code coverage report</td></tr>
+    <tr><td class="ruler"><img src="../glass.png" width=3 height=3 alt=""></td></tr>
+
+    <tr>
+      <td width="100%">
+        <table cellpadding=1 border=0 width="100%">
+          <tr>
+            <td width="10%" class="headerItem">Current view:</td>
+            <td width="35%" class="headerValue"><a href="../index.html">top level</a> - <a href="index.html">visualization</a> - ppm.h<span style="font-size: 80%;"> (source / <a href="ppm.h.func.html">functions</a>)</span></td>
+            <td width="5%"></td>
+            <td width="15%"></td>
+            <td width="10%" class="headerCovTableHead">Hit</td>
+            <td width="10%" class="headerCovTableHead">Total</td>
+            <td width="15%" class="headerCovTableHead">Coverage</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Test:</td>
+            <td class="headerValue">pficommon</td>
+            <td></td>
+            <td class="headerItem">Lines:</td>
+            <td class="headerCovTableEntry">63</td>
+            <td class="headerCovTableEntry">66</td>
+            <td class="headerCovTableEntryHi">95.5 %</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Date:</td>
+            <td class="headerValue">2012-05-09</td>
+            <td></td>
+            <td class="headerItem">Functions:</td>
+            <td class="headerCovTableEntry">6</td>
+            <td class="headerCovTableEntry">8</td>
+            <td class="headerCovTableEntryMed">75.0 %</td>
+          </tr>
+          <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td class="headerItem">Branches:</td>
+            <td class="headerCovTableEntry">122</td>
+            <td class="headerCovTableEntry">204</td>
+            <td class="headerCovTableEntryLo">59.8 %</td>
+          </tr>
+          <tr><td><img src="../glass.png" width=3 height=3 alt=""></td></tr>
+        </table>
+      </td>
+    </tr>
+
+    <tr><td class="ruler"><img src="../glass.png" width=3 height=3 alt=""></td></tr>
+  </table>
+
+  <table cellpadding=0 cellspacing=0 border=0>
+    <tr>
+      <td><br></td>
+    </tr>
+    <tr>
+      <td>
+<pre class="sourceHeading">           Branch data     Line data    Source code</pre>
+<pre class="source">
+<a name="1"><span class="lineNum">       1 </span>                :            : // Copyright (c)2008-2011, Preferred Infrastructure Inc.</a>
+<span class="lineNum">       2 </span>                :            : // 
+<span class="lineNum">       3 </span>                :            : // All rights reserved.
+<span class="lineNum">       4 </span>                :            : // 
+<span class="lineNum">       5 </span>                :            : // Redistribution and use in source and binary forms, with or without
+<span class="lineNum">       6 </span>                :            : // modification, are permitted provided that the following conditions are met:
+<span class="lineNum">       7 </span>                :            : // 
+<span class="lineNum">       8 </span>                :            : //     * Redistributions of source code must retain the above copyright
+<span class="lineNum">       9 </span>                :            : //       notice, this list of conditions and the following disclaimer.
+<span class="lineNum">      10 </span>                :            : // 
+<span class="lineNum">      11 </span>                :            : //     * Redistributions in binary form must reproduce the above
+<span class="lineNum">      12 </span>                :            : //       copyright notice, this list of conditions and the following
+<span class="lineNum">      13 </span>                :            : //       disclaimer in the documentation and/or other materials provided
+<span class="lineNum">      14 </span>                :            : //       with the distribution.
+<span class="lineNum">      15 </span>                :            : // 
+<span class="lineNum">      16 </span>                :            : //     * Neither the name of Preferred Infrastructure nor the names of other
+<span class="lineNum">      17 </span>                :            : //       contributors may be used to endorse or promote products derived
+<span class="lineNum">      18 </span>                :            : //       from this software without specific prior written permission.
+<span class="lineNum">      19 </span>                :            : // 
+<span class="lineNum">      20 </span>                :            : // THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+<span class="lineNum">      21 </span>                :            : // &quot;AS IS&quot; AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+<span class="lineNum">      22 </span>                :            : // LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+<span class="lineNum">      23 </span>                :            : // A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
+<span class="lineNum">      24 </span>                :            : // OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+<span class="lineNum">      25 </span>                :            : // SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+<span class="lineNum">      26 </span>                :            : // LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+<span class="lineNum">      27 </span>                :            : // DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+<span class="lineNum">      28 </span>                :            : // THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+<span class="lineNum">      29 </span>                :            : // (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+<span class="lineNum">      30 </span>                :            : // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+<span class="lineNum">      31 </span>                :            : 
+<span class="lineNum">      32 </span>                :            : #ifndef INCLUDE_GUARD_PFI_VISUALIZATION_PPM_H_
+<span class="lineNum">      33 </span>                :            : #define INCLUDE_GUARD_PFI_VISUALIZATION_PPM_H_
+<span class="lineNum">      34 </span>                :            : 
+<span class="lineNum">      35 </span>                :            : #include &lt;string&gt;
+<span class="lineNum">      36 </span>                :            : #include &lt;iostream&gt;
+<span class="lineNum">      37 </span>                :            : #include &lt;fstream&gt;
+<span class="lineNum">      38 </span>                :            : #include &lt;vector&gt;
+<span class="lineNum">      39 </span>                :            : #include &lt;complex&gt;
+<span class="lineNum">      40 </span>                :            : #include &lt;stdint.h&gt;
+<span class="lineNum">      41 </span>                :            : 
+<span class="lineNum">      42 </span>                :            : #include &quot;color.h&quot;
+<span class="lineNum">      43 </span>                :            : #include &quot;../math/vector.h&quot;
+<span class="lineNum">      44 </span>                :            : 
+<span class="lineNum">      45 </span>                :            : 
+<span class="lineNum">      46 </span>                :            : namespace pfi{
+<span class="lineNum">      47 </span>                :            : namespace visualization{
+<span class="lineNum">      48 </span>                :            : namespace ppm{
+<span class="lineNum">      49 </span>                :            : 
+<span class="lineNum">      50 </span>                :            : typedef int image_coordinate_t;
+<span class="lineNum">      51 </span>                :            : 
+<span class="lineNum">      52 </span>                :            :   /**
+<span class="lineNum">      53 </span>                :            :      full color ppm format loader/writer and image class.
+<span class="lineNum">      54 </span>                :            :      pixel data is 2d vector, complex or two image_coordinate_t.
+<span class="lineNum">      55 </span>                :            :    */
+<span class="lineNum">      56 </span>                :            : template &lt;class quantum&gt;
+<span class="lineNum">      57 </span>                :<span class="lineCov">          4 : class ppm{</span>
+<span class="lineNum">      58 </span>                :            : 
+<span class="lineNum">      59 </span>                :            : private:
+<span class="lineNum">      60 </span>                :            :   quantum my_max_color;  
+<span class="lineNum">      61 </span>                :            :   image_coordinate_t w, h;
+<span class="lineNum">      62 </span>                :            : 
+<span class="lineNum">      63 </span>                :            :   std::vector&lt;color::rgb&lt;quantum&gt; &gt; bmp;
+<span class="lineNum">      64 </span>                :            :   mutable pfi::visualization::color::rgb&lt;quantum&gt; out_of_range_quantum;
+<span class="lineNum">      65 </span>                :            : 
+<span class="lineNum">      66 </span>                :            : protected:
+<span class="lineNum">      67 </span>                :            :   bool is_valid_;
+<span class="lineNum">      68 </span>                :            : public:
+<span class="lineNum">      69 </span>                :            :   void set_is_valid(bool v) { is_valid_ = v; }
+<span class="lineNum">      70 </span>                :<span class="lineCov">          4 :   bool is_valid() { return is_valid_;}</span>
+<span class="lineNum">      71 </span>                :            :   
+<span class="lineNum">      72 </span>                :            : public:
+<span class="lineNum">      73 </span>                :            :   /// return color of out of range
+<span class="lineNum">      74 </span>                :            :   color::rgb&lt;quantum&gt; bgcolor; 
+<span class="lineNum">      75 </span>                :            : 
+<span class="lineNum">      76 </span>                :<span class="lineCov">    9718332 :   image_coordinate_t width() const{return w;}</span>
+<span class="lineNum">      77 </span>                :            : 
+<span class="lineNum">      78 </span>                :<span class="lineCov">     650587 :   image_coordinate_t height() const{return h;}</span>
+<span class="lineNum">      79 </span>                :            :   
+<span class="lineNum">      80 </span>                :            :   bool in(const image_coordinate_t &amp;x, const image_coordinate_t &amp;y) const{ 
+<span class="lineNum">      81 </span>[<span class="branchCov" title="Branch 0 was taken 8074962 times"> + </span><span class="branchNoCov" title="Branch 1 was not taken"> - </span>][<span class="branchCov" title="Branch 2 was taken 8074962 times"> + </span><span class="branchNoCov" title="Branch 3 was not taken"> - </span>]:<span class="lineCov">   11006563 :     return x&gt;=0 &amp;&amp; y&gt;=0 &amp;&amp; x&lt;w &amp;&amp; y&lt;h;</span>
+<span class="lineNum">         </span>[<span class="branchCov" title="Branch 4 was taken 8074962 times"> + </span><span class="branchNoCov" title="Branch 5 was not taken"> - </span>][<span class="branchCov" title="Branch 6 was taken 8074962 times"> + </span><span class="branchNoCov" title="Branch 7 was not taken"> - </span>]
+<span class="lineNum">         </span>[<span class="branchCov" title="Branch 8 was taken 22314 times"> + </span><span class="branchCov" title="Branch 9 was taken 1526 times"> + </span>][<span class="branchCov" title="Branch 10 was taken 20983 times"> + </span><span class="branchCov" title="Branch 11 was taken 1331 times"> + </span>]
+<span class="lineNum">         </span>[<span class="branchCov" title="Branch 12 was taken 19448 times"> + </span><span class="branchCov" title="Branch 13 was taken 1535 times"> + </span>][<span class="branchCov" title="Branch 14 was taken 18120 times"> + </span><span class="branchCov" title="Branch 15 was taken 1328 times"> + </span>]
+<span class="lineNum">         </span>[<span class="branchCov" title="Branch 16 was taken 22314 times"> + </span><span class="branchCov" title="Branch 17 was taken 1526 times"> + </span>][<span class="branchCov" title="Branch 18 was taken 20983 times"> + </span><span class="branchCov" title="Branch 19 was taken 1331 times"> + </span>]
+<span class="lineNum">         </span>[<span class="branchCov" title="Branch 20 was taken 19448 times"> + </span><span class="branchCov" title="Branch 21 was taken 1535 times"> + </span>][<span class="branchCov" title="Branch 22 was taken 18120 times"> + </span><span class="branchCov" title="Branch 23 was taken 1328 times"> + </span>]
+<span class="lineNum">         </span>[<span class="branchCov" title="Branch 24 was taken 18474 times"> + </span><span class="branchCov" title="Branch 25 was taken 1526 times"> + </span>][<span class="branchCov" title="Branch 26 was taken 17143 times"> + </span><span class="branchCov" title="Branch 27 was taken 1331 times"> + </span>]
+<span class="lineNum">         </span>[<span class="branchCov" title="Branch 28 was taken 15608 times"> + </span><span class="branchCov" title="Branch 29 was taken 1535 times"> + </span>][<span class="branchCov" title="Branch 30 was taken 14280 times"> + </span><span class="branchCov" title="Branch 31 was taken 1328 times"> + </span>]
+<span class="lineNum">         </span>[<span class="branchCov" title="Branch 32 was taken 18474 times"> + </span><span class="branchCov" title="Branch 33 was taken 1526 times"> + </span>][<span class="branchCov" title="Branch 34 was taken 17143 times"> + </span><span class="branchCov" title="Branch 35 was taken 1331 times"> + </span>]
+<span class="lineNum">         </span>[<span class="branchCov" title="Branch 36 was taken 15608 times"> + </span><span class="branchCov" title="Branch 37 was taken 1535 times"> + </span>][<span class="branchCov" title="Branch 38 was taken 14280 times"> + </span><span class="branchCov" title="Branch 39 was taken 1328 times"> + </span>]
+<span class="lineNum">         </span>[<span class="branchCov" title="Branch 40 was taken 1026 times"> + </span><span class="branchCov" title="Branch 41 was taken 974 times"> + </span>][<span class="branchCov" title="Branch 42 was taken 528 times"> + </span><span class="branchCov" title="Branch 43 was taken 498 times"> + </span>]
+<span class="lineNum">         </span>[<span class="branchNoCov" title="Branch 44 was not taken"> - </span><span class="branchCov" title="Branch 45 was taken 528 times"> + </span>][<span class="branchNoExec" title="Branch 46 was not executed"> # </span><span class="branchNoExec" title="Branch 47 was not executed"> # </span>]
+<span class="lineNum">         </span>[<span class="branchCov" title="Branch 48 was taken 1026 times"> + </span><span class="branchCov" title="Branch 49 was taken 974 times"> + </span>][<span class="branchCov" title="Branch 50 was taken 528 times"> + </span><span class="branchCov" title="Branch 51 was taken 498 times"> + </span>]
+<span class="lineNum">         </span>[<span class="branchNoCov" title="Branch 52 was not taken"> - </span><span class="branchCov" title="Branch 53 was taken 528 times"> + </span>][<span class="branchNoExec" title="Branch 54 was not executed"> # </span><span class="branchNoExec" title="Branch 55 was not executed"> # </span>]
+<span class="lineNum">         </span>[<span class="branchCov" title="Branch 56 was taken 396143 times"> + </span><span class="branchNoCov" title="Branch 57 was not taken"> - </span>][<span class="branchCov" title="Branch 58 was taken 396143 times"> + </span><span class="branchNoCov" title="Branch 59 was not taken"> - </span>]
+<span class="lineNum">         </span>[<span class="branchCov" title="Branch 60 was taken 396143 times"> + </span><span class="branchNoCov" title="Branch 61 was not taken"> - </span>][<span class="branchCov" title="Branch 62 was taken 396143 times"> + </span><span class="branchNoCov" title="Branch 63 was not taken"> - </span>]
+<span class="lineNum">         </span>[<span class="branchCov" title="Branch 64 was taken 396143 times"> + </span><span class="branchNoCov" title="Branch 65 was not taken"> - </span>][<span class="branchCov" title="Branch 66 was taken 396143 times"> + </span><span class="branchNoCov" title="Branch 67 was not taken"> - </span>]
+<span class="lineNum">         </span>[<span class="branchCov" title="Branch 68 was taken 396143 times"> + </span><span class="branchNoCov" title="Branch 69 was not taken"> - </span>][<span class="branchCov" title="Branch 70 was taken 396143 times"> + </span><span class="branchNoCov" title="Branch 71 was not taken"> - </span>]
+<span class="lineNum">         </span>[<span class="branchCov" title="Branch 72 was taken 287105 times"> + </span><span class="branchNoCov" title="Branch 73 was not taken"> - </span>][<span class="branchCov" title="Branch 74 was taken 287105 times"> + </span><span class="branchNoCov" title="Branch 75 was not taken"> - </span>]
+<span class="lineNum">         </span>[<span class="branchCov" title="Branch 76 was taken 287105 times"> + </span><span class="branchNoCov" title="Branch 77 was not taken"> - </span>][<span class="branchCov" title="Branch 78 was taken 287105 times"> + </span><span class="branchNoCov" title="Branch 79 was not taken"> - </span>]
+<span class="lineNum">         </span>[<span class="branchCov" title="Branch 80 was taken 287105 times"> + </span><span class="branchNoCov" title="Branch 81 was not taken"> - </span>][<span class="branchCov" title="Branch 82 was taken 287105 times"> + </span><span class="branchNoCov" title="Branch 83 was not taken"> - </span>]
+<span class="lineNum">         </span>[<span class="branchNoCov" title="Branch 84 was not taken"> - </span><span class="branchCov" title="Branch 85 was taken 287105 times"> + </span>][<span class="branchNoExec" title="Branch 86 was not executed"> # </span><span class="branchNoExec" title="Branch 87 was not executed"> # </span>]
+<span class="lineNum">         </span>[<span class="branchNoCov" title="Branch 88 was not taken"> - </span><span class="branchCov" title="Branch 89 was taken 287105 times"> + </span>][<span class="branchNoExec" title="Branch 90 was not executed"> # </span><span class="branchNoExec" title="Branch 91 was not executed"> # </span>]
+<span class="lineNum">         </span>[<span class="branchNoExec" title="Branch 92 was not executed"> # </span><span class="branchNoExec" title="Branch 93 was not executed"> # </span>][<span class="branchNoExec" title="Branch 94 was not executed"> # </span><span class="branchNoExec" title="Branch 95 was not executed"> # </span>]
+<span class="lineNum">         </span>[<span class="branchCov" title="Branch 96 was taken 287105 times"> + </span><span class="branchNoCov" title="Branch 97 was not taken"> - </span>][<span class="branchCov" title="Branch 98 was taken 287105 times"> + </span><span class="branchNoCov" title="Branch 99 was not taken"> - </span>]
+<span class="lineNum">         </span>[<span class="branchCov" title="Branch 100 was taken 287105 times"> + </span><span class="branchNoCov" title="Branch 101 was not taken"> - </span>][<span class="branchNoCov" title="Branch 102 was not taken"> - </span><span class="branchCov" title="Branch 103 was taken 287105 times"> + </span>]
+<span class="lineNum">         </span>[<span class="branchCov" title="Branch 104 was taken 287105 times"> + </span><span class="branchNoCov" title="Branch 105 was not taken"> - </span>][<span class="branchNoCov" title="Branch 106 was not taken"> - </span><span class="branchCov" title="Branch 107 was taken 287105 times"> + </span>]
+<span class="lineNum">         </span>[<span class="branchNoExec" title="Branch 108 was not executed"> # </span><span class="branchNoExec" title="Branch 109 was not executed"> # </span>][<span class="branchNoExec" title="Branch 110 was not executed"> # </span><span class="branchNoExec" title="Branch 111 was not executed"> # </span>]
+<span class="lineNum">         </span>[<span class="branchCov" title="Branch 112 was taken 302215 times"> + </span><span class="branchNoCov" title="Branch 113 was not taken"> - </span>][<span class="branchCov" title="Branch 114 was taken 302215 times"> + </span><span class="branchNoCov" title="Branch 115 was not taken"> - </span>]
+<span class="lineNum">         </span>[<span class="branchCov" title="Branch 116 was taken 302215 times"> + </span><span class="branchNoCov" title="Branch 117 was not taken"> - </span>][<span class="branchCov" title="Branch 118 was taken 302215 times"> + </span><span class="branchNoCov" title="Branch 119 was not taken"> - </span>]
+<span class="lineNum">         </span>[<span class="branchCov" title="Branch 120 was taken 302215 times"> + </span><span class="branchNoCov" title="Branch 121 was not taken"> - </span>][<span class="branchCov" title="Branch 122 was taken 302215 times"> + </span><span class="branchNoCov" title="Branch 123 was not taken"> - </span>]
+<span class="lineNum">         </span>[<span class="branchCov" title="Branch 124 was taken 302215 times"> + </span><span class="branchNoCov" title="Branch 125 was not taken"> - </span>][<span class="branchCov" title="Branch 126 was taken 302215 times"> + </span><span class="branchNoCov" title="Branch 127 was not taken"> - </span>]
+<span class="lineNum">         </span>[<span class="branchCov" title="Branch 0 was taken 3840 times"> + </span><span class="branchNoCov" title="Branch 1 was not taken"> - </span>][<span class="branchCov" title="Branch 2 was taken 3840 times"> + </span><span class="branchNoCov" title="Branch 3 was not taken"> - </span>]
+<span class="lineNum">         </span>[<span class="branchCov" title="Branch 4 was taken 3840 times"> + </span><span class="branchNoCov" title="Branch 5 was not taken"> - </span>][<span class="branchCov" title="Branch 6 was taken 3840 times"> + </span><span class="branchNoCov" title="Branch 7 was not taken"> - </span>]
+<span class="lineNum">         </span>[<span class="branchCov" title="Branch 24 was taken 3840 times"> + </span><span class="branchNoCov" title="Branch 25 was not taken"> - </span>][<span class="branchCov" title="Branch 26 was taken 3840 times"> + </span><span class="branchNoCov" title="Branch 27 was not taken"> - </span>]
+<span class="lineNum">         </span>[<span class="branchCov" title="Branch 28 was taken 3840 times"> + </span><span class="branchNoCov" title="Branch 29 was not taken"> - </span>][<span class="branchCov" title="Branch 30 was taken 3840 times"> + </span><span class="branchNoCov" title="Branch 31 was not taken"> - </span>]
+<span class="lineNum">      82 </span>                :            :   }
+<span class="lineNum">      83 </span>                :            :   template&lt;class r&gt;
+<span class="lineNum">      84 </span>                :            :   bool in(const pfi::math::vector::component_by_name::vector2&lt;r&gt; &amp;p) const{
+<span class="lineNum">      85 </span>                :            :     return in((image_coordinate_t)p.x, (image_coordinate_t)p.y);
+<span class="lineNum">      86 </span>                :            :   }
+<span class="lineNum">      87 </span>                :            :   template&lt;class r&gt;
+<span class="lineNum">      88 </span>                :            :   bool in(const std::complex&lt;r&gt; &amp;p) const{
+<span class="lineNum">      89 </span>                :            :     return in((image_coordinate_t)p.real(), (image_coordinate_t)p.imag());
+<span class="lineNum">      90 </span>                :            :   }
+<span class="lineNum">      91 </span>                :            : 
+<span class="lineNum">      92 </span>                :            :   const color::rgb&lt;quantum&gt; &amp;operator()(image_coordinate_t x,image_coordinate_t y) const{
+<span class="lineNum">      93 </span>                :            :     if(!in(x,y)) {
+<span class="lineNum">      94 </span>                :            :       out_of_range_quantum = bgcolor;
+<span class="lineNum">      95 </span>                :            :       return out_of_range_quantum;
+<span class="lineNum">      96 </span>                :            :     }
+<span class="lineNum">      97 </span>                :            :     return bmp[y*w+x];
+<span class="lineNum">      98 </span>                :            :   }
+<span class="lineNum">      99 </span>                :            :   color::rgb&lt;quantum&gt; &amp;operator()(image_coordinate_t x,image_coordinate_t y){
+<span class="lineNum">     100 </span>[<span class="branchNoCov" title="Branch 0 was not taken"> - </span><span class="branchCov" title="Branch 1 was taken 8078802 times"> + </span>][<span class="branchCov" title="Branch 2 was taken 5720 times"> + </span><span class="branchCov" title="Branch 3 was taken 18120 times"> + </span>]:<span class="lineCov">    9571038 :     if(!in(x,y)) {</span>
+<span class="lineNum">         </span>[<span class="branchCov" title="Branch 4 was taken 5720 times"> + </span><span class="branchCov" title="Branch 5 was taken 18120 times"> + </span>][<span class="branchCov" title="Branch 6 was taken 5720 times"> + </span><span class="branchCov" title="Branch 7 was taken 18120 times"> + </span>]
+<span class="lineNum">         </span>[<span class="branchCov" title="Branch 8 was taken 5720 times"> + </span><span class="branchCov" title="Branch 9 was taken 14280 times"> + </span>][<span class="branchCov" title="Branch 10 was taken 2000 times"> + </span><span class="branchNoCov" title="Branch 11 was not taken"> - </span>]
+<span class="lineNum">         </span>[<span class="branchCov" title="Branch 12 was taken 2000 times"> + </span><span class="branchNoCov" title="Branch 13 was not taken"> - </span>][<span class="branchNoCov" title="Branch 14 was not taken"> - </span><span class="branchCov" title="Branch 15 was taken 396143 times"> + </span>]
+<span class="lineNum">         </span>[<span class="branchNoCov" title="Branch 16 was not taken"> - </span><span class="branchCov" title="Branch 17 was taken 396143 times"> + </span>][<span class="branchNoCov" title="Branch 18 was not taken"> - </span><span class="branchCov" title="Branch 19 was taken 302215 times"> + </span>]
+<span class="lineNum">         </span>        [<span class="branchNoCov" title="Branch 20 was not taken"> - </span><span class="branchCov" title="Branch 21 was taken 302215 times"> + </span>]
+<span class="lineNum">     101 </span>                :<span class="lineCov">      26880 :       out_of_range_quantum = bgcolor;</span>
+<span class="lineNum">     102 </span>                :<span class="lineCov">      26880 :       return out_of_range_quantum;</span>
+<span class="lineNum">     103 </span>                :            :     }
+<span class="lineNum">     104 </span>                :<span class="lineCov">    9544158 :     return bmp[y*w+x];</span>
+<span class="lineNum">     105 </span>                :            :   }
+<span class="lineNum">     106 </span>                :            : 
+<span class="lineNum">     107 </span>                :            :   template&lt;class r&gt;
+<span class="lineNum">     108 </span>                :            :   const color::rgb&lt;quantum&gt; &amp;operator()(const pfi::math::vector::component_by_name::vector2&lt;r&gt; &amp;p) const{
+<span class="lineNum">     109 </span>                :            :     return operator()((image_coordinate_t)p.x,(image_coordinate_t)p.y);
+<span class="lineNum">     110 </span>                :            :   }
+<span class="lineNum">     111 </span>                :            :   template&lt;class r&gt;
+<span class="lineNum">     112 </span>                :            :   color::rgb&lt;quantum&gt; &amp;operator()(const pfi::math::vector::component_by_name::vector2&lt;r&gt; &amp;p){
+<span class="lineNum">     113 </span>                :<span class="lineCov">      40000 :     return operator()((image_coordinate_t)p.x,(image_coordinate_t)p.y);</span>
+<span class="lineNum">     114 </span>                :            :   }
+<span class="lineNum">     115 </span>                :            :   template&lt;class r&gt;
+<span class="lineNum">     116 </span>                :            :   const color::rgb&lt;quantum&gt; &amp;operator()(const std::complex&lt;r&gt; &amp;p) const{
+<span class="lineNum">     117 </span>                :            :     return operator()((image_coordinate_t)p.real(),(image_coordinate_t)p.imag());
+<span class="lineNum">     118 </span>                :            :   }
+<span class="lineNum">     119 </span>                :            :   template&lt;class r&gt;
+<span class="lineNum">     120 </span>                :            :   color::rgb&lt;quantum&gt; &amp;operator()(const std::complex&lt;r&gt; &amp;p){
+<span class="lineNum">     121 </span>                :<span class="lineCov">      60000 :     return operator()((image_coordinate_t)p.real(),(image_coordinate_t)p.imag());</span>
+<span class="lineNum">     122 </span>                :            :   }
+<span class="lineNum">     123 </span>                :            : 
+<span class="lineNum">     124 </span>                :            :   /// maximum value of color
+<span class="lineNum">     125 </span>                :<span class="lineCov">       3840 :   const quantum max_color() const{return my_max_color;}</span>
+<a name="126"><span class="lineNum">     126 </span>                :            : </a>
+<span class="lineNum">     127 </span>                :            :   /// set maximum value of color
+<span class="lineNum">     128 </span>                :<span class="lineCov">         62 :   void set_max_color(quantum mc) {my_max_color = mc;}</span>
+<span class="lineNum">     129 </span>                :            : 
+<span class="lineNum">     130 </span>                :            :   /// set maximum value of color and rescale.
+<span class="lineNum">     131 </span>                :            :   void rescale_max_color(quantum mc) {
+<span class="lineNum">     132 </span>                :            :     double scale = mc / my_max_color;
+<span class="lineNum">     133 </span>                :            :     for(int i = 0; i &lt; bmp.size(); ++i){
+<span class="lineNum">     134 </span>                :            :       bmp[i].r = quantum(bmp[i].r * scale);
+<span class="lineNum">     135 </span>                :            :       bmp[i].g = quantum(bmp[i].g * scale);
+<span class="lineNum">     136 </span>                :            :       bmp[i].b = quantum(bmp[i].b * scale);
+<span class="lineNum">     137 </span>                :            :     }
+<span class="lineNum">     138 </span>                :            :     my_max_color = mc;
+<span class="lineNum">     139 </span>                :            :   }
+<span class="lineNum">     140 </span>                :            : 
+<span class="lineNum">     141 </span>                :<span class="lineCov">          8 :   ppm() : is_valid_(false) {}</span>
+<span class="lineNum">     142 </span>                :            : 
+<span class="lineNum">     143 </span>                :            :   /// create w * h bitmap
+<span class="lineNum">     144 </span>                :<span class="lineCov">          4 :   ppm(int w,int h):w(w), h(h), bmp(w*h), is_valid_(false) {}</span>
+<a name="145"><span class="lineNum">     145 </span>                :            : </a>
+<span class="lineNum">     146 </span>                :            :   /// create w * h bitmap of specified color
+<span class="lineNum">     147 </span>                :<span class="lineCov">        340 :   ppm(int w,int h,color::rgb&lt;quantum&gt; c):w(w), h(h), bmp(w*h,c), is_valid_(true), bgcolor(c){}</span>
+<span class="lineNum">     148 </span>                :            : 
+<span class="lineNum">     149 </span>                :            :   /// load specified image file
+<span class="lineNum">     150 </span>                :            :   /// if it fails, image become to default
+<span class="lineNum">     151 </span>                :            :   ppm(const std::string &amp;filename, 
+<span class="lineNum">     152 </span>                :<span class="lineCov">         40 :       ppm&lt;quantum&gt; default_ppm=ppm&lt;quantum&gt;(1,1,color::rgb&lt;quantum&gt;(0,0,0))){</span>
+<span class="lineNum">     153 </span>                :<span class="lineCov">         20 :     is_valid_ = true;</span>
+<span class="lineNum">     154 </span>                :<span class="lineCov">         20 :     std::ifstream cin(filename.c_str());</span>
+<span class="lineNum">     155 </span>[<span class="branchCov" title="Branch 0 was taken 20 times"> + </span><span class="branchNoCov" title="Branch 1 was not taken"> - </span>][<span class="branchNoCov" title="Branch 3 was not taken"> - </span><span class="branchCov" title="Branch 4 was taken 20 times"> + </span>]:<span class="lineCov">         20 :     if(!cin || !read(cin)){</span>
+<span class="lineNum">         </span>        [<span class="branchNoCov" title="Branch 5 was not taken"> - </span><span class="branchCov" title="Branch 6 was taken 20 times"> + </span>]
+<span class="lineNum">     156 </span>                :            :       *this=default_ppm;
+<span class="lineNum">     157 </span>                :<span class="lineCov">         20 :       is_valid_ = false;</span>
+<span class="lineNum">     158 </span>                :            :     }
+<span class="lineNum">     159 </span>                :            :   }
+<span class="lineNum">     160 </span>                :            : 
+<span class="lineNum">     161 </span>                :            :   /// load image from istream.
+<span class="lineNum">     162 </span>                :            :   /// same as above
+<span class="lineNum">     163 </span>                :            :   ppm(std::istream &amp;cin, 
+<span class="lineNum">     164 </span>                :<span class="lineCov">         40 :       ppm&lt;quantum&gt; default_ppm=ppm&lt;quantum&gt;(1,1,color::rgb&lt;quantum&gt;(0,0,0))){</span>
+<span class="lineNum">     165 </span>                :<span class="lineCov">         20 :     is_valid_ = true;</span>
+<span class="lineNum">     166 </span>[<span class="branchCov" title="Branch 0 was taken 20 times"> + </span><span class="branchNoCov" title="Branch 1 was not taken"> - </span>][<span class="branchNoCov" title="Branch 3 was not taken"> - </span><span class="branchCov" title="Branch 4 was taken 20 times"> + </span>]:<span class="lineCov">         20 :     if(!cin || !read(cin)){</span>
+<span class="lineNum">         </span>        [<span class="branchNoCov" title="Branch 5 was not taken"> - </span><span class="branchCov" title="Branch 6 was taken 20 times"> + </span>]
+<span class="lineNum">     167 </span>                :            :       *this=default_ppm;
+<span class="lineNum">     168 </span>                :<span class="lineNoCov">          0 :       is_valid_ = false;</span>
+<span class="lineNum">     169 </span>                :            :     }
+<a name="170"><span class="lineNum">     170 </span>                :            :   }</a>
+<span class="lineNum">     171 </span>                :            : 
+<span class="lineNum">     172 </span>        [<span class="branchNoCov" title="Branch 0 was not taken"> - </span><span class="branchCov" title="Branch 1 was taken 408 times"> + </span>]:<span class="lineCov">        408 :   virtual ~ppm(){}</span>
+<span class="lineNum">     173 </span>                :            : 
+<span class="lineNum">     174 </span>                :            :   /// load image from istream
+<span class="lineNum">     175 </span>                :<span class="lineCov">         60 :   bool read(std::istream &amp;cin){</span>
+<span class="lineNum">     176 </span>                :<span class="lineCov">         60 :     int header_count=0;</span>
+<span class="lineNum">     177 </span>                :            :     std::string format_str; quantum c_m;
+<span class="lineNum">     178 </span>        [<span class="branchCov" title="Branch 4 was taken 180 times"> + </span><span class="branchCov" title="Branch 5 was taken 60 times"> + </span>]:<span class="lineCov">        240 :     while(header_count &lt; 3){</span>
+<span class="lineNum">     179 </span>                :            :       std::string line;
+<span class="lineNum">     180 </span>        [<span class="branchNoCov" title="Branch 0 was not taken"> - </span><span class="branchCov" title="Branch 1 was taken 180 times"> + </span>]:<span class="lineCov">        180 :       if(!cin) return is_valid_ = false;</span>
+<span class="lineNum">     181 </span>                :<span class="lineCov">        180 :       getline(cin,line);</span>
+<span class="lineNum">     182 </span>        [<span class="branchNoCov" title="Branch 0 was not taken"> - </span><span class="branchCov" title="Branch 1 was taken 180 times"> + </span>]:<span class="lineCov">        180 :       if(line[0]=='#'){</span>
+<span class="lineNum">     183 </span>                :<span class="lineNoCov">          0 :         continue;</span>
+<span class="lineNum">     184 </span>                :            :       }else{
+<span class="lineNum">     185 </span>                :<span class="lineCov">        180 :         std::istringstream iss(line);</span>
+<span class="lineNum">     186 </span>  [<span class="branchCov" title="Branch 0 was taken 60 times"> + </span><span class="branchCov" title="Branch 1 was taken 60 times"> + </span><span class="branchCov" title="Branch 2 was taken 60 times"> + </span><span class="branchNoCov" title="Branch 3 was not taken"> - </span>]:<span class="lineCov">        180 :         switch(header_count++){</span>
+<span class="lineNum">     187 </span>                :            :         case 0:
+<span class="lineNum">     188 </span>                :<span class="lineCov">         60 :           iss&gt;&gt;format_str;</span>
+<span class="lineNum">     189 </span>                :            :           break;
+<span class="lineNum">     190 </span>                :            :         case 1:
+<span class="lineNum">     191 </span>                :<span class="lineCov">         60 :           iss &gt;&gt; w &gt;&gt; h;</span>
+<span class="lineNum">     192 </span>                :            :           break;
+<span class="lineNum">     193 </span>                :            :         case 2:
+<span class="lineNum">     194 </span>                :            :           iss &gt;&gt; c_m;
+<span class="lineNum">     195 </span>                :<span class="lineCov">         60 :           my_max_color = c_m;</span>
+<span class="lineNum">     196 </span>                :<span class="lineCov">         60 :           break;</span>
+<span class="lineNum">     197 </span>                :            :         default:
+<span class="lineNum">     198 </span>                :            : #ifdef TEST
+<span class="lineNum">     199 </span>        [<span class="branchNoExec" title="Branch 0 was not executed"> # </span><span class="branchNoExec" title="Branch 1 was not executed"> # </span>]:<span class="lineNoCov">          0 :           EXPECT_TRUE(false) &lt;&lt; &quot;ppm header parsing algorithm wrong&quot; &lt;&lt; std::endl;</span>
+<span class="lineNum">     200 </span>                :            : #endif
+<span class="lineNum">     201 </span>                :<span class="lineCov">        180 :           break;</span>
+<span class="lineNum">     202 </span>                :            :         }
+<span class="lineNum">     203 </span>                :            :       }
+<span class="lineNum">     204 </span>                :            :     }
+<span class="lineNum">     205 </span>                :            : 
+<span class="lineNum">     206 </span>                :<span class="lineCov">         60 :     bmp.clear();</span>
+<span class="lineNum">     207 </span>        [<span class="branchCov" title="Branch 0 was taken 7524 times"> + </span><span class="branchCov" title="Branch 1 was taken 60 times"> + </span>]:<span class="lineCov">       7584 :     for(int y=0;y&lt;h;++y){</span>
+<span class="lineNum">     208 </span>        [<span class="branchCov" title="Branch 0 was taken 906645 times"> + </span><span class="branchCov" title="Branch 1 was taken 7524 times"> + </span>]:<span class="lineCov">     914169 :       for(int x=0;x&lt;w;++x){</span>
+<span class="lineNum">     209 </span>                :            :         quantum r,g,b;
+<span class="lineNum">     210 </span>        [<span class="branchNoCov" title="Branch 0 was not taken"> - </span><span class="branchCov" title="Branch 1 was taken 906645 times"> + </span>]:<span class="lineCov">     906645 :         if(!cin) return is_valid_ = false;</span>
+<span class="lineNum">     211 </span>                :<span class="lineCov">     906645 :         r=(quantum)cin.get();</span>
+<span class="lineNum">     212 </span>        [<span class="branchNoCov" title="Branch 0 was not taken"> - </span><span class="branchCov" title="Branch 1 was taken 906645 times"> + </span>]:<span class="lineCov">     906645 :         if(!cin) return is_valid_ = false;</span>
+<span class="lineNum">     213 </span>                :<span class="lineCov">     906645 :         g=(quantum)cin.get();</span>
+<span class="lineNum">     214 </span>        [<span class="branchNoCov" title="Branch 0 was not taken"> - </span><span class="branchCov" title="Branch 1 was taken 906645 times"> + </span>]:<span class="lineCov">     906645 :         if(!cin) return is_valid_ = false;</span>
+<span class="lineNum">     215 </span>                :<span class="lineCov">     906645 :         b=(quantum)cin.get();</span>
+<span class="lineNum">     216 </span>                :<span class="lineCov">    1813290 :         bmp.push_back(color::rgb&lt;quantum&gt;(r,g,b));</span>
+<span class="lineNum">     217 </span>                :            :       }
+<span class="lineNum">     218 </span>                :            :     }
+<span class="lineNum">     219 </span>                :            :     this-&gt;set_max_color(255);
+<span class="lineNum">     220 </span>                :<span class="lineCov">         60 :     return is_valid_ = true;</span>
+<span class="lineNum">     221 </span>                :            :   }
+<span class="lineNum">     222 </span>                :            :   /// load image from file
+<span class="lineNum">     223 </span>                :            :   bool read(const std::string &amp;filename){
+<span class="lineNum">     224 </span>                :<span class="lineCov">         20 :     std::ifstream cin(filename.c_str());</span>
+<span class="lineNum">     225 </span>                :<span class="lineCov">         20 :     return read(cin);</span>
+<span class="lineNum">     226 </span>                :            :   }
+<a name="227"><span class="lineNum">     227 </span>                :            : </a>
+<span class="lineNum">     228 </span>                :            :   /// write PPM binary ('P6' format) to ostream
+<span class="lineNum">     229 </span>                :<span class="lineCov">         60 :   void write(std::ostream &amp;cout){</span>
+<span class="lineNum">     230 </span>                :            : 
+<span class="lineNum">     231 </span>                :<span class="lineCov">        120 :     cout &lt;&lt; &quot;P6&quot; &lt;&lt; std::endl </span>
+<span class="lineNum">     232 </span>                :            :          &lt;&lt; w &lt;&lt; &quot; &quot; &lt;&lt; h &lt;&lt; std::endl 
+<span class="lineNum">     233 </span>                :            :          &lt;&lt; my_max_color &lt;&lt; std::endl;
+<span class="lineNum">     234 </span>        [<span class="branchCov" title="Branch 0 was taken 906645 times"> + </span><span class="branchCov" title="Branch 1 was taken 60 times"> + </span>]:<span class="lineCov">     906705 :     for(size_t i=0;i&lt;bmp.size();++i){</span>
+<span class="lineNum">     235 </span>                :<span class="lineCov">     906645 :       cout.put(__nc(bmp[i].r));</span>
+<span class="lineNum">     236 </span>                :<span class="lineCov">     906645 :       cout.put(__nc(bmp[i].g));</span>
+<span class="lineNum">     237 </span>                :<span class="lineCov">     906645 :       cout.put(__nc(bmp[i].b));</span>
+<span class="lineNum">     238 </span>                :            :     }
+<span class="lineNum">     239 </span>                :<span class="lineCov">         60 :   }</span>
+<a name="240"><span class="lineNum">     240 </span>                :            : </a>
+<span class="lineNum">     241 </span>                :            :   /// write PPM binary to file.
+<span class="lineNum">     242 </span>                :<span class="lineCov">         40 :   void write(const std::string &amp;filename){</span>
+<span class="lineNum">     243 </span>                :<span class="lineCov">         40 :     std::ofstream cout(filename.c_str());</span>
+<span class="lineNum">     244 </span>                :<span class="lineCov">         40 :     write(cout);</span>
+<span class="lineNum">     245 </span>                :<span class="lineCov">         40 :   }</span>
+<span class="lineNum">     246 </span>                :            : private:
+<span class="lineNum">     247 </span>                :            :   uint8_t __nc(quantum c){
+<span class="lineNum">     248 </span>                :            :     if(c&lt;0) c=0;
+<span class="lineNum">     249 </span>                :            :     if(c&gt;255) c=255;
+<span class="lineNum">     250 </span>                :<span class="lineCov">    2719935 :     return uint8_t(c);</span>
+<span class="lineNum">     251 </span>                :            :   }
+<span class="lineNum">     252 </span>                :            : };
+<span class="lineNum">     253 </span>                :            : 
+<span class="lineNum">     254 </span>                :            : }}}//namespaces
+<span class="lineNum">     255 </span>                :            : #endif // #ifndef INCLUDE_GUARD_PFI_VISUALIZATION_PPM_H_
+</pre>
+      </td>
+    </tr>
+  </table>
+  <br>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="ruler"><img src="../glass.png" width=3 height=3 alt=""></td></tr>
+    <tr><td class="versionInfo">Generated by: <a href="http://ltp.sourceforge.net/coverage/lcov.php" target="_parent">LCOV version 1.9</a></td></tr>
+  </table>
+  <br>
+
+</body>
+</html>

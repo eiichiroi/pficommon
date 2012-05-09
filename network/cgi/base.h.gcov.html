@@ -1,0 +1,182 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html lang="en">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+  <title>LCOV - pficommon - network/cgi/base.h</title>
+  <link rel="stylesheet" type="text/css" href="../../gcov.css">
+</head>
+
+<body>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="title">LCOV - code coverage report</td></tr>
+    <tr><td class="ruler"><img src="../../glass.png" width=3 height=3 alt=""></td></tr>
+
+    <tr>
+      <td width="100%">
+        <table cellpadding=1 border=0 width="100%">
+          <tr>
+            <td width="10%" class="headerItem">Current view:</td>
+            <td width="35%" class="headerValue"><a href="../../index.html">top level</a> - <a href="index.html">network/cgi</a> - base.h<span style="font-size: 80%;"> (source / <a href="base.h.func.html">functions</a>)</span></td>
+            <td width="5%"></td>
+            <td width="15%"></td>
+            <td width="10%" class="headerCovTableHead">Hit</td>
+            <td width="10%" class="headerCovTableHead">Total</td>
+            <td width="15%" class="headerCovTableHead">Coverage</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Test:</td>
+            <td class="headerValue">pficommon</td>
+            <td></td>
+            <td class="headerItem">Lines:</td>
+            <td class="headerCovTableEntry">0</td>
+            <td class="headerCovTableEntry">5</td>
+            <td class="headerCovTableEntryLo">0.0 %</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Date:</td>
+            <td class="headerValue">2012-05-09</td>
+            <td></td>
+            <td class="headerItem">Functions:</td>
+            <td class="headerCovTableEntry">0</td>
+            <td class="headerCovTableEntry">6</td>
+            <td class="headerCovTableEntryLo">0.0 %</td>
+          </tr>
+          <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td class="headerItem">Branches:</td>
+            <td class="headerCovTableEntry">0</td>
+            <td class="headerCovTableEntry">14</td>
+            <td class="headerCovTableEntryLo">0.0 %</td>
+          </tr>
+          <tr><td><img src="../../glass.png" width=3 height=3 alt=""></td></tr>
+        </table>
+      </td>
+    </tr>
+
+    <tr><td class="ruler"><img src="../../glass.png" width=3 height=3 alt=""></td></tr>
+  </table>
+
+  <table cellpadding=0 cellspacing=0 border=0>
+    <tr>
+      <td><br></td>
+    </tr>
+    <tr>
+      <td>
+<pre class="sourceHeading">           Branch data     Line data    Source code</pre>
+<pre class="source">
+<a name="1"><span class="lineNum">       1 </span>                :            : // Copyright (c)2008-2011, Preferred Infrastructure Inc.</a>
+<span class="lineNum">       2 </span>                :            : // 
+<span class="lineNum">       3 </span>                :            : // All rights reserved.
+<span class="lineNum">       4 </span>                :            : // 
+<span class="lineNum">       5 </span>                :            : // Redistribution and use in source and binary forms, with or without
+<span class="lineNum">       6 </span>                :            : // modification, are permitted provided that the following conditions are met:
+<span class="lineNum">       7 </span>                :            : // 
+<span class="lineNum">       8 </span>                :            : //     * Redistributions of source code must retain the above copyright
+<span class="lineNum">       9 </span>                :            : //       notice, this list of conditions and the following disclaimer.
+<span class="lineNum">      10 </span>                :            : // 
+<span class="lineNum">      11 </span>                :            : //     * Redistributions in binary form must reproduce the above
+<span class="lineNum">      12 </span>                :            : //       copyright notice, this list of conditions and the following
+<span class="lineNum">      13 </span>                :            : //       disclaimer in the documentation and/or other materials provided
+<span class="lineNum">      14 </span>                :            : //       with the distribution.
+<span class="lineNum">      15 </span>                :            : // 
+<span class="lineNum">      16 </span>                :            : //     * Neither the name of Preferred Infrastructure nor the names of other
+<span class="lineNum">      17 </span>                :            : //       contributors may be used to endorse or promote products derived
+<span class="lineNum">      18 </span>                :            : //       from this software without specific prior written permission.
+<span class="lineNum">      19 </span>                :            : // 
+<span class="lineNum">      20 </span>                :            : // THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+<span class="lineNum">      21 </span>                :            : // &quot;AS IS&quot; AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+<span class="lineNum">      22 </span>                :            : // LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+<span class="lineNum">      23 </span>                :            : // A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
+<span class="lineNum">      24 </span>                :            : // OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+<span class="lineNum">      25 </span>                :            : // SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+<span class="lineNum">      26 </span>                :            : // LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+<span class="lineNum">      27 </span>                :            : // DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+<span class="lineNum">      28 </span>                :            : // THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+<span class="lineNum">      29 </span>                :            : // (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+<span class="lineNum">      30 </span>                :            : // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+<span class="lineNum">      31 </span>                :            : 
+<span class="lineNum">      32 </span>                :            : #ifndef INCLUDE_GUARD_PFI_NETWORK_CGI_BASE_H_
+<span class="lineNum">      33 </span>                :            : #define INCLUDE_GUARD_PFI_NETWORK_CGI_BASE_H_
+<span class="lineNum">      34 </span>                :            : 
+<span class="lineNum">      35 </span>                :            : #include &lt;iostream&gt;
+<span class="lineNum">      36 </span>                :            : #include &lt;vector&gt;
+<span class="lineNum">      37 </span>                :            : #include &lt;map&gt;
+<span class="lineNum">      38 </span>                :            : #include &lt;stdexcept&gt;
+<span class="lineNum">      39 </span>                :            : 
+<span class="lineNum">      40 </span>                :            : #include &quot;../http.h&quot;
+<span class="lineNum">      41 </span>                :            : 
+<span class="lineNum">      42 </span>                :            : namespace pfi{
+<span class="lineNum">      43 </span>                :            : namespace network{
+<span class="lineNum">      44 </span>                :            : namespace cgi{
+<span class="lineNum">      45 </span>                :            : 
+<a name="46"><span class="lineNum">      46 </span>                :<span class="lineNoCov">          0 : class clonable{</span></a>
+<a name="47"><span class="lineNum">      47 </span>                :            : public:</a>
+<span class="lineNum">      48 </span>        [<span class="branchNoExec" title="Branch 0 was not executed"> # </span><span class="branchNoExec" title="Branch 1 was not executed"> # </span>]:<span class="lineNoCov">          0 :   virtual ~clonable() {}</span>
+<span class="lineNum">      49 </span>                :<span class="lineNoCov">          0 :   virtual clonable *clone() const {</span>
+<span class="lineNum">      50 </span>                :<span class="lineNoCov">          0 :     throw std::runtime_error(&quot;this class cannot clone&quot;);</span>
+<span class="lineNum">      51 </span>                :            :   }
+<span class="lineNum">      52 </span>                :            : };
+<span class="lineNum">      53 </span>                :            : 
+<span class="lineNum">      54 </span>                :            : template &lt;class T&gt;
+<span class="lineNum">      55 </span>                :            : class cloner : public virtual clonable{
+<span class="lineNum">      56 </span>                :            : private:
+<span class="lineNum">      57 </span>                :            :   clonable *clone() const {
+<span class="lineNum">      58 </span>                :            :     return new T(dynamic_cast&lt;const T&amp;&gt;(dynamic_cast&lt;const clonable&amp;&gt;(*this)));
+<span class="lineNum">      59 </span>                :            :   }
+<span class="lineNum">      60 </span>                :            : };
+<span class="lineNum">      61 </span>                :            : 
+<span class="lineNum">      62 </span>                :            : class cgi : public virtual clonable{
+<a name="63"><span class="lineNum">      63 </span>                :            : public:</a>
+<span class="lineNum">      64 </span>                :            :   cgi();
+<span class="lineNum">      65 </span>[<span class="branchNoExec" title="Branch 9 was not executed"> # </span><span class="branchNoExec" title="Branch 10 was not executed"> # </span>][<span class="branchNoExec" title="Branch 13 was not executed"> # </span><span class="branchNoExec" title="Branch 14 was not executed"> # </span>]:<span class="lineNoCov">          0 :   virtual ~cgi(){}</span>
+<span class="lineNum">         </span>[<span class="branchNoExec" title="Branch 16 was not executed"> # </span><span class="branchNoExec" title="Branch 17 was not executed"> # </span>][<span class="branchNoExec" title="Branch 30 was not executed"> # </span><span class="branchNoExec" title="Branch 31 was not executed"> # </span>]
+<span class="lineNum">         </span>[<span class="branchNoExec" title="Branch 34 was not executed"> # </span><span class="branchNoExec" title="Branch 35 was not executed"> # </span>][<span class="branchNoExec" title="Branch 37 was not executed"> # </span><span class="branchNoExec" title="Branch 38 was not executed"> # </span>]
+<span class="lineNum">      66 </span>                :            : 
+<span class="lineNum">      67 </span>                :            :   virtual void run(std::ostream &amp;out)=0;
+<span class="lineNum">      68 </span>                :            : 
+<span class="lineNum">      69 </span>                :            :   void exec(std::istream &amp;in,
+<span class="lineNum">      70 </span>                :            :             std::ostream &amp;out,
+<span class="lineNum">      71 </span>                :            :             std::ostream &amp;err,
+<span class="lineNum">      72 </span>                :            :             const std::map&lt;std::string, std::string&gt; &amp;cenv);
+<span class="lineNum">      73 </span>                :            : 
+<span class="lineNum">      74 </span>                :            :   void set_max_content_length(size_t length);
+<span class="lineNum">      75 </span>                :            : 
+<span class="lineNum">      76 </span>                :            : protected:
+<span class="lineNum">      77 </span>                :            :   std::string method;
+<span class="lineNum">      78 </span>                :            :   std::map&lt;std::string, std::string&gt; env;
+<span class="lineNum">      79 </span>                :            :   std::map&lt;std::string, std::string&gt; query;
+<span class="lineNum">      80 </span>                :            :   std::map&lt;std::string, std::vector&lt;std::string&gt; &gt; multi_query;
+<span class="lineNum">      81 </span>                :            :   std::map&lt;std::string, std::string&gt; file;
+<span class="lineNum">      82 </span>                :            :   std::map&lt;std::string, pfi::network::http::header&gt; file_info;
+<span class="lineNum">      83 </span>                :            :   pfi::network::http::header head;
+<span class="lineNum">      84 </span>                :            : 
+<span class="lineNum">      85 </span>                :            :   size_t max_content_length;
+<span class="lineNum">      86 </span>                :            : 
+<span class="lineNum">      87 </span>                :            : private:
+<span class="lineNum">      88 </span>                :            :   void parse_input(const std::string &amp;os);
+<span class="lineNum">      89 </span>                :            :   void parse_multipart_input(const std::string &amp;os, const std::string &amp;boundary);
+<span class="lineNum">      90 </span>                :            : };
+<span class="lineNum">      91 </span>                :            : 
+<span class="lineNum">      92 </span>                :            : } // cgi
+<span class="lineNum">      93 </span>                :            : } // network
+<span class="lineNum">      94 </span>                :            : } // pfi
+<span class="lineNum">      95 </span>                :            : #endif // #ifndef INCLUDE_GUARD_PFI_NETWORK_CGI_BASE_H_
+</pre>
+      </td>
+    </tr>
+  </table>
+  <br>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="ruler"><img src="../../glass.png" width=3 height=3 alt=""></td></tr>
+    <tr><td class="versionInfo">Generated by: <a href="http://ltp.sourceforge.net/coverage/lcov.php" target="_parent">LCOV version 1.9</a></td></tr>
+  </table>
+  <br>
+
+</body>
+</html>

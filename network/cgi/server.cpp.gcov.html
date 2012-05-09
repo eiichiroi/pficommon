@@ -1,0 +1,416 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html lang="en">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+  <title>LCOV - pficommon - network/cgi/server.cpp</title>
+  <link rel="stylesheet" type="text/css" href="../../gcov.css">
+</head>
+
+<body>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="title">LCOV - code coverage report</td></tr>
+    <tr><td class="ruler"><img src="../../glass.png" width=3 height=3 alt=""></td></tr>
+
+    <tr>
+      <td width="100%">
+        <table cellpadding=1 border=0 width="100%">
+          <tr>
+            <td width="10%" class="headerItem">Current view:</td>
+            <td width="35%" class="headerValue"><a href="../../index.html">top level</a> - <a href="index.html">network/cgi</a> - server.cpp<span style="font-size: 80%;"> (source / <a href="server.cpp.func.html">functions</a>)</span></td>
+            <td width="5%"></td>
+            <td width="15%"></td>
+            <td width="10%" class="headerCovTableHead">Hit</td>
+            <td width="10%" class="headerCovTableHead">Total</td>
+            <td width="15%" class="headerCovTableHead">Coverage</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Test:</td>
+            <td class="headerValue">pficommon</td>
+            <td></td>
+            <td class="headerItem">Lines:</td>
+            <td class="headerCovTableEntry">1</td>
+            <td class="headerCovTableEntry">151</td>
+            <td class="headerCovTableEntryLo">0.7 %</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Date:</td>
+            <td class="headerValue">2012-05-09</td>
+            <td></td>
+            <td class="headerItem">Functions:</td>
+            <td class="headerCovTableEntry">1</td>
+            <td class="headerCovTableEntry">14</td>
+            <td class="headerCovTableEntryLo">7.1 %</td>
+          </tr>
+          <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td class="headerItem">Branches:</td>
+            <td class="headerCovTableEntry">2</td>
+            <td class="headerCovTableEntry">117</td>
+            <td class="headerCovTableEntryLo">1.7 %</td>
+          </tr>
+          <tr><td><img src="../../glass.png" width=3 height=3 alt=""></td></tr>
+        </table>
+      </td>
+    </tr>
+
+    <tr><td class="ruler"><img src="../../glass.png" width=3 height=3 alt=""></td></tr>
+  </table>
+
+  <table cellpadding=0 cellspacing=0 border=0>
+    <tr>
+      <td><br></td>
+    </tr>
+    <tr>
+      <td>
+<pre class="sourceHeading">           Branch data     Line data    Source code</pre>
+<pre class="source">
+<a name="1"><span class="lineNum">       1 </span>                :            : // Copyright (c)2008-2011, Preferred Infrastructure Inc.</a>
+<span class="lineNum">       2 </span>                :            : // 
+<span class="lineNum">       3 </span>                :            : // All rights reserved.
+<span class="lineNum">       4 </span>                :            : // 
+<span class="lineNum">       5 </span>                :            : // Redistribution and use in source and binary forms, with or without
+<span class="lineNum">       6 </span>                :            : // modification, are permitted provided that the following conditions are met:
+<span class="lineNum">       7 </span>                :            : // 
+<span class="lineNum">       8 </span>                :            : //     * Redistributions of source code must retain the above copyright
+<span class="lineNum">       9 </span>                :            : //       notice, this list of conditions and the following disclaimer.
+<span class="lineNum">      10 </span>                :            : // 
+<span class="lineNum">      11 </span>                :            : //     * Redistributions in binary form must reproduce the above
+<span class="lineNum">      12 </span>                :            : //       copyright notice, this list of conditions and the following
+<span class="lineNum">      13 </span>                :            : //       disclaimer in the documentation and/or other materials provided
+<span class="lineNum">      14 </span>                :            : //       with the distribution.
+<span class="lineNum">      15 </span>                :            : // 
+<span class="lineNum">      16 </span>                :            : //     * Neither the name of Preferred Infrastructure nor the names of other
+<span class="lineNum">      17 </span>                :            : //       contributors may be used to endorse or promote products derived
+<span class="lineNum">      18 </span>                :            : //       from this software without specific prior written permission.
+<span class="lineNum">      19 </span>                :            : // 
+<span class="lineNum">      20 </span>                :            : // THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+<span class="lineNum">      21 </span>                :            : // &quot;AS IS&quot; AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+<span class="lineNum">      22 </span>                :            : // LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+<span class="lineNum">      23 </span>                :            : // A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
+<span class="lineNum">      24 </span>                :            : // OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+<span class="lineNum">      25 </span>                :            : // SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+<span class="lineNum">      26 </span>                :            : // LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+<span class="lineNum">      27 </span>                :            : // DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+<span class="lineNum">      28 </span>                :            : // THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+<span class="lineNum">      29 </span>                :            : // (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+<span class="lineNum">      30 </span>                :            : // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+<span class="lineNum">      31 </span>                :            : 
+<span class="lineNum">      32 </span>                :            : #include &quot;server.h&quot;
+<span class="lineNum">      33 </span>                :            : 
+<span class="lineNum">      34 </span>                :            : #include &lt;vector&gt;
+<span class="lineNum">      35 </span>                :            : 
+<span class="lineNum">      36 </span>                :            : #include &lt;getopt.h&gt;
+<span class="lineNum">      37 </span>                :            : 
+<span class="lineNum">      38 </span>                :            : #include &quot;cgi.h&quot;
+<span class="lineNum">      39 </span>                :            : #include &quot;util.h&quot;
+<span class="lineNum">      40 </span>                :            : #include &quot;../http.h&quot;
+<span class="lineNum">      41 </span>                :            : #include &quot;../../lang/bind.h&quot;
+<span class="lineNum">      42 </span>                :            : #include &quot;../../pfi-config.h&quot;
+<span class="lineNum">      43 </span>                :            : 
+<span class="lineNum">      44 </span>                :            : extern char **environ;
+<span class="lineNum">      45 </span>                :            : 
+<span class="lineNum">      46 </span>                :            : using namespace std;
+<span class="lineNum">      47 </span>                :            : using namespace pfi::lang;
+<span class="lineNum">      48 </span>                :            : using namespace pfi::concurrent;
+<span class="lineNum">      49 </span>                :            : 
+<span class="lineNum">      50 </span>                :            : namespace pfi{
+<span class="lineNum">      51 </span>                :            : namespace network{
+<span class="lineNum">      52 </span>                :            : namespace cgi{
+<span class="lineNum">      53 </span>                :            : 
+<span class="lineNum">      54 </span>                :<span class="lineNoCov">          0 : run_server::run_server(const cgi &amp;cc, uint16_t port, int thread_num, double time_out)</span>
+<span class="lineNum">      55 </span>                :            :   : thread_num(thread_num)
+<span class="lineNum">      56 </span>                :<span class="lineNoCov">          0 :   , c(cc)</span>
+<span class="lineNum">      57 </span>                :            : {
+<span class="lineNum">      58 </span>                :<span class="lineNoCov">          0 :   listen(port, time_out);</span>
+<span class="lineNum">      59 </span>                :<span class="lineNoCov">          0 : }</span>
+<span class="lineNum">      60 </span>                :            : 
+<span class="lineNum">      61 </span>                :<span class="lineNoCov">          0 : run_server::run_server(const cgi &amp;cc, int argc, char *argv[])</span>
+<span class="lineNum">      62 </span>                :            :   : thread_num(1)
+<span class="lineNum">      63 </span>                :<span class="lineNoCov">          0 :   , c(cc)</span>
+<span class="lineNum">      64 </span>                :            : {
+<span class="lineNum">      65 </span>                :<span class="lineNoCov">          0 :   uint16_t port=8080;</span>
+<span class="lineNum">      66 </span>                :<span class="lineNoCov">          0 :   double time_out=10;</span>
+<span class="lineNum">      67 </span>                :            : 
+<span class="lineNum">      68 </span>                :            :   static option opts[]={
+<span class="lineNum">      69 </span>                :            :     {&quot;port&quot;, required_argument, 0, 'p'},
+<span class="lineNum">      70 </span>                :            :     {&quot;thread&quot;, required_argument, 0, 't'},
+<span class="lineNum">      71 </span>                :            :     {&quot;timeout&quot;, required_argument, 0, 'o'},
+<span class="lineNum">      72 </span>                :            :     {&quot;help&quot;, no_argument, 0, 'h'},
+<span class="lineNum">      73 </span>                :            :     {&quot;server&quot;, no_argument, 0, 's'},
+<span class="lineNum">      74 </span>                :            :     {0, 0, 0, 0},
+<span class="lineNum">      75 </span>                :            :   };
+<span class="lineNum">      76 </span>                :            : 
+<span class="lineNum">      77 </span>                :            :   for (;;){
+<span class="lineNum">      78 </span>                :<span class="lineNoCov">          0 :     int option_index=0;</span>
+<span class="lineNum">      79 </span>                :<span class="lineNoCov">          0 :     int c=getopt_long(argc, argv, &quot;p:t:o:hs&quot;, &amp;opts[0], &amp;option_index);</span>
+<span class="lineNum">      80 </span>                :            : 
+<span class="lineNum">      81 </span>        [<span class="branchNoExec" title="Branch 0 was not executed"> # </span><span class="branchNoExec" title="Branch 1 was not executed"> # </span>]:<span class="lineNoCov">          0 :     if (c==-1) break;</span>
+<span class="lineNum">      82 </span>                :            : 
+<span class="lineNum">      83 </span>  [<span class="branchNoExec" title="Branch 0 was not executed"> # </span><span class="branchNoExec" title="Branch 1 was not executed"> # </span><span class="branchNoExec" title="Branch 2 was not executed"> # </span><span class="branchNoExec" title="Branch 3 was not executed"> # </span> :<span class="lineNoCov">          0 :     switch(c){</span>
+<span class="lineNum">         </span>            <span class="branchNoExec" title="Branch 4 was not executed"> # </span>]
+<span class="lineNum">      84 </span>                :            :     case 'p': {
+<span class="lineNum">      85 </span>                :<span class="lineNoCov">          0 :       int p=atoi(optarg);</span>
+<span class="lineNum">      86 </span>        [<span class="branchNoExec" title="Branch 0 was not executed"> # </span><span class="branchNoExec" title="Branch 1 was not executed"> # </span>]:<span class="lineNoCov">          0 :       if (p&gt;=1 &amp;&amp; p&lt;=0xFFFF)</span>
+<span class="lineNum">      87 </span>                :<span class="lineNoCov">          0 :         port=static_cast&lt;uint16_t&gt;(p);</span>
+<span class="lineNum">      88 </span>                :            :       else{
+<span class="lineNum">      89 </span>                :<span class="lineNoCov">          0 :         cerr&lt;&lt;&quot;wrong argument: --port=&quot;&lt;&lt;optarg&lt;&lt;endl;</span>
+<span class="lineNum">      90 </span>                :<span class="lineNoCov">          0 :         exit(0);</span>
+<span class="lineNum">      91 </span>                :            :       }
+<span class="lineNum">      92 </span>                :<span class="lineNoCov">          0 :       break;</span>
+<span class="lineNum">      93 </span>                :            :     }
+<span class="lineNum">      94 </span>                :            :     case 't': {
+<span class="lineNum">      95 </span>                :<span class="lineNoCov">          0 :       int t=atoi(optarg);</span>
+<span class="lineNum">      96 </span>        [<span class="branchNoExec" title="Branch 0 was not executed"> # </span><span class="branchNoExec" title="Branch 1 was not executed"> # </span>]:<span class="lineNoCov">          0 :       if (t&gt;=1 &amp;&amp; t&lt;=1024)</span>
+<span class="lineNum">      97 </span>                :<span class="lineNoCov">          0 :         thread_num=t;</span>
+<span class="lineNum">      98 </span>        [<span class="branchNoExec" title="Branch 0 was not executed"> # </span><span class="branchNoExec" title="Branch 1 was not executed"> # </span>]:<span class="lineNoCov">          0 :       else if (t&lt;=0){</span>
+<span class="lineNum">      99 </span>                :<span class="lineNoCov">          0 :         cerr&lt;&lt;&quot;wrong argument: --thread=&quot;&lt;&lt;optarg&lt;&lt;endl;</span>
+<span class="lineNum">     100 </span>                :<span class="lineNoCov">          0 :         exit(0);</span>
+<span class="lineNum">     101 </span>                :            :       }
+<span class="lineNum">     102 </span>                :            :       else{
+<span class="lineNum">     103 </span>                :<span class="lineNoCov">          0 :         cerr&lt;&lt;&quot;too many threads: --thread=&quot;&lt;&lt;optarg&lt;&lt;endl;</span>
+<span class="lineNum">     104 </span>                :<span class="lineNoCov">          0 :         exit(0);</span>
+<span class="lineNum">     105 </span>                :            :       }
+<span class="lineNum">     106 </span>                :<span class="lineNoCov">          0 :       break;</span>
+<span class="lineNum">     107 </span>                :            :     }
+<span class="lineNum">     108 </span>                :            :     case 'o': {
+<span class="lineNum">     109 </span>                :<span class="lineNoCov">          0 :       double t=strtod(optarg, NULL);</span>
+<span class="lineNum">     110 </span>                :<span class="lineNoCov">          0 :       time_out=t;</span>
+<span class="lineNum">     111 </span>                :<span class="lineNoCov">          0 :       break;</span>
+<span class="lineNum">     112 </span>                :            :     }
+<span class="lineNum">     113 </span>                :            :     case 'h':{
+<span class="lineNum">     114 </span>                :<span class="lineNoCov">          0 :       cerr&lt;&lt;&quot;usage: &quot;&lt;&lt;argv[0]&lt;&lt;&quot; [-p port] [-t thread-num] [-o timeout] [-h]&quot;&lt;&lt;endl;</span>
+<span class="lineNum">     115 </span>                :<span class="lineNoCov">          0 :       exit(0);</span>
+<span class="lineNum">     116 </span>                :            :       break;
+<span class="lineNum">     117 </span>                :            :     }
+<span class="lineNum">     118 </span>                :            :     case 's':
+<span class="lineNum">     119 </span>                :            :       break;
+<span class="lineNum">     120 </span>                :            :       
+<span class="lineNum">     121 </span>                :            :     }
+<span class="lineNum">     122 </span>                :            :   }
+<span class="lineNum">     123 </span>                :            : 
+<span class="lineNum">     124 </span>                :<span class="lineNoCov">          0 :   listen(port, time_out);</span>
+<a name="125"><span class="lineNum">     125 </span>                :<span class="lineNoCov">          0 : }</span></a>
+<span class="lineNum">     126 </span>                :            : 
+<span class="lineNum">     127 </span>                :<span class="lineNoCov">          0 : run_server::run_server(const cgi &amp;cc, socket_type ssock, int thread_num)</span>
+<span class="lineNum">     128 </span>                :            :   : ssock(ssock)
+<span class="lineNum">     129 </span>                :            :   , thread_num(thread_num)
+<span class="lineNum">     130 </span>                :<span class="lineNoCov">          0 :   , c(cc)</span>
+<span class="lineNum">     131 </span>                :            : {
+<a name="132"><span class="lineNum">     132 </span>                :<span class="lineNoCov">          0 : }</span></a>
+<span class="lineNum">     133 </span>                :            : 
+<span class="lineNum">     134 </span>                :<span class="lineNoCov">          0 : run_server::~run_server()</span>
+<span class="lineNum">     135 </span>                :            : {
+<span class="lineNum">     136 </span>                :<span class="lineNoCov">          0 :   join();</span>
+<span class="lineNum">     137 </span>                :<span class="lineNoCov">          0 : }</span>
+<span class="lineNum">     138 </span>                :            : 
+<span class="lineNum">     139 </span>                :<span class="lineNoCov">          0 : void run_server::listen(uint16_t port, double time_out)</span>
+<span class="lineNum">     140 </span>                :            : {
+<span class="lineNum">     141 </span>                :<span class="lineNoCov">          0 :   ssock=socket_type(new server_socket());</span>
+<span class="lineNum">     142 </span>        [<span class="branchNoExec" title="Branch 1 was not executed"> # </span><span class="branchNoExec" title="Branch 2 was not executed"> # </span>]:<span class="lineNoCov">          0 :   if (!ssock-&gt;create(port)){</span>
+<span class="lineNum">     143 </span>                :<span class="lineNoCov">          0 :     ostringstream oss;</span>
+<span class="lineNum">     144 </span>                :<span class="lineNoCov">          0 :     oss&lt;&lt;&quot;unable to open port &quot;&lt;&lt;port&lt;&lt;endl;</span>
+<span class="lineNum">     145 </span>                :<span class="lineNoCov">          0 :     ssock.reset();</span>
+<span class="lineNum">     146 </span>                :<span class="lineNoCov">          0 :     throw std::runtime_error(oss.str());</span>
+<span class="lineNum">     147 </span>                :            :   }
+<span class="lineNum">     148 </span>[<span class="branchNoExec" title="Branch 0 was not executed"> # </span><span class="branchNoExec" title="Branch 1 was not executed"> # </span>][<span class="branchNoExec" title="Branch 3 was not executed"> # </span><span class="branchNoExec" title="Branch 4 was not executed"> # </span>]:<span class="lineNoCov">          0 :   if (time_out&gt;0 &amp;&amp; !ssock-&gt;set_timeout(time_out)){</span>
+<span class="lineNum">         </span>        [<span class="branchNoExec" title="Branch 5 was not executed"> # </span><span class="branchNoExec" title="Branch 6 was not executed"> # </span>]
+<span class="lineNum">     149 </span>                :<span class="lineNoCov">          0 :     ostringstream oss;</span>
+<span class="lineNum">     150 </span>                :<span class="lineNoCov">          0 :     oss&lt;&lt;&quot;unable to set timeout&quot;&lt;&lt;port&lt;&lt;endl;</span>
+<span class="lineNum">     151 </span>                :<span class="lineNoCov">          0 :     ssock.reset();</span>
+<span class="lineNum">     152 </span>                :<span class="lineNoCov">          0 :     throw std::runtime_error(oss.str());</span>
+<span class="lineNum">     153 </span>                :            :   }
+<span class="lineNum">     154 </span>                :<span class="lineNoCov">          0 : }</span>
+<span class="lineNum">     155 </span>                :            : 
+<span class="lineNum">     156 </span>                :<span class="lineNoCov">          0 : void run_server::run(bool sync)</span>
+<span class="lineNum">     157 </span>                :            : {
+<span class="lineNum">     158 </span>        [<span class="branchNoExec" title="Branch 0 was not executed"> # </span><span class="branchNoExec" title="Branch 1 was not executed"> # </span>]:<span class="lineNoCov">          0 :   if (!ssock) return;</span>
+<span class="lineNum">     159 </span>                :            : 
+<span class="lineNum">     160 </span>                :            :   cout&lt;&lt;&quot;server start: port=&quot;&lt;&lt;ssock-&gt;port()
+<span class="lineNum">     161 </span>                :            :       &lt;&lt;&quot;, thread-num=&quot;&lt;&lt;thread_num
+<span class="lineNum">     162 </span>                :<span class="lineNoCov">          0 :       &lt;&lt;&quot;, timeout=&quot;&lt;&lt;ssock-&gt;timeout()&lt;&lt;endl;</span>
+<span class="lineNum">     163 </span>                :            : 
+<span class="lineNum">     164 </span>                :<span class="lineNoCov">          0 :   ths=vector&lt;shared_ptr&lt;thread&gt; &gt;(thread_num);</span>
+<span class="lineNum">     165 </span>                :<span class="lineNoCov">          0 :   vector&lt;shared_ptr&lt;cgi, threading_model::multi_thread&gt; &gt; cgis(thread_num);</span>
+<span class="lineNum">     166 </span>                :            : 
+<span class="lineNum">     167 </span>        [<span class="branchNoExec" title="Branch 0 was not executed"> # </span><span class="branchNoExec" title="Branch 1 was not executed"> # </span>]:<span class="lineNoCov">          0 :   for (int i=0; i&lt;thread_num; i++){</span>
+<span class="lineNum">     168 </span>        [<span class="branchNoExec" title="Branch 1 was not executed"> # </span><span class="branchNoExec" title="Branch 2 was not executed"> # </span>]:<span class="lineNoCov">          0 :     cgis[i]=shared_ptr&lt;cgi, threading_model::multi_thread&gt;(dynamic_cast&lt;cgi*&gt;(c.clone()));</span>
+<span class="lineNum">     169 </span>                :<span class="lineNoCov">          0 :     ths[i]=shared_ptr&lt;thread&gt;(new thread(bind(&amp;run_server::process, this, ssock, cgis[i])));</span>
+<span class="lineNum">     170 </span>        [<span class="branchNoExec" title="Branch 1 was not executed"> # </span><span class="branchNoExec" title="Branch 2 was not executed"> # </span>]:<span class="lineNoCov">          0 :     if (!ths[i]-&gt;start()){</span>
+<span class="lineNum">     171 </span>                :<span class="lineNoCov">          0 :       ostringstream oss;</span>
+<span class="lineNum">     172 </span>                :<span class="lineNoCov">          0 :       oss&lt;&lt;&quot;unable to start thread&quot;&lt;&lt;endl;</span>
+<span class="lineNum">     173 </span>                :<span class="lineNoCov">          0 :       throw std::runtime_error(oss.str());</span>
+<span class="lineNum">     174 </span>                :            :     }
+<span class="lineNum">     175 </span>                :            :   }
+<span class="lineNum">     176 </span>                :            : 
+<span class="lineNum">     177 </span>        [<span class="branchNoExec" title="Branch 0 was not executed"> # </span><span class="branchNoExec" title="Branch 1 was not executed"> # </span>]:<span class="lineNoCov">          0 :   if (sync)</span>
+<span class="lineNum">     178 </span>                :<span class="lineNoCov">          0 :     join();</span>
+<span class="lineNum">     179 </span>                :            : }
+<span class="lineNum">     180 </span>                :            : 
+<span class="lineNum">     181 </span>                :<span class="lineNoCov">          0 : void run_server::join()</span>
+<span class="lineNum">     182 </span>                :            : {
+<span class="lineNum">     183 </span>        [<span class="branchNoExec" title="Branch 0 was not executed"> # </span><span class="branchNoExec" title="Branch 1 was not executed"> # </span>]:<span class="lineNoCov">          0 :   for (size_t i=0; i&lt;ths.size(); i++)</span>
+<span class="lineNum">     184 </span>                :<span class="lineNoCov">          0 :     ths[i]-&gt;join();</span>
+<span class="lineNum">     185 </span>                :<span class="lineNoCov">          0 :   ths.clear();</span>
+<span class="lineNum">     186 </span>                :<span class="lineNoCov">          0 : }</span>
+<span class="lineNum">     187 </span>                :            : 
+<span class="lineNum">     188 </span>                :<span class="lineNoCov">          0 : static shared_ptr&lt;http::response&gt; gen_resp(stringstream &amp;ss)</span>
+<span class="lineNum">     189 </span>                :            : {
+<span class="lineNum">     190 </span>                :<span class="lineNoCov">          0 :   http::header head(ss);</span>
+<span class="lineNum">     191 </span>                :            : 
+<span class="lineNum">     192 </span>                :<span class="lineNoCov">          0 :   string content_type=&quot;text/html; charset=utf-8&quot;;</span>
+<span class="lineNum">     193 </span>                :<span class="lineNoCov">          0 :   int code=200;</span>
+<span class="lineNum">     194 </span>                :<span class="lineNoCov">          0 :   string reason=&quot;OK&quot;;</span>
+<span class="lineNum">     195 </span>                :            : 
+<span class="lineNum">     196 </span>        [<span class="branchNoExec" title="Branch 4 was not executed"> # </span><span class="branchNoExec" title="Branch 5 was not executed"> # </span>]:<span class="lineNoCov">          0 :   if (head.has_key(&quot;content-type&quot;)){</span>
+<span class="lineNum">     197 </span>                :<span class="lineNoCov">          0 :     content_type=head[&quot;content-type&quot;];</span>
+<span class="lineNum">     198 </span>                :<span class="lineNoCov">          0 :     head.erase(&quot;content-type&quot;);</span>
+<span class="lineNum">     199 </span>                :            :   }
+<span class="lineNum">     200 </span>        [<span class="branchNoExec" title="Branch 4 was not executed"> # </span><span class="branchNoExec" title="Branch 5 was not executed"> # </span>]:<span class="lineNoCov">          0 :   if (head.has_key(&quot;location&quot;)){</span>
+<span class="lineNum">     201 </span>                :<span class="lineNoCov">          0 :     code=302;</span>
+<span class="lineNum">     202 </span>                :            :     reason=&quot;Found&quot;;
+<span class="lineNum">     203 </span>                :            :   }
+<span class="lineNum">     204 </span>        [<span class="branchNoExec" title="Branch 4 was not executed"> # </span><span class="branchNoExec" title="Branch 5 was not executed"> # </span>]:<span class="lineNoCov">          0 :   if (head.has_key(&quot;status&quot;)){</span>
+<span class="lineNum">     205 </span>                :<span class="lineNoCov">          0 :     const char *p=head[&quot;status&quot;].c_str();</span>
+<span class="lineNum">     206 </span>                :<span class="lineNoCov">          0 :     char *q=NULL;</span>
+<span class="lineNum">     207 </span>                :<span class="lineNoCov">          0 :     code=strtol(p, &amp;q, 10);</span>
+<span class="lineNum">     208 </span>[<span class="branchNoExec" title="Branch 0 was not executed"> # </span><span class="branchNoExec" title="Branch 1 was not executed"> # </span>][<span class="branchNoExec" title="Branch 2 was not executed"> # </span><span class="branchNoExec" title="Branch 3 was not executed"> # </span>]:<span class="lineNoCov">          0 :     while(*q &amp;&amp; isspace(*q)) q++;</span>
+<span class="lineNum">         </span>        [<span class="branchNoExec" title="Branch 4 was not executed"> # </span><span class="branchNoExec" title="Branch 5 was not executed"> # </span>]
+<span class="lineNum">     209 </span>                :<span class="lineNoCov">          0 :     reason=q;</span>
+<span class="lineNum">     210 </span>                :<span class="lineNoCov">          0 :     head.erase(&quot;status&quot;);</span>
+<span class="lineNum">     211 </span>                :            :   }
+<span class="lineNum">     212 </span>                :            :   
+<span class="lineNum">     213 </span>                :<span class="lineNoCov">          0 :   shared_ptr&lt;http::response&gt; resp(new http::response(code, reason));</span>
+<span class="lineNum">     214 </span>                :            : 
+<span class="lineNum">     215 </span>                :<span class="lineNoCov">          0 :   head[&quot;Content-Type&quot;]=content_type;</span>
+<span class="lineNum">     216 </span>                :            : 
+<span class="lineNum">     217 </span>        [<span class="branchNoExec" title="Branch 2 was not executed"> # </span><span class="branchNoExec" title="Branch 3 was not executed"> # </span>]:<span class="lineNoCov">          0 :   for (http::header::iterator p=head.begin();</span>
+<span class="lineNum">     218 </span>                :            :        p!=head.end(); p++)
+<span class="lineNum">     219 </span>                :<span class="lineNoCov">          0 :     resp-&gt;head()[p-&gt;first]=p-&gt;second;</span>
+<span class="lineNum">     220 </span>                :            : 
+<span class="lineNum">     221 </span>                :<span class="lineNoCov">          0 :   resp-&gt;body()&lt;&lt;ss.rdbuf();</span>
+<span class="lineNum">     222 </span>                :            : 
+<span class="lineNum">     223 </span>                :<span class="lineNoCov">          0 :   return resp;</span>
+<a name="224"><span class="lineNum">     224 </span>                :            : }</a>
+<span class="lineNum">     225 </span>                :            : 
+<span class="lineNum">     226 </span>                :<span class="lineNoCov">          0 : string str_to_upper(const string &amp;s)</span>
+<span class="lineNum">     227 </span>                :            : {
+<span class="lineNum">     228 </span>                :<span class="lineNoCov">          0 :   string ret(s);</span>
+<span class="lineNum">     229 </span>        [<span class="branchNoExec" title="Branch 0 was not executed"> # </span><span class="branchNoExec" title="Branch 1 was not executed"> # </span>]:<span class="lineNoCov">          0 :   for (size_t i=0; i&lt;s.length(); i++)</span>
+<span class="lineNum">     230 </span>                :<span class="lineNoCov">          0 :     ret[i]=toupper(ret[i]);</span>
+<span class="lineNum">     231 </span>                :<span class="lineNoCov">          0 :   return ret;</span>
+<span class="lineNum">     232 </span>                :            : }
+<span class="lineNum">     233 </span>                :            : 
+<span class="lineNum">     234 </span>                :<span class="lineNoCov">          0 : void run_server::process(socket_type ssock,</span>
+<span class="lineNum">     235 </span>                :            :                          shared_ptr&lt;cgi, threading_model::multi_thread&gt; cc)
+<span class="lineNum">     236 </span>                :            : {
+<span class="lineNum">     237 </span>                :<span class="lineNoCov">          0 :   for (;;){</span>
+<span class="lineNum">     238 </span>                :<span class="lineNoCov">          0 :     shared_ptr&lt;stream_socket&gt; sock(ssock-&gt;accept());</span>
+<span class="lineNum">     239 </span>        [<span class="branchNoExec" title="Branch 0 was not executed"> # </span><span class="branchNoExec" title="Branch 1 was not executed"> # </span>]:<span class="lineNoCov">          0 :     if (!sock) continue;</span>
+<span class="lineNum">     240 </span>                :            : 
+<span class="lineNum">     241 </span>[<span class="branchNoExec" title="Branch 1 was not executed"> # </span><span class="branchNoExec" title="Branch 2 was not executed"> # </span>][<span class="branchNoExec" title="Branch 5 was not executed"> # </span><span class="branchNoExec" title="Branch 6 was not executed"> # </span>]:<span class="lineNoCov">          0 :     if (ssock-&gt;timeout()&gt;0 &amp;&amp; !sock-&gt;set_timeout(ssock-&gt;timeout()))</span>
+<span class="lineNum">         </span>        [<span class="branchNoExec" title="Branch 7 was not executed"> # </span><span class="branchNoExec" title="Branch 8 was not executed"> # </span>]
+<span class="lineNum">     242 </span>                :<span class="lineNoCov">          0 :       continue;</span>
+<span class="lineNum">     243 </span>                :            : 
+<span class="lineNum">     244 </span>                :            :     try{
+<span class="lineNum">     245 </span>                :<span class="lineNoCov">          0 :       http::request req(sock);</span>
+<span class="lineNum">     246 </span>                :<span class="lineNoCov">          0 :       stringstream sout;</span>
+<span class="lineNum">     247 </span>                :            : 
+<span class="lineNum">     248 </span>                :            :       map&lt;string, string&gt; env;
+<span class="lineNum">     249 </span>                :            : 
+<span class="lineNum">     250 </span>        [<span class="branchNoExec" title="Branch 4 was not executed"> # </span><span class="branchNoExec" title="Branch 5 was not executed"> # </span>]:<span class="lineNoCov">          0 :       for (http::header::iterator p=req.head().begin();</span>
+<span class="lineNum">     251 </span>                :            :            p!=req.head().end(); p++)
+<span class="lineNum">     252 </span>                :<span class="lineNoCov">          0 :         env[&quot;HTTP_&quot;+str_to_upper(p-&gt;first)]=p-&gt;second;</span>
+<span class="lineNum">     253 </span>                :            : 
+<span class="lineNum">     254 </span>                :<span class="lineNoCov">          0 :       env[&quot;REQUEST_METHOD&quot;]=req.method();</span>
+<span class="lineNum">     255 </span>                :<span class="lineNoCov">          0 :       env[&quot;REQUEST_URI&quot;]=req.path().path();</span>
+<span class="lineNum">     256 </span>        [<span class="branchNoExec" title="Branch 2 was not executed"> # </span><span class="branchNoExec" title="Branch 3 was not executed"> # </span>]:<span class="lineNoCov">          0 :       if (req.path().query()!=&quot;&quot;)</span>
+<span class="lineNum">     257 </span>                :<span class="lineNoCov">          0 :         env[&quot;REQUEST_URI&quot;]+=&quot;?&quot;+req.path().query();</span>
+<span class="lineNum">     258 </span>                :<span class="lineNoCov">          0 :       env[&quot;SCRIPT_NAME&quot;]=req.path().path();</span>
+<span class="lineNum">     259 </span>                :<span class="lineNoCov">          0 :       env[&quot;QUERY_STRING&quot;]=req.path().query();</span>
+<span class="lineNum">     260 </span>                :            : 
+<span class="lineNum">     261 </span>                :<span class="lineNoCov">          0 :       env[&quot;REMOTE_ADDR&quot;]=sock-&gt;remote_addr().to_string();</span>
+<span class="lineNum">     262 </span>                :<span class="lineNoCov">          0 :       env[&quot;REMOTE_PORT&quot;]=lexical_cast&lt;string&gt;(sock-&gt;remote_port());</span>
+<span class="lineNum">     263 </span>                :            : 
+<span class="lineNum">     264 </span>                :<span class="lineNoCov">          0 :       env[&quot;SERVER_PORT&quot;]=lexical_cast&lt;string&gt;(ssock-&gt;port());</span>
+<span class="lineNum">     265 </span>                :<span class="lineNoCov">          0 :       env[&quot;SERVER_NAME&quot;]=&quot;localhost&quot;;</span>
+<span class="lineNum">     266 </span>                :<span class="lineNoCov">          0 :       env[&quot;SERVER_PROTOCOL&quot;]=&quot;HTTP/1.1&quot;;</span>
+<span class="lineNum">     267 </span>                :<span class="lineNoCov">          0 :       env[&quot;SERVER_SIGNATURE&quot;]=&quot;pficommon/&quot;PFICOMMON_VERSION&quot; standalone web server&quot;;</span>
+<span class="lineNum">     268 </span>                :<span class="lineNoCov">          0 :       env[&quot;SERVER_SOFTWARE&quot;]=&quot;pficommon/&quot;PFICOMMON_VERSION;</span>
+<span class="lineNum">     269 </span>                :            : 
+<span class="lineNum">     270 </span>                :<span class="lineNoCov">          0 :       env[&quot;CONTENT_LENGTH&quot;]=req.head()[&quot;Content-Length&quot;];</span>
+<span class="lineNum">     271 </span>                :<span class="lineNoCov">          0 :       env[&quot;CONTENT_TYPE&quot;]=req.head()[&quot;Content-Type&quot;];</span>
+<span class="lineNum">     272 </span>                :            : 
+<span class="lineNum">     273 </span>                :<span class="lineNoCov">          0 :       cc-&gt;exec(req.body(), sout, cerr, env);</span>
+<span class="lineNum">     274 </span>                :            : 
+<span class="lineNum">     275 </span>                :<span class="lineNoCov">          0 :       shared_ptr&lt;http::response&gt; resp=gen_resp(sout);</span>
+<span class="lineNum">     276 </span>                :<span class="lineNoCov">          0 :       resp-&gt;send(sock);</span>
+<span class="lineNum">     277 </span>                :            :     }
+<span class="lineNum">     278 </span>                :<span class="lineNoCov">          0 :     catch(const exception &amp;e){</span>
+<span class="lineNum">     279 </span>                :            :     }
+<span class="lineNum">     280 </span>                :            :   }
+<a name="281"><span class="lineNum">     281 </span>                :            : }</a>
+<span class="lineNum">     282 </span>                :            : 
+<span class="lineNum">     283 </span>                :<span class="lineNoCov">          0 : run_server_or_cgi::run_server_or_cgi(const cgi &amp;cc, int argc, char *argv[])</span>
+<span class="lineNum">     284 </span>                :<span class="lineNoCov">          0 :   : argc(argc), argv(argv), c(const_cast&lt;cgi&amp;&gt;(cc))</span>
+<span class="lineNum">     285 </span>                :            : {
+<a name="286"><span class="lineNum">     286 </span>                :<span class="lineNoCov">          0 : }</span></a>
+<span class="lineNum">     287 </span>                :            : 
+<span class="lineNum">     288 </span>                :<span class="lineNoCov">          0 : void run_server_or_cgi::run()</span>
+<span class="lineNum">     289 </span>                :            : {
+<span class="lineNum">     290 </span>                :<span class="lineNoCov">          0 :   bool server=false;</span>
+<span class="lineNum">     291 </span>        [<span class="branchNoExec" title="Branch 0 was not executed"> # </span><span class="branchNoExec" title="Branch 1 was not executed"> # </span>]:<span class="lineNoCov">          0 :   for (int i=1; i&lt;argc; i++)</span>
+<span class="lineNum">     292 </span>[<span class="branchNoExec" title="Branch 1 was not executed"> # </span><span class="branchNoExec" title="Branch 2 was not executed"> # </span>][<span class="branchNoExec" title="Branch 4 was not executed"> # </span><span class="branchNoExec" title="Branch 5 was not executed"> # </span>]:<span class="lineNoCov">          0 :     if (argv[i]==string(&quot;-s&quot;)||</span>
+<span class="lineNum">         </span>[<span class="branchNoExec" title="Branch 6 was not executed"> # </span><span class="branchNoExec" title="Branch 7 was not executed"> # </span>][<span class="branchNoExec" title="Branch 8 was not executed"> # </span><span class="branchNoExec" title="Branch 9 was not executed"> # </span>]
+<span class="lineNum">         </span>[<span class="branchNoExec" title="Branch 13 was not executed"> # </span><span class="branchNoExec" title="Branch 14 was not executed"> # </span>][<span class="branchNoExec" title="Branch 15 was not executed"> # </span><span class="branchNoExec" title="Branch 16 was not executed"> # </span>]
+<span class="lineNum">         </span>[<span class="branchNoExec" title="Branch 17 was not executed"> # </span><span class="branchNoExec" title="Branch 18 was not executed"> # </span>][<span class="branchNoExec" title="Branch 21 was not executed"> # </span><span class="branchNoExec" title="Branch 22 was not executed"> # </span>]
+<span class="lineNum">         </span>[<span class="branchNoExec" title="Branch 24 was not executed"> # </span><span class="branchNoExec" title="Branch 25 was not executed"> # </span>][<span class="branchNoExec" title="Branch 26 was not executed"> # </span><span class="branchNoExec" title="Branch 27 was not executed"> # </span>]
+<span class="lineNum">         </span>        [<span class="branchNoExec" title="Branch 28 was not executed"> # </span><span class="branchNoExec" title="Branch 29 was not executed"> # </span>]
+<span class="lineNum">     293 </span>                :<span class="lineNoCov">          0 :         argv[i]==string(&quot;--server&quot;))</span>
+<span class="lineNum">     294 </span>                :<span class="lineNoCov">          0 :       server=true;</span>
+<span class="lineNum">     295 </span>                :            : 
+<span class="lineNum">     296 </span>        [<span class="branchNoExec" title="Branch 0 was not executed"> # </span><span class="branchNoExec" title="Branch 1 was not executed"> # </span>]:<span class="lineNoCov">          0 :   if (server){</span>
+<span class="lineNum">     297 </span>                :<span class="lineNoCov">          0 :     run_server(c, argc, argv).run();</span>
+<span class="lineNum">     298 </span>                :            :   }
+<span class="lineNum">     299 </span>                :            :   else{
+<span class="lineNum">     300 </span>                :<span class="lineNoCov">          0 :     bool help=false;</span>
+<span class="lineNum">     301 </span>        [<span class="branchNoExec" title="Branch 0 was not executed"> # </span><span class="branchNoExec" title="Branch 1 was not executed"> # </span>]:<span class="lineNoCov">          0 :     for (int i=1; i&lt;argc; i++)</span>
+<span class="lineNum">     302 </span>[<span class="branchNoExec" title="Branch 1 was not executed"> # </span><span class="branchNoExec" title="Branch 2 was not executed"> # </span>][<span class="branchNoExec" title="Branch 4 was not executed"> # </span><span class="branchNoExec" title="Branch 5 was not executed"> # </span>]:<span class="lineNoCov">          0 :       if (argv[i]==string(&quot;-h&quot;)||</span>
+<span class="lineNum">         </span>[<span class="branchNoExec" title="Branch 6 was not executed"> # </span><span class="branchNoExec" title="Branch 7 was not executed"> # </span>][<span class="branchNoExec" title="Branch 8 was not executed"> # </span><span class="branchNoExec" title="Branch 9 was not executed"> # </span>]
+<span class="lineNum">         </span>[<span class="branchNoExec" title="Branch 13 was not executed"> # </span><span class="branchNoExec" title="Branch 14 was not executed"> # </span>][<span class="branchNoExec" title="Branch 15 was not executed"> # </span><span class="branchNoExec" title="Branch 16 was not executed"> # </span>]
+<span class="lineNum">         </span>[<span class="branchNoExec" title="Branch 17 was not executed"> # </span><span class="branchNoExec" title="Branch 18 was not executed"> # </span>][<span class="branchNoExec" title="Branch 21 was not executed"> # </span><span class="branchNoExec" title="Branch 22 was not executed"> # </span>]
+<span class="lineNum">         </span>[<span class="branchNoExec" title="Branch 24 was not executed"> # </span><span class="branchNoExec" title="Branch 25 was not executed"> # </span>][<span class="branchNoExec" title="Branch 26 was not executed"> # </span><span class="branchNoExec" title="Branch 27 was not executed"> # </span>]
+<span class="lineNum">         </span>        [<span class="branchNoExec" title="Branch 28 was not executed"> # </span><span class="branchNoExec" title="Branch 29 was not executed"> # </span>]
+<span class="lineNum">     303 </span>                :<span class="lineNoCov">          0 :           argv[i]==string(&quot;--help&quot;))</span>
+<span class="lineNum">     304 </span>                :<span class="lineNoCov">          0 :         help=true;</span>
+<span class="lineNum">     305 </span>                :            : 
+<span class="lineNum">     306 </span>        [<span class="branchNoExec" title="Branch 0 was not executed"> # </span><span class="branchNoExec" title="Branch 1 was not executed"> # </span>]:<span class="lineNoCov">          0 :     if (help){</span>
+<span class="lineNum">     307 </span>                :<span class="lineNoCov">          0 :       cerr&lt;&lt;&quot;usage: &quot;&lt;&lt;argv[0]&lt;&lt;&quot; [-s] [-h] [server-options]&quot;&lt;&lt;endl;</span>
+<span class="lineNum">     308 </span>                :<span class="lineNoCov">          0 :       exit(0);</span>
+<span class="lineNum">     309 </span>                :            :     }
+<span class="lineNum">     310 </span>                :            : 
+<span class="lineNum">     311 </span>                :<span class="lineNoCov">          0 :     run_cgi(c).run();</span>
+<span class="lineNum">     312 </span>                :            :   }
+<span class="lineNum">     313 </span>                :<span class="lineNoCov">          0 : }</span>
+<span class="lineNum">     314 </span>                :            : 
+<a name="315"><span class="lineNum">     315 </span>                :            : } // cgi</a>
+<span class="lineNum">     316 </span>                :            : } // network
+<span class="lineNum">     317 </span>[<span class="branchCov" title="Branch 0 was taken 4 times"> + </span><span class="branchNoCov" title="Branch 1 was not taken"> - </span>][<span class="branchCov" title="Branch 2 was taken 4 times"> + </span><span class="branchNoCov" title="Branch 3 was not taken"> - </span>]:<span class="lineCov">          8 : } // pfi</span>
+</pre>
+      </td>
+    </tr>
+  </table>
+  <br>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="ruler"><img src="../../glass.png" width=3 height=3 alt=""></td></tr>
+    <tr><td class="versionInfo">Generated by: <a href="http://ltp.sourceforge.net/coverage/lcov.php" target="_parent">LCOV version 1.9</a></td></tr>
+  </table>
+  <br>
+
+</body>
+</html>

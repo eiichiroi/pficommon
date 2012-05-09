@@ -1,0 +1,178 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html lang="en">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+  <title>LCOV - pficommon - math/ratio_test.cpp</title>
+  <link rel="stylesheet" type="text/css" href="../gcov.css">
+</head>
+
+<body>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="title">LCOV - code coverage report</td></tr>
+    <tr><td class="ruler"><img src="../glass.png" width=3 height=3 alt=""></td></tr>
+
+    <tr>
+      <td width="100%">
+        <table cellpadding=1 border=0 width="100%">
+          <tr>
+            <td width="10%" class="headerItem">Current view:</td>
+            <td width="35%" class="headerValue"><a href="../index.html">top level</a> - <a href="index.html">math</a> - ratio_test.cpp<span style="font-size: 80%;"> (source / <a href="ratio_test.cpp.func.html">functions</a>)</span></td>
+            <td width="5%"></td>
+            <td width="15%"></td>
+            <td width="10%" class="headerCovTableHead">Hit</td>
+            <td width="10%" class="headerCovTableHead">Total</td>
+            <td width="15%" class="headerCovTableHead">Coverage</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Test:</td>
+            <td class="headerValue">pficommon</td>
+            <td></td>
+            <td class="headerItem">Lines:</td>
+            <td class="headerCovTableEntry">19</td>
+            <td class="headerCovTableEntry">19</td>
+            <td class="headerCovTableEntryHi">100.0 %</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Date:</td>
+            <td class="headerValue">2012-05-09</td>
+            <td></td>
+            <td class="headerItem">Functions:</td>
+            <td class="headerCovTableEntry">37</td>
+            <td class="headerCovTableEntry">37</td>
+            <td class="headerCovTableEntryHi">100.0 %</td>
+          </tr>
+          <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td class="headerItem">Branches:</td>
+            <td class="headerCovTableEntry">57</td>
+            <td class="headerCovTableEntry">90</td>
+            <td class="headerCovTableEntryLo">63.3 %</td>
+          </tr>
+          <tr><td><img src="../glass.png" width=3 height=3 alt=""></td></tr>
+        </table>
+      </td>
+    </tr>
+
+    <tr><td class="ruler"><img src="../glass.png" width=3 height=3 alt=""></td></tr>
+  </table>
+
+  <table cellpadding=0 cellspacing=0 border=0>
+    <tr>
+      <td><br></td>
+    </tr>
+    <tr>
+      <td>
+<pre class="sourceHeading">           Branch data     Line data    Source code</pre>
+<pre class="source">
+<a name="1"><span class="lineNum">       1 </span>                :            : // Copyright (c)2008-2011, Preferred Infrastructure Inc.</a>
+<span class="lineNum">       2 </span>                :            : // 
+<span class="lineNum">       3 </span>                :            : // All rights reserved.
+<span class="lineNum">       4 </span>                :            : // 
+<span class="lineNum">       5 </span>                :            : // Redistribution and use in source and binary forms, with or without
+<span class="lineNum">       6 </span>                :            : // modification, are permitted provided that the following conditions are met:
+<span class="lineNum">       7 </span>                :            : // 
+<span class="lineNum">       8 </span>                :            : //     * Redistributions of source code must retain the above copyright
+<span class="lineNum">       9 </span>                :            : //       notice, this list of conditions and the following disclaimer.
+<span class="lineNum">      10 </span>                :            : // 
+<span class="lineNum">      11 </span>                :            : //     * Redistributions in binary form must reproduce the above
+<span class="lineNum">      12 </span>                :            : //       copyright notice, this list of conditions and the following
+<span class="lineNum">      13 </span>                :            : //       disclaimer in the documentation and/or other materials provided
+<span class="lineNum">      14 </span>                :            : //       with the distribution.
+<span class="lineNum">      15 </span>                :            : // 
+<span class="lineNum">      16 </span>                :            : //     * Neither the name of Preferred Infrastructure nor the names of other
+<span class="lineNum">      17 </span>                :            : //       contributors may be used to endorse or promote products derived
+<span class="lineNum">      18 </span>                :            : //       from this software without specific prior written permission.
+<span class="lineNum">      19 </span>                :            : // 
+<span class="lineNum">      20 </span>                :            : // THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+<span class="lineNum">      21 </span>                :            : // &quot;AS IS&quot; AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+<span class="lineNum">      22 </span>                :            : // LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+<span class="lineNum">      23 </span>                :            : // A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
+<span class="lineNum">      24 </span>                :            : // OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+<span class="lineNum">      25 </span>                :            : // SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+<span class="lineNum">      26 </span>                :            : // LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+<span class="lineNum">      27 </span>                :            : // DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+<span class="lineNum">      28 </span>                :            : // THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+<span class="lineNum">      29 </span>                :            : // (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+<span class="lineNum">      30 </span>                :            : // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+<span class="lineNum">      31 </span>                :            : 
+<span class="lineNum">      32 </span>                :            : #include &lt;gtest/gtest.h&gt;
+<span class="lineNum">      33 </span>                :            : 
+<span class="lineNum">      34 </span>                :            : #include &quot;./ratio.h&quot;
+<span class="lineNum">      35 </span>                :            : 
+<span class="lineNum">      36 </span>                :            : #include &lt;iostream&gt;
+<span class="lineNum">      37 </span>                :            : #include &lt;sstream&gt;
+<span class="lineNum">      38 </span>                :            : 
+<span class="lineNum">      39 </span>                :            : #include &quot;../lang/function.h&quot;
+<span class="lineNum">      40 </span>                :            : #include &quot;./random.h&quot;
+<span class="lineNum">      41 </span>                :            : #include &quot;algebra_tester.h&quot;
+<span class="lineNum">      42 </span>                :            : 
+<span class="lineNum">      43 </span>                :            : using namespace std;
+<span class="lineNum">      44 </span>                :            : using namespace pfi::lang;
+<span class="lineNum">      45 </span>                :            : using namespace pfi::math::random;
+<a name="46"><span class="lineNum">      46 </span>                :            : using namespace pfi::math::ratio;</a>
+<span class="lineNum">      47 </span>                :            : 
+<span class="lineNum">      48 </span>                :<span class="lineCov">      40000 : ratio&lt;int&gt; gen_ratio(){</span>
+<span class="lineNum">      49 </span>[<span class="branchCov" title="Branch 0 was taken 2 times"> + </span><span class="branchCov" title="Branch 1 was taken 39998 times"> + </span>][<span class="branchCov" title="Branch 3 was taken 2 times"> + </span><span class="branchNoCov" title="Branch 4 was not taken"> - </span>]:<span class="lineCov">      40002 :   static pfi::math::random::random&lt;mersenne_twister&gt; r;</span>
+<span class="lineNum">         </span>        [<span class="branchNoExec" title="Branch 7 was not executed"> # </span><span class="branchNoExec" title="Branch 8 was not executed"> # </span>]
+<span class="lineNum">      50 </span>                :<span class="lineCov">      40000 :   int num=r.next_int(0,1000)-500;</span>
+<span class="lineNum">      51 </span>                :<span class="lineCov">      40000 :   int den=r.next_int(0,1000)-500;</span>
+<span class="lineNum">      52 </span>        [<span class="branchCov" title="Branch 0 was taken 20001 times"> + </span><span class="branchCov" title="Branch 1 was taken 19999 times"> + </span>]:<span class="lineCov">      40000 :   if(den&gt;=0)++den;</span>
+<span class="lineNum">      53 </span>        [<span class="branchCov" title="Branch 0 was taken 20018 times"> + </span><span class="branchCov" title="Branch 1 was taken 19982 times"> + </span>]:<span class="lineCov">      40000 :   if(num&gt;=0)++num;</span>
+<span class="lineNum">      54 </span>                :<span class="lineCov">      40000 :   return ratio&lt;int&gt;(num,den);</span>
+<span class="lineNum">      55 </span>                :            : }
+<a name="56"><span class="lineNum">      56 </span>                :            : </a>
+<span class="lineNum">      57 </span>                :            : 
+<span class="lineNum">      58 </span>                :<span class="lineCov">      32000 : bool expect_eq(const ratio&lt;int&gt; &amp;a, const ratio&lt;int&gt; &amp;b){</span>
+<span class="lineNum">      59 </span>                :<span class="lineCov">      32000 :   bool ret=a==b; </span>
+<span class="lineNum">      60 </span>                :<span class="lineCov">      32000 :   ostringstream oss; oss &lt;&lt; a &lt;&lt; &quot;!=&quot; &lt;&lt; b &lt;&lt; endl;</span>
+<span class="lineNum">      61 </span>        [<span class="branchNoCov" title="Branch 0 was not taken"> - </span><span class="branchCov" title="Branch 1 was taken 32000 times"> + </span>]:<span class="lineCov">      32000 :   EXPECT_TRUE(ret) &lt;&lt; oss.str();</span>
+<span class="lineNum">      62 </span>                :<span class="lineCov">      32000 :   return ret;</span>
+<a name="63"><span class="lineNum">      63 </span>                :            : }</a>
+<span class="lineNum">      64 </span>                :            : 
+<span class="lineNum">      65 </span>        [<span class="branchNoCov" title="Branch 1 was not taken"> - </span><span class="branchCov" title="Branch 2 was taken 2 times"> + </span>]:<span class="lineCov">          8 : TEST(ratio,printing){</span>
+<span class="lineNum">      66 </span>                :<span class="lineCov">          2 :   std::cerr &lt;&lt; ratio&lt;int&gt;(1341,398) &lt;&lt; endl;</span>
+<span class="lineNum">      67 </span>                :<span class="lineCov">          2 : }</span>
+<span class="lineNum">      68 </span>                :            : 
+<span class="lineNum">      69 </span>                :<span class="lineCov">          2 : ratio&lt;int&gt; zero(0);</span>
+<a name="70"><span class="lineNum">      70 </span>                :<span class="lineCov">          2 : ratio&lt;int&gt; one(1);</span></a>
+<a name="71"><span class="lineNum">      71 </span>                :            : </a>
+<span class="lineNum">      72 </span>[<span class="branchNoCov" title="Branch 1 was not taken"> - </span><span class="branchCov" title="Branch 2 was taken 2 times"> + </span>][<span class="branchNoCov" title="Branch 7 was not taken"> - </span><span class="branchCov" title="Branch 8 was taken 2 times"> + </span>]:<span class="lineCov">      20082 : TEST_FIELD(ratio_ring, 1000, ratio&lt;int&gt;, gen_ratio, </span>
+<span class="lineNum">         </span>[<span class="branchNoCov" title="Branch 13 was not taken"> - </span><span class="branchCov" title="Branch 14 was taken 2 times"> + </span>][<span class="branchNoCov" title="Branch 19 was not taken"> - </span><span class="branchCov" title="Branch 20 was taken 2 times"> + </span>]
+<span class="lineNum">         </span>[<span class="branchNoCov" title="Branch 25 was not taken"> - </span><span class="branchCov" title="Branch 26 was taken 2 times"> + </span>][<span class="branchNoCov" title="Branch 31 was not taken"> - </span><span class="branchCov" title="Branch 32 was taken 2 times"> + </span>]
+<span class="lineNum">         </span>[<span class="branchNoCov" title="Branch 37 was not taken"> - </span><span class="branchCov" title="Branch 38 was taken 2 times"> + </span>][<span class="branchNoCov" title="Branch 43 was not taken"> - </span><span class="branchCov" title="Branch 44 was taken 2 times"> + </span>]
+<span class="lineNum">         </span>[<span class="branchNoCov" title="Branch 49 was not taken"> - </span><span class="branchCov" title="Branch 50 was taken 2 times"> + </span>][<span class="branchNoCov" title="Branch 55 was not taken"> - </span><span class="branchCov" title="Branch 56 was taken 2 times"> + </span>]
+<span class="lineNum">         </span>[<span class="branchNoCov" title="Branch 109 was not taken"> - </span><span class="branchCov" title="Branch 110 was taken 2000 times"> + </span>][<span class="branchNoCov" title="Branch 129 was not taken"> - </span><span class="branchCov" title="Branch 130 was taken 2000 times"> + </span>]
+<span class="lineNum">         </span>[<span class="branchCov" title="Branch 143 was taken 2000 times"> + </span><span class="branchCov" title="Branch 144 was taken 2 times"> + </span>][<span class="branchNoCov" title="Branch 154 was not taken"> - </span><span class="branchCov" title="Branch 155 was taken 2000 times"> + </span>]
+<span class="lineNum">         </span>[<span class="branchNoCov" title="Branch 174 was not taken"> - </span><span class="branchCov" title="Branch 175 was taken 2000 times"> + </span>][<span class="branchCov" title="Branch 188 was taken 2000 times"> + </span><span class="branchCov" title="Branch 189 was taken 2 times"> + </span>]
+<span class="lineNum">         </span>[<span class="branchNoCov" title="Branch 195 was not taken"> - </span><span class="branchCov" title="Branch 196 was taken 2000 times"> + </span>][<span class="branchCov" title="Branch 201 was taken 2000 times"> + </span><span class="branchCov" title="Branch 202 was taken 2 times"> + </span>]
+<span class="lineNum">         </span>[<span class="branchNoCov" title="Branch 206 was not taken"> - </span><span class="branchCov" title="Branch 207 was taken 2000 times"> + </span>][<span class="branchNoCov" title="Branch 216 was not taken"> - </span><span class="branchCov" title="Branch 217 was taken 2000 times"> + </span>]
+<span class="lineNum">         </span>[<span class="branchCov" title="Branch 225 was taken 2000 times"> + </span><span class="branchCov" title="Branch 226 was taken 2 times"> + </span>][<span class="branchNoCov" title="Branch 230 was not taken"> - </span><span class="branchCov" title="Branch 231 was taken 2000 times"> + </span>]
+<span class="lineNum">         </span>[<span class="branchNoCov" title="Branch 239 was not taken"> - </span><span class="branchCov" title="Branch 240 was taken 2000 times"> + </span>][<span class="branchCov" title="Branch 246 was taken 2000 times"> + </span><span class="branchCov" title="Branch 247 was taken 2 times"> + </span>]
+<span class="lineNum">         </span>[<span class="branchNoCov" title="Branch 256 was not taken"> - </span><span class="branchCov" title="Branch 257 was taken 2000 times"> + </span>][<span class="branchCov" title="Branch 264 was taken 2000 times"> + </span><span class="branchCov" title="Branch 265 was taken 2 times"> + </span>]
+<span class="lineNum">         </span>[<span class="branchNoCov" title="Branch 271 was not taken"> - </span><span class="branchCov" title="Branch 272 was taken 2000 times"> + </span>][<span class="branchCov" title="Branch 277 was taken 2000 times"> + </span><span class="branchCov" title="Branch 278 was taken 2 times"> + </span>]
+<span class="lineNum">         </span>[<span class="branchNoCov" title="Branch 282 was not taken"> - </span><span class="branchCov" title="Branch 283 was taken 2000 times"> + </span>][<span class="branchNoCov" title="Branch 292 was not taken"> - </span><span class="branchCov" title="Branch 293 was taken 2000 times"> + </span>]
+<span class="lineNum">         </span>[<span class="branchCov" title="Branch 301 was taken 2000 times"> + </span><span class="branchCov" title="Branch 302 was taken 2 times"> + </span>][<span class="branchNoCov" title="Branch 306 was not taken"> - </span><span class="branchCov" title="Branch 307 was taken 2000 times"> + </span>]
+<span class="lineNum">         </span>[<span class="branchNoCov" title="Branch 315 was not taken"> - </span><span class="branchCov" title="Branch 316 was taken 2000 times"> + </span>][<span class="branchCov" title="Branch 322 was taken 2000 times"> + </span><span class="branchCov" title="Branch 323 was taken 2 times"> + </span>]
+<span class="lineNum">         </span>[<span class="branchNoCov" title="Branch 332 was not taken"> - </span><span class="branchCov" title="Branch 333 was taken 2000 times"> + </span>][<span class="branchCov" title="Branch 340 was taken 2000 times"> + </span><span class="branchCov" title="Branch 341 was taken 2 times"> + </span>]
+<span class="lineNum">      73 </span>[<span class="branchCov" title="Branch 0 was taken 2 times"> + </span><span class="branchNoCov" title="Branch 1 was not taken"> - </span>][<span class="branchCov" title="Branch 2 was taken 2 times"> + </span><span class="branchNoCov" title="Branch 3 was not taken"> - </span>]:<span class="lineCov">          6 :            zero,one,expect_eq);</span>
+<span class="lineNum">      74 </span>                :            : 
+<span class="lineNum">      75 </span>                :            : 
+</pre>
+      </td>
+    </tr>
+  </table>
+  <br>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="ruler"><img src="../glass.png" width=3 height=3 alt=""></td></tr>
+    <tr><td class="versionInfo">Generated by: <a href="http://ltp.sourceforge.net/coverage/lcov.php" target="_parent">LCOV version 1.9</a></td></tr>
+  </table>
+  <br>
+
+</body>
+</html>

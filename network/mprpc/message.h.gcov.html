@@ -1,0 +1,293 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html lang="en">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+  <title>LCOV - pficommon - network/mprpc/message.h</title>
+  <link rel="stylesheet" type="text/css" href="../../gcov.css">
+</head>
+
+<body>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="title">LCOV - code coverage report</td></tr>
+    <tr><td class="ruler"><img src="../../glass.png" width=3 height=3 alt=""></td></tr>
+
+    <tr>
+      <td width="100%">
+        <table cellpadding=1 border=0 width="100%">
+          <tr>
+            <td width="10%" class="headerItem">Current view:</td>
+            <td width="35%" class="headerValue"><a href="../../index.html">top level</a> - <a href="index.html">network/mprpc</a> - message.h<span style="font-size: 80%;"> (source / <a href="message.h.func.html">functions</a>)</span></td>
+            <td width="5%"></td>
+            <td width="15%"></td>
+            <td width="10%" class="headerCovTableHead">Hit</td>
+            <td width="10%" class="headerCovTableHead">Total</td>
+            <td width="15%" class="headerCovTableHead">Coverage</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Test:</td>
+            <td class="headerValue">pficommon</td>
+            <td></td>
+            <td class="headerItem">Lines:</td>
+            <td class="headerCovTableEntry">28</td>
+            <td class="headerCovTableEntry">44</td>
+            <td class="headerCovTableEntryLo">63.6 %</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Date:</td>
+            <td class="headerValue">2012-05-09</td>
+            <td></td>
+            <td class="headerItem">Functions:</td>
+            <td class="headerCovTableEntry">2</td>
+            <td class="headerCovTableEntry">3</td>
+            <td class="headerCovTableEntryLo">66.7 %</td>
+          </tr>
+          <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td class="headerItem">Branches:</td>
+            <td class="headerCovTableEntry">0</td>
+            <td class="headerCovTableEntry">4</td>
+            <td class="headerCovTableEntryLo">0.0 %</td>
+          </tr>
+          <tr><td><img src="../../glass.png" width=3 height=3 alt=""></td></tr>
+        </table>
+      </td>
+    </tr>
+
+    <tr><td class="ruler"><img src="../../glass.png" width=3 height=3 alt=""></td></tr>
+  </table>
+
+  <table cellpadding=0 cellspacing=0 border=0>
+    <tr>
+      <td><br></td>
+    </tr>
+    <tr>
+      <td>
+<pre class="sourceHeading">           Branch data     Line data    Source code</pre>
+<pre class="source">
+<a name="1"><span class="lineNum">       1 </span>                :            : // Copyright (c)2008-2011, Preferred Infrastructure Inc.</a>
+<span class="lineNum">       2 </span>                :            : // 
+<span class="lineNum">       3 </span>                :            : // All rights reserved.
+<span class="lineNum">       4 </span>                :            : // 
+<span class="lineNum">       5 </span>                :            : // Redistribution and use in source and binary forms, with or without
+<span class="lineNum">       6 </span>                :            : // modification, are permitted provided that the following conditions are met:
+<span class="lineNum">       7 </span>                :            : // 
+<span class="lineNum">       8 </span>                :            : //     * Redistributions of source code must retain the above copyright
+<span class="lineNum">       9 </span>                :            : //       notice, this list of conditions and the following disclaimer.
+<span class="lineNum">      10 </span>                :            : // 
+<span class="lineNum">      11 </span>                :            : //     * Redistributions in binary form must reproduce the above
+<span class="lineNum">      12 </span>                :            : //       copyright notice, this list of conditions and the following
+<span class="lineNum">      13 </span>                :            : //       disclaimer in the documentation and/or other materials provided
+<span class="lineNum">      14 </span>                :            : //       with the distribution.
+<span class="lineNum">      15 </span>                :            : // 
+<span class="lineNum">      16 </span>                :            : //     * Neither the name of Preferred Infrastructure nor the names of other
+<span class="lineNum">      17 </span>                :            : //       contributors may be used to endorse or promote products derived
+<span class="lineNum">      18 </span>                :            : //       from this software without specific prior written permission.
+<span class="lineNum">      19 </span>                :            : // 
+<span class="lineNum">      20 </span>                :            : // THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+<span class="lineNum">      21 </span>                :            : // &quot;AS IS&quot; AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+<span class="lineNum">      22 </span>                :            : // LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+<span class="lineNum">      23 </span>                :            : // A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
+<span class="lineNum">      24 </span>                :            : // OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+<span class="lineNum">      25 </span>                :            : // SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+<span class="lineNum">      26 </span>                :            : // LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+<span class="lineNum">      27 </span>                :            : // DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+<span class="lineNum">      28 </span>                :            : // THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+<span class="lineNum">      29 </span>                :            : // (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+<span class="lineNum">      30 </span>                :            : // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+<span class="lineNum">      31 </span>                :            : 
+<span class="lineNum">      32 </span>                :            : #ifndef INCLUDE_GUARD_PFI_NETWORK_MPRPC_MESSAGE_H_
+<span class="lineNum">      33 </span>                :            : #define INCLUDE_GUARD_PFI_NETWORK_MPRPC_MESSAGE_H_
+<span class="lineNum">      34 </span>                :            : 
+<span class="lineNum">      35 </span>                :            : #include &lt;memory&gt;
+<span class="lineNum">      36 </span>                :            : #include &lt;sstream&gt;
+<span class="lineNum">      37 </span>                :            : 
+<span class="lineNum">      38 </span>                :            : #include &lt;msgpack.hpp&gt;
+<span class="lineNum">      39 </span>                :            : 
+<span class="lineNum">      40 </span>                :            : namespace pfi {
+<span class="lineNum">      41 </span>                :            : namespace network {
+<span class="lineNum">      42 </span>                :            : namespace mprpc {
+<span class="lineNum">      43 </span>                :            : 
+<span class="lineNum">      44 </span>                :            : 
+<span class="lineNum">      45 </span>                :<span class="lineCov">       2006 : struct rpc_message {</span>
+<span class="lineNum">      46 </span>                :            : public:
+<span class="lineNum">      47 </span>                :<span class="lineCov">       4016 :   rpc_message() { }</span>
+<span class="lineNum">      48 </span>                :            : 
+<span class="lineNum">      49 </span>                :            :   rpc_message(msgpack::object obj, std::auto_ptr&lt;msgpack::zone&gt; z) :
+<span class="lineNum">      50 </span>                :            :     zone(z)
+<span class="lineNum">      51 </span>                :            :   {
+<span class="lineNum">      52 </span>                :            :     obj.convert(&amp;tuple);
+<span class="lineNum">      53 </span>                :            :   }
+<span class="lineNum">      54 </span>                :            : 
+<span class="lineNum">      55 </span>                :            :   void reset(msgpack::object obj, std::auto_ptr&lt;msgpack::zone&gt; z)
+<span class="lineNum">      56 </span>                :            :   {
+<span class="lineNum">      57 </span>                :<span class="lineCov">       2004 :     obj.convert(&amp;tuple);</span>
+<span class="lineNum">      58 </span>                :<span class="lineCov">       2004 :     zone = z;</span>
+<span class="lineNum">      59 </span>                :            :   }
+<span class="lineNum">      60 </span>                :            : 
+<span class="lineNum">      61 </span>                :<span class="lineCov">       1002 :   bool is_request()   { return tuple.a0 == 0; }</span>
+<span class="lineNum">      62 </span>                :<span class="lineCov">       1002 :   bool is_response()  { return tuple.a0 == 1; }</span>
+<span class="lineNum">      63 </span>                :            : 
+<span class="lineNum">      64 </span>                :<span class="lineCov">       1002 :   uint32_t msgid() const { return tuple.a1; }</span>
+<span class="lineNum">      65 </span>                :            : 
+<span class="lineNum">      66 </span>                :            :   msgpack::type::tuple&lt;uint8_t, uint32_t,
+<span class="lineNum">      67 </span>                :            :     msgpack::object, msgpack::object&gt; tuple;
+<span class="lineNum">      68 </span>                :            : 
+<span class="lineNum">      69 </span>                :            :   std::auto_ptr&lt;msgpack::zone&gt; zone;
+<span class="lineNum">      70 </span>                :            : };
+<a name="71"><span class="lineNum">      71 </span>                :            : </a>
+<span class="lineNum">      72 </span>                :            : 
+<span class="lineNum">      73 </span>                :<span class="lineCov">       1002 : struct rpc_request {</span>
+<span class="lineNum">      74 </span>                :            :   rpc_request(rpc_message&amp; msg)
+<span class="lineNum">      75 </span>                :<span class="lineCov">       3006 :   {</span>
+<span class="lineNum">      76 </span>                :            :     reset(msg);
+<span class="lineNum">      77 </span>                :<span class="lineNoCov">          0 :   }</span>
+<span class="lineNum">      78 </span>                :            : 
+<span class="lineNum">      79 </span>                :            :   rpc_request()
+<span class="lineNum">      80 </span>                :            :   { }
+<span class="lineNum">      81 </span>                :            : 
+<span class="lineNum">      82 </span>                :            :   void reset(rpc_message&amp; msg)
+<span class="lineNum">      83 </span>                :            :   {
+<span class="lineNum">      84 </span>                :<span class="lineCov">       1002 :     msgid  = msg.tuple.a1;</span>
+<span class="lineNum">      85 </span>                :<span class="lineCov">       1002 :              msg.tuple.a2.convert(&amp;method);</span>
+<span class="lineNum">      86 </span>                :<span class="lineCov">       1002 :     param  = msg.tuple.a3;</span>
+<span class="lineNum">      87 </span>                :<span class="lineCov">       1002 :     zone   = msg.zone;</span>
+<span class="lineNum">      88 </span>                :            :   }
+<span class="lineNum">      89 </span>                :            : 
+<span class="lineNum">      90 </span>                :            :   template &lt;typename ObjectWritable, typename P&gt;
+<span class="lineNum">      91 </span>                :            :   static bool write(ObjectWritable&amp; o, uint32_t msgid, const std::string&amp; name, const P&amp; param, double timeout_sec)
+<span class="lineNum">      92 </span>                :            :   {
+<span class="lineNum">      93 </span>                :            :     msgpack::type::tuple&lt;uint8_t, uint32_t, const std::string&amp;, const P&amp;&gt;
+<span class="lineNum">      94 </span>                :<span class="lineCov">       1002 :       req(0, msgid, name, param);</span>
+<span class="lineNum">      95 </span>                :<span class="lineCov">       1002 :     return o.write(req, timeout_sec);</span>
+<span class="lineNum">      96 </span>                :            :   }
+<span class="lineNum">      97 </span>                :            : 
+<span class="lineNum">      98 </span>                :            :   template &lt;typename T&gt;
+<span class="lineNum">      99 </span>                :            :   bool param_as(T* to)
+<span class="lineNum">     100 </span>                :            :   try {
+<span class="lineNum">     101 </span>                :<span class="lineCov">       1002 :     param.convert(to);</span>
+<span class="lineNum">     102 </span>                :<span class="lineCov">       1002 :     return true;</span>
+<span class="lineNum">     103 </span>                :<span class="lineNoCov">          0 :   } catch (msgpack::type_error&amp;) {</span>
+<span class="lineNum">     104 </span>                :<span class="lineNoCov">          0 :     return false;</span>
+<span class="lineNum">     105 </span>                :            :   }
+<span class="lineNum">     106 </span>                :            : 
+<span class="lineNum">     107 </span>                :            :   uint32_t msgid;
+<span class="lineNum">     108 </span>                :            :   std::string method;
+<span class="lineNum">     109 </span>                :            :   msgpack::object param;
+<span class="lineNum">     110 </span>                :            :   std::auto_ptr&lt;msgpack::zone&gt; zone;
+<span class="lineNum">     111 </span>                :            : };
+<a name="112"><span class="lineNum">     112 </span>                :            : </a>
+<span class="lineNum">     113 </span>                :            : 
+<span class="lineNum">     114 </span>                :<span class="lineCov">       1002 : struct rpc_response {</span>
+<span class="lineNum">     115 </span>                :            :   rpc_response(rpc_message&amp; msg)
+<span class="lineNum">     116 </span>                :            :   {
+<span class="lineNum">     117 </span>                :            :     reset(msg);
+<span class="lineNum">     118 </span>                :            :   }
+<span class="lineNum">     119 </span>                :            : 
+<span class="lineNum">     120 </span>                :            :   rpc_response()
+<span class="lineNum">     121 </span>                :<span class="lineCov">       3006 :   { }</span>
+<span class="lineNum">     122 </span>                :            : 
+<span class="lineNum">     123 </span>                :            :   void reset(rpc_message&amp; msg)
+<span class="lineNum">     124 </span>                :            :   {
+<span class="lineNum">     125 </span>                :<span class="lineCov">       1002 :     msgid  = msg.tuple.a1;</span>
+<span class="lineNum">     126 </span>                :<span class="lineCov">       1002 :              msg.tuple.a2.convert(&amp;error);</span>
+<span class="lineNum">     127 </span>                :<span class="lineCov">       1002 :              msg.tuple.a3.convert(&amp;result);</span>
+<span class="lineNum">     128 </span>                :<span class="lineCov">       1002 :     zone   = msg.zone;</span>
+<span class="lineNum">     129 </span>                :            :   }
+<span class="lineNum">     130 </span>                :            : 
+<span class="lineNum">     131 </span>                :            :   template &lt;typename ObjectWritable, typename R, typename E&gt;
+<span class="lineNum">     132 </span>                :            :   static bool write(ObjectWritable&amp; o, uint32_t msgid, const R&amp; retval, const E&amp; error, double timeout_sec)
+<span class="lineNum">     133 </span>                :            :   {
+<span class="lineNum">     134 </span>                :            :     msgpack::type::tuple&lt;uint8_t, uint32_t, const E&amp;, const R&amp;&gt;
+<span class="lineNum">     135 </span>                :<span class="lineCov">       1002 :       res(1, msgid, error, retval);</span>
+<span class="lineNum">     136 </span>                :<span class="lineCov">       1002 :     return o.write(res, timeout_sec);</span>
+<span class="lineNum">     137 </span>                :            :   }
+<span class="lineNum">     138 </span>                :            : 
+<span class="lineNum">     139 </span>                :            :   bool is_error() const
+<span class="lineNum">     140 </span>                :            :   {
+<span class="lineNum">     141 </span>                :<span class="lineCov">       2004 :     return !error.is_nil();</span>
+<span class="lineNum">     142 </span>                :            :   }
+<span class="lineNum">     143 </span>                :            : 
+<span class="lineNum">     144 </span>                :            :   template &lt;typename E&gt;
+<span class="lineNum">     145 </span>                :            :   bool error_as(E* to) const
+<span class="lineNum">     146 </span>                :            :   try {
+<span class="lineNum">     147 </span>                :            :     error.convert(to);
+<span class="lineNum">     148 </span>                :            :     return true;
+<span class="lineNum">     149 </span>                :            :   } catch (msgpack::type_error&amp;) {
+<span class="lineNum">     150 </span>                :            :     return false;
+<span class="lineNum">     151 </span>                :            :   }
+<span class="lineNum">     152 </span>                :            : 
+<span class="lineNum">     153 </span>                :            :   template &lt;typename R&gt;
+<span class="lineNum">     154 </span>                :            :   bool result_as(R* to) const
+<span class="lineNum">     155 </span>                :            :   try {
+<span class="lineNum">     156 </span>                :<span class="lineCov">       1000 :     result.convert(to);</span>
+<span class="lineNum">     157 </span>                :<span class="lineCov">       1002 :     return true;</span>
+<span class="lineNum">     158 </span>                :<span class="lineNoCov">          0 :   } catch (msgpack::type_error&amp;) {</span>
+<span class="lineNum">     159 </span>                :<span class="lineNoCov">          0 :     return false;</span>
+<span class="lineNum">     160 </span>                :            :   }
+<span class="lineNum">     161 </span>                :            : 
+<span class="lineNum">     162 </span>                :            :   unsigned int error_code() const
+<span class="lineNum">     163 </span>                :            :   {
+<span class="lineNum">     164 </span>        [<span class="branchNoExec" title="Branch 0 was not executed"> # </span><span class="branchNoExec" title="Branch 1 was not executed"> # </span>]:<span class="lineNoCov">          0 :     if(error.type == msgpack::type::POSITIVE_INTEGER) {</span>
+<span class="lineNum">     165 </span>                :<span class="lineNoCov">          0 :       return error.via.u64;</span>
+<span class="lineNum">     166 </span>                :            :     }
+<span class="lineNum">     167 </span>                :<span class="lineNoCov">          0 :     return 0;</span>
+<span class="lineNum">     168 </span>                :            :   }
+<span class="lineNum">     169 </span>                :            : 
+<span class="lineNum">     170 </span>                :            :   std::string error_string() const
+<span class="lineNum">     171 </span>                :            :   {
+<span class="lineNum">     172 </span>                :<span class="lineNoCov">          0 :     return object_to_string(error);</span>
+<span class="lineNum">     173 </span>                :            :   }
+<span class="lineNum">     174 </span>                :            : 
+<span class="lineNum">     175 </span>                :            :   std::string result_string() const
+<span class="lineNum">     176 </span>                :            :   {
+<span class="lineNum">     177 </span>                :<span class="lineNoCov">          0 :     return object_to_string(result);</span>
+<span class="lineNum">     178 </span>                :            :   }
+<span class="lineNum">     179 </span>                :            : 
+<span class="lineNum">     180 </span>                :            :   uint32_t msgid;
+<span class="lineNum">     181 </span>                :            :   msgpack::object error;
+<span class="lineNum">     182 </span>                :            :   msgpack::object result;
+<span class="lineNum">     183 </span>                :            :   std::auto_ptr&lt;msgpack::zone&gt; zone;
+<a name="184"><span class="lineNum">     184 </span>                :            : </a>
+<span class="lineNum">     185 </span>                :            : private:
+<span class="lineNum">     186 </span>                :<span class="lineNoCov">          0 :   static std::string object_to_string(msgpack::object o)</span>
+<span class="lineNum">     187 </span>                :            :   {
+<span class="lineNum">     188 </span>        [<span class="branchNoExec" title="Branch 0 was not executed"> # </span><span class="branchNoExec" title="Branch 1 was not executed"> # </span>]:<span class="lineNoCov">          0 :     if(o.type == msgpack::type::RAW) {</span>
+<span class="lineNum">     189 </span>                :<span class="lineNoCov">          0 :       return std::string(o.via.raw.ptr, o.via.raw.size);</span>
+<span class="lineNum">     190 </span>                :            :     }
+<span class="lineNum">     191 </span>                :<span class="lineNoCov">          0 :     std::ostringstream oss;</span>
+<span class="lineNum">     192 </span>                :<span class="lineNoCov">          0 :     oss &lt;&lt; o;</span>
+<span class="lineNum">     193 </span>                :<span class="lineNoCov">          0 :     return oss.str();</span>
+<span class="lineNum">     194 </span>                :            :   }
+<span class="lineNum">     195 </span>                :            : };
+<span class="lineNum">     196 </span>                :            : 
+<span class="lineNum">     197 </span>                :            : 
+<span class="lineNum">     198 </span>                :            : enum error_code {
+<span class="lineNum">     199 </span>                :            :   METHOD_NOT_FOUND = 1,
+<span class="lineNum">     200 </span>                :            :   TYPE_MISMATCH    = 2,
+<span class="lineNum">     201 </span>                :            : };
+<span class="lineNum">     202 </span>                :            : 
+<span class="lineNum">     203 </span>                :            : 
+<span class="lineNum">     204 </span>                :            : }  // namespace mprpc
+<span class="lineNum">     205 </span>                :            : }  // namespace network
+<span class="lineNum">     206 </span>                :            : }  // namespace pfi
+<span class="lineNum">     207 </span>                :            : 
+<span class="lineNum">     208 </span>                :            : #endif // #ifndef INCLUDE_GUARD_PFI_NETWORK_MPRPC_MESSAGE_H_
+</pre>
+      </td>
+    </tr>
+  </table>
+  <br>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="ruler"><img src="../../glass.png" width=3 height=3 alt=""></td></tr>
+    <tr><td class="versionInfo">Generated by: <a href="http://ltp.sourceforge.net/coverage/lcov.php" target="_parent">LCOV version 1.9</a></td></tr>
+  </table>
+  <br>
+
+</body>
+</html>

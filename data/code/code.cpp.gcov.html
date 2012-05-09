@@ -1,0 +1,330 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html lang="en">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+  <title>LCOV - pficommon - data/code/code.cpp</title>
+  <link rel="stylesheet" type="text/css" href="../../gcov.css">
+</head>
+
+<body>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="title">LCOV - code coverage report</td></tr>
+    <tr><td class="ruler"><img src="../../glass.png" width=3 height=3 alt=""></td></tr>
+
+    <tr>
+      <td width="100%">
+        <table cellpadding=1 border=0 width="100%">
+          <tr>
+            <td width="10%" class="headerItem">Current view:</td>
+            <td width="35%" class="headerValue"><a href="../../index.html">top level</a> - <a href="index.html">data/code</a> - code.cpp<span style="font-size: 80%;"> (source / <a href="code.cpp.func.html">functions</a>)</span></td>
+            <td width="5%"></td>
+            <td width="15%"></td>
+            <td width="10%" class="headerCovTableHead">Hit</td>
+            <td width="10%" class="headerCovTableHead">Total</td>
+            <td width="15%" class="headerCovTableHead">Coverage</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Test:</td>
+            <td class="headerValue">pficommon</td>
+            <td></td>
+            <td class="headerItem">Lines:</td>
+            <td class="headerCovTableEntry">121</td>
+            <td class="headerCovTableEntry">121</td>
+            <td class="headerCovTableEntryHi">100.0 %</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Date:</td>
+            <td class="headerValue">2012-05-09</td>
+            <td></td>
+            <td class="headerItem">Functions:</td>
+            <td class="headerCovTableEntry">25</td>
+            <td class="headerCovTableEntry">25</td>
+            <td class="headerCovTableEntryHi">100.0 %</td>
+          </tr>
+          <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td class="headerItem">Branches:</td>
+            <td class="headerCovTableEntry">20</td>
+            <td class="headerCovTableEntry">24</td>
+            <td class="headerCovTableEntryMed">83.3 %</td>
+          </tr>
+          <tr><td><img src="../../glass.png" width=3 height=3 alt=""></td></tr>
+        </table>
+      </td>
+    </tr>
+
+    <tr><td class="ruler"><img src="../../glass.png" width=3 height=3 alt=""></td></tr>
+  </table>
+
+  <table cellpadding=0 cellspacing=0 border=0>
+    <tr>
+      <td><br></td>
+    </tr>
+    <tr>
+      <td>
+<pre class="sourceHeading">           Branch data     Line data    Source code</pre>
+<pre class="source">
+<a name="1"><span class="lineNum">       1 </span>                :            : // Copyright (c)2008-2011, Preferred Infrastructure Inc.</a>
+<span class="lineNum">       2 </span>                :            : // 
+<span class="lineNum">       3 </span>                :            : // All rights reserved.
+<span class="lineNum">       4 </span>                :            : // 
+<span class="lineNum">       5 </span>                :            : // Redistribution and use in source and binary forms, with or without
+<span class="lineNum">       6 </span>                :            : // modification, are permitted provided that the following conditions are met:
+<span class="lineNum">       7 </span>                :            : // 
+<span class="lineNum">       8 </span>                :            : //     * Redistributions of source code must retain the above copyright
+<span class="lineNum">       9 </span>                :            : //       notice, this list of conditions and the following disclaimer.
+<span class="lineNum">      10 </span>                :            : // 
+<span class="lineNum">      11 </span>                :            : //     * Redistributions in binary form must reproduce the above
+<span class="lineNum">      12 </span>                :            : //       copyright notice, this list of conditions and the following
+<span class="lineNum">      13 </span>                :            : //       disclaimer in the documentation and/or other materials provided
+<span class="lineNum">      14 </span>                :            : //       with the distribution.
+<span class="lineNum">      15 </span>                :            : // 
+<span class="lineNum">      16 </span>                :            : //     * Neither the name of Preferred Infrastructure nor the names of other
+<span class="lineNum">      17 </span>                :            : //       contributors may be used to endorse or promote products derived
+<span class="lineNum">      18 </span>                :            : //       from this software without specific prior written permission.
+<span class="lineNum">      19 </span>                :            : // 
+<span class="lineNum">      20 </span>                :            : // THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+<span class="lineNum">      21 </span>                :            : // &quot;AS IS&quot; AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+<span class="lineNum">      22 </span>                :            : // LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+<span class="lineNum">      23 </span>                :            : // A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
+<span class="lineNum">      24 </span>                :            : // OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+<span class="lineNum">      25 </span>                :            : // SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+<span class="lineNum">      26 </span>                :            : // LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+<span class="lineNum">      27 </span>                :            : // DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+<span class="lineNum">      28 </span>                :            : // THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+<span class="lineNum">      29 </span>                :            : // (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+<span class="lineNum">      30 </span>                :            : // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+<span class="lineNum">      31 </span>                :            : 
+<span class="lineNum">      32 </span>                :            : #include &quot;code.h&quot;
+<span class="lineNum">      33 </span>                :            : 
+<span class="lineNum">      34 </span>                :            : #include &lt;algorithm&gt;
+<span class="lineNum">      35 </span>                :            : #include &lt;fstream&gt;
+<span class="lineNum">      36 </span>                :            : #include &lt;cassert&gt;
+<span class="lineNum">      37 </span>                :            : 
+<span class="lineNum">      38 </span>                :            : #include &quot;../../system/file.h&quot;
+<span class="lineNum">      39 </span>                :            : #include &quot;../../system/endian_util.h&quot;
+<span class="lineNum">      40 </span>                :            : 
+<span class="lineNum">      41 </span>                :            : using namespace std;
+<span class="lineNum">      42 </span>                :            : using namespace pfi::system::file;
+<span class="lineNum">      43 </span>                :            : using namespace pfi::system::endian;
+<span class="lineNum">      44 </span>                :            : 
+<span class="lineNum">      45 </span>                :            : 
+<span class="lineNum">      46 </span>                :            : namespace pfi {
+<span class="lineNum">      47 </span>                :            : namespace data {
+<span class="lineNum">      48 </span>                :            : namespace code {
+<a name="49"><span class="lineNum">      49 </span>                :            : </a>
+<span class="lineNum">      50 </span>                :            :   inline unsigned int get_len(unsigned int v) {
+<span class="lineNum">      51 </span>                :<span class="lineCov">      17670 :     return 32-__builtin_clz(v);</span>
+<span class="lineNum">      52 </span>                :            :   }
+<span class="lineNum">      53 </span>                :            : 
+<span class="lineNum">      54 </span>                :            : ////////////////////////////////////////////////////////////////
+<span class="lineNum">      55 </span>                :            : //
+<span class="lineNum">      56 </span>                :            : // encoder
+<a name="57"><span class="lineNum">      57 </span>                :            : //</a>
+<span class="lineNum">      58 </span>                :            : 
+<a name="59"><span class="lineNum">      59 </span>                :<span class="lineCov">        252 :   encoder::encoder():bit(0) { }</span></a>
+<span class="lineNum">      60 </span>                :            : 
+<span class="lineNum">      61 </span>                :<span class="lineCov">          2 :   int encoder::flush(string fn) {</span>
+<span class="lineNum">      62 </span>                :<span class="lineCov">          2 :     ofstream ofs(fn.c_str());</span>
+<span class="lineNum">      63 </span>                :<span class="lineCov">          2 :     return flush(ofs);</span>
+<a name="64"><span class="lineNum">      64 </span>                :            :   }</a>
+<span class="lineNum">      65 </span>                :            : 
+<span class="lineNum">      66 </span>                :<span class="lineCov">        202 :   int encoder::flush(ostream&amp; os) {</span>
+<span class="lineNum">      67 </span>                :<span class="lineCov">        404 :     int res=bytes.size();</span>
+<span class="lineNum">      68 </span>                :<span class="lineCov">        202 :     os.write((char*)&amp;bytes[0],bytes.size());</span>
+<span class="lineNum">      69 </span>                :<span class="lineCov">        202 :     bytes.clear();</span>
+<span class="lineNum">      70 </span>                :<span class="lineCov">        202 :     bit=0;</span>
+<span class="lineNum">      71 </span>                :<span class="lineCov">        202 :     return res;</span>
+<a name="72"><span class="lineNum">      72 </span>                :            :   }</a>
+<span class="lineNum">      73 </span>                :            : 
+<span class="lineNum">      74 </span>                :<span class="lineCov">         50 :   vector&lt;unsigned char&gt;&amp; encoder::get_bytes() {</span>
+<span class="lineNum">      75 </span>                :<span class="lineCov">         50 :     return bytes;</span>
+<a name="76"><span class="lineNum">      76 </span>                :            :   }</a>
+<span class="lineNum">      77 </span>                :            : 
+<span class="lineNum">      78 </span>                :<span class="lineCov">       9920 :   void encoder::byte(unsigned char v) {</span>
+<span class="lineNum">      79 </span>                :<span class="lineCov">       9920 :     bit=0;</span>
+<span class="lineNum">      80 </span>                :<span class="lineCov">       9920 :     bytes.push_back(v);</span>
+<a name="81"><span class="lineNum">      81 </span>                :<span class="lineCov">       9920 :   }</span></a>
+<span class="lineNum">      82 </span>                :            : 
+<span class="lineNum">      83 </span>                :<span class="lineCov">      45950 :   void encoder::word_with_length(unsigned int v, unsigned int len)</span>
+<span class="lineNum">      84 </span>                :            :   {
+<span class="lineNum">      85 </span>                :<span class="lineCov">      45950 :     unsigned int rest=8-bit;</span>
+<span class="lineNum">      86 </span>        [<span class="branchCov" title="Branch 0 was taken 104934 times"> + </span><span class="branchCov" title="Branch 1 was taken 45950 times"> + </span>]:<span class="lineCov">     150884 :     while(len) {</span>
+<span class="lineNum">      87 </span>        [<span class="branchCov" title="Branch 0 was taken 66439 times"> + </span><span class="branchCov" title="Branch 1 was taken 38495 times"> + </span>]:<span class="lineCov">     104934 :       if (bit==0) bytes.push_back(0);</span>
+<span class="lineNum">      88 </span>                :<span class="lineCov">     104934 :       unsigned int consume=min(rest,len);</span>
+<span class="lineNum">      89 </span>                :<span class="lineCov">     104934 :       unsigned int vv=v&amp;((1U&lt;&lt;consume)-1);</span>
+<span class="lineNum">      90 </span>                :<span class="lineCov">     209868 :       bytes.back()|=(vv&lt;&lt;bit);</span>
+<span class="lineNum">      91 </span>                :<span class="lineCov">     104934 :       v&gt;&gt;=consume;</span>
+<span class="lineNum">      92 </span>                :<span class="lineCov">     104934 :       len-=consume;</span>
+<span class="lineNum">      93 </span>                :<span class="lineCov">     104934 :       bit=(bit+consume)&amp;7;</span>
+<span class="lineNum">      94 </span>                :<span class="lineCov">     104934 :       rest=8;</span>
+<span class="lineNum">      95 </span>                :            :     }
+<span class="lineNum">      96 </span>                :<span class="lineCov">      45950 :   }</span>
+<span class="lineNum">      97 </span>                :            : 
+<span class="lineNum">      98 </span>                :<span class="lineCov">      10610 :   void encoder::gamma(unsigned int v)</span>
+<span class="lineNum">      99 </span>                :            :   {
+<span class="lineNum">     100 </span>                :<span class="lineCov">      10610 :     unsigned int pmsf=get_len(v)-1;     // the position of the most significant bit</span>
+<span class="lineNum">     101 </span>                :<span class="lineCov">      10610 :     word_with_length(0,pmsf);           // 0</span>
+<span class="lineNum">     102 </span>                :<span class="lineCov">      10610 :     word_with_length(1,1);              // 1</span>
+<span class="lineNum">     103 </span>                :<span class="lineCov">      10610 :     word_with_length(v-(1U&lt;&lt;pmsf),pmsf); // value</span>
+<span class="lineNum">     104 </span>                :<span class="lineCov">      10610 :   }</span>
+<span class="lineNum">     105 </span>                :            : 
+<span class="lineNum">     106 </span>                :<span class="lineCov">       7060 :   void encoder::delta(unsigned int v)</span>
+<span class="lineNum">     107 </span>                :            :   {
+<span class="lineNum">     108 </span>                :<span class="lineCov">       7060 :     unsigned int pmsf=get_len(v)-1;       // the position of the most significant bit</span>
+<span class="lineNum">     109 </span>                :<span class="lineCov">       7060 :     gamma(pmsf+1);</span>
+<span class="lineNum">     110 </span>                :<span class="lineCov">       7060 :     word_with_length(v-(1&lt;&lt;pmsf),pmsf);</span>
+<a name="111"><span class="lineNum">     111 </span>                :<span class="lineCov">       7060 :   }</span></a>
+<span class="lineNum">     112 </span>                :            : 
+<span class="lineNum">     113 </span>                :<span class="lineCov">       3530 :   void encoder::rice(unsigned int v, unsigned int k)</span>
+<span class="lineNum">     114 </span>                :            :   {
+<span class="lineNum">     115 </span>                :<span class="lineCov">       3530 :     delta((v&gt;&gt;k)+1);</span>
+<span class="lineNum">     116 </span>                :<span class="lineCov">       3530 :     word_with_length(v&amp;((1&lt;&lt;k)-1),k);</span>
+<a name="117"><span class="lineNum">     117 </span>                :<span class="lineCov">       3530 :   }</span></a>
+<span class="lineNum">     118 </span>                :            : 
+<span class="lineNum">     119 </span>                :<span class="lineCov">      13450 :   void encoder::prefix_code(unsigned int v)</span>
+<span class="lineNum">     120 </span>                :            :   {
+<span class="lineNum">     121 </span>                :<span class="lineCov">      13450 :     bit=0;</span>
+<span class="lineNum">     122 </span>        [<span class="branchCov" title="Branch 0 was taken 16963 times"> + </span><span class="branchCov" title="Branch 1 was taken 13450 times"> + </span>]:<span class="lineCov">      30413 :     while(v&gt;=128) {</span>
+<span class="lineNum">     123 </span>                :<span class="lineCov">      16963 :       bytes.push_back(v&amp;127);</span>
+<span class="lineNum">     124 </span>                :<span class="lineCov">      16963 :       v&gt;&gt;=7;</span>
+<span class="lineNum">     125 </span>                :            :     } 
+<span class="lineNum">     126 </span>                :<span class="lineCov">      13450 :     bytes.push_back(v+128);</span>
+<span class="lineNum">     127 </span>                :<span class="lineCov">      13450 :   }</span>
+<span class="lineNum">     128 </span>                :            : 
+<span class="lineNum">     129 </span>                :            : ////////////////////////////////////////////////////////////////
+<span class="lineNum">     130 </span>                :            : //
+<span class="lineNum">     131 </span>                :            : // decoder
+<a name="132"><span class="lineNum">     132 </span>                :            : //</a>
+<span class="lineNum">     133 </span>                :            : 
+<span class="lineNum">     134 </span>                :<span class="lineCov">         36 :   decoder::decoder():newed(false),pos(0),bit(0),bytes(NULL) </span>
+<span class="lineNum">     135 </span>                :            :   { 
+<a name="136"><span class="lineNum">     136 </span>                :<span class="lineCov">         36 :   }</span></a>
+<span class="lineNum">     137 </span>                :            : 
+<span class="lineNum">     138 </span>                :<span class="lineCov">         36 :   decoder::~decoder()</span>
+<span class="lineNum">     139 </span>                :            :   {
+<span class="lineNum">     140 </span>                :<span class="lineCov">         36 :     detach();</span>
+<a name="141"><span class="lineNum">     141 </span>                :<span class="lineCov">         36 :   }</span></a>
+<span class="lineNum">     142 </span>                :            : 
+<span class="lineNum">     143 </span>                :<span class="lineCov">        600 :   bool decoder::is_open() {</span>
+<span class="lineNum">     144 </span>                :<span class="lineCov">        600 :     return bytes!=0;</span>
+<a name="145"><span class="lineNum">     145 </span>                :            :   }</a>
+<span class="lineNum">     146 </span>                :            : 
+<span class="lineNum">     147 </span>                :<span class="lineCov">          6 :   int decoder::attach(string fn) {</span>
+<span class="lineNum">     148 </span>                :<span class="lineCov">          6 :     ifstream ifs(fn.c_str());</span>
+<span class="lineNum">     149 </span>        [<span class="branchNoCov" title="Branch 0 was not taken"> - </span><span class="branchCov" title="Branch 1 was taken 6 times"> + </span>]:<span class="lineCov">          6 :     if (!ifs) return -1;</span>
+<span class="lineNum">     150 </span>                :<span class="lineCov">          6 :     return attach(ifs,get_file_size(fn));</span>
+<a name="151"><span class="lineNum">     151 </span>                :            :   }</a>
+<span class="lineNum">     152 </span>                :            : 
+<span class="lineNum">     153 </span>                :<span class="lineCov">          6 :   int decoder::attach(istream&amp; is, int size) {</span>
+<span class="lineNum">     154 </span>                :<span class="lineCov">          6 :     detach();</span>
+<span class="lineNum">     155 </span>                :<span class="lineCov">          6 :     bytes=new unsigned char[size+sizeof(long long)];</span>
+<span class="lineNum">     156 </span>                :<span class="lineCov">          6 :     newed=true;</span>
+<span class="lineNum">     157 </span>                :<span class="lineCov">          6 :     is.read((char*)&amp;bytes[0],size);</span>
+<span class="lineNum">     158 </span>        [<span class="branchCov" title="Branch 0 was taken 48 times"> + </span><span class="branchCov" title="Branch 1 was taken 6 times"> + </span>]:<span class="lineCov">         54 :     for (int i=size;i&lt;(int)(size+sizeof(long long));++i) bytes[i]=0;</span>
+<span class="lineNum">     159 </span>                :<span class="lineCov">          6 :     return 0;</span>
+<a name="160"><span class="lineNum">     160 </span>                :            :   }</a>
+<span class="lineNum">     161 </span>                :            : 
+<span class="lineNum">     162 </span>                :<span class="lineCov">         30 :   int decoder::attach(unsigned char* buf)</span>
+<span class="lineNum">     163 </span>                :            :   {
+<span class="lineNum">     164 </span>                :<span class="lineCov">         30 :     detach();</span>
+<span class="lineNum">     165 </span>                :<span class="lineCov">         30 :     newed=false;</span>
+<span class="lineNum">     166 </span>                :<span class="lineCov">         30 :     bytes=buf;</span>
+<span class="lineNum">     167 </span>                :<span class="lineCov">         30 :     return 0;</span>
+<a name="168"><span class="lineNum">     168 </span>                :            :   }</a>
+<span class="lineNum">     169 </span>                :            : 
+<span class="lineNum">     170 </span>                :<span class="lineCov">         82 :   void decoder::detach()</span>
+<span class="lineNum">     171 </span>                :            :   {
+<span class="lineNum">     172 </span>[<span class="branchCov" title="Branch 0 was taken 36 times"> + </span><span class="branchCov" title="Branch 1 was taken 46 times"> + </span>][<span class="branchCov" title="Branch 2 was taken 6 times"> + </span><span class="branchCov" title="Branch 3 was taken 30 times"> + </span>]:<span class="lineCov">         82 :     if (bytes&amp;&amp;newed) delete[] bytes;</span>
+<span class="lineNum">         </span>        [<span class="branchCov" title="Branch 4 was taken 6 times"> + </span><span class="branchNoCov" title="Branch 5 was not taken"> - </span>]
+<span class="lineNum">     173 </span>                :<span class="lineCov">         82 :     newed=false;</span>
+<span class="lineNum">     174 </span>                :<span class="lineCov">         82 :     bytes=NULL;</span>
+<span class="lineNum">     175 </span>                :<span class="lineCov">         82 :     pos=bit=0;</span>
+<a name="176"><span class="lineNum">     176 </span>                :<span class="lineCov">         82 :   }</span></a>
+<span class="lineNum">     177 </span>                :            : 
+<span class="lineNum">     178 </span>                :<span class="lineCov">        600 :   void decoder::seek(int pos_, int bit_) {</span>
+<span class="lineNum">     179 </span>                :<span class="lineCov">        600 :     pos=pos_;</span>
+<span class="lineNum">     180 </span>                :<span class="lineCov">        600 :     bit=bit_;</span>
+<a name="181"><span class="lineNum">     181 </span>                :<span class="lineCov">        600 :   }</span></a>
+<span class="lineNum">     182 </span>                :            : 
+<span class="lineNum">     183 </span>                :<span class="lineCov">      29760 :   unsigned char decoder::byte() {</span>
+<span class="lineNum">     184 </span>                :<span class="lineCov">      29760 :     return bytes[pos++];</span>
+<a name="185"><span class="lineNum">     185 </span>                :            :   }</a>
+<span class="lineNum">     186 </span>                :            : 
+<span class="lineNum">     187 </span>                :<span class="lineCov">      24710 :   unsigned int decoder::word_with_length(unsigned int len)</span>
+<span class="lineNum">     188 </span>                :            :   {
+<span class="lineNum">     189 </span>                :<span class="lineCov">      49420 :     unsigned int v=to_little((*(long long*)&amp;bytes[pos]))&gt;&gt;bit;</span>
+<span class="lineNum">     190 </span>                :<span class="lineCov">      24710 :     bit+=len;</span>
+<span class="lineNum">     191 </span>                :<span class="lineCov">      24710 :     pos+=bit&gt;&gt;3;</span>
+<span class="lineNum">     192 </span>                :<span class="lineCov">      24710 :     bit&amp;=7;</span>
+<span class="lineNum">     193 </span>                :<span class="lineCov">      24710 :     return v&amp;((1ULL&lt;&lt;len)-1);  </span>
+<a name="194"><span class="lineNum">     194 </span>                :            :   }</a>
+<span class="lineNum">     195 </span>                :            : 
+<span class="lineNum">     196 </span>                :<span class="lineCov">      10590 :   unsigned int decoder::gamma()</span>
+<span class="lineNum">     197 </span>                :            :   {
+<span class="lineNum">     198 </span>                :<span class="lineCov">      21180 :     long long v=to_little((*(long long*)&amp;bytes[pos]))&gt;&gt;bit;</span>
+<span class="lineNum">     199 </span>                :<span class="lineCov">      10590 :     unsigned int pmsf=__builtin_ctzll(v); </span>
+<span class="lineNum">     200 </span>                :<span class="lineCov">      10590 :     bit+=pmsf+1;</span>
+<span class="lineNum">     201 </span>                :<span class="lineCov">      10590 :     pos+=bit&gt;&gt;3;</span>
+<span class="lineNum">     202 </span>                :<span class="lineCov">      10590 :     bit&amp;=7;</span>
+<span class="lineNum">     203 </span>                :            : 
+<span class="lineNum">     204 </span>                :<span class="lineCov">      10590 :     unsigned int res=word_with_length(pmsf);</span>
+<span class="lineNum">     205 </span>                :<span class="lineCov">      10590 :     return (1U&lt;&lt;pmsf)+res;</span>
+<a name="206"><span class="lineNum">     206 </span>                :            :   }</a>
+<span class="lineNum">     207 </span>                :            : 
+<span class="lineNum">     208 </span>                :<span class="lineCov">       7060 :   unsigned int decoder::delta()</span>
+<span class="lineNum">     209 </span>                :            :   {
+<span class="lineNum">     210 </span>                :<span class="lineCov">       7060 :     int len=gamma()-1;</span>
+<span class="lineNum">     211 </span>                :<span class="lineCov">       7060 :     return (1&lt;&lt;len)+word_with_length(len);</span>
+<a name="212"><span class="lineNum">     212 </span>                :            :   }</a>
+<span class="lineNum">     213 </span>                :            : 
+<span class="lineNum">     214 </span>                :<span class="lineCov">       3530 :   unsigned int decoder::rice(unsigned int k)</span>
+<span class="lineNum">     215 </span>                :            :   {
+<span class="lineNum">     216 </span>                :<span class="lineCov">       3530 :     unsigned int res=(delta()-1)&lt;&lt;k;</span>
+<span class="lineNum">     217 </span>                :<span class="lineCov">       3530 :     res+=word_with_length(k);</span>
+<span class="lineNum">     218 </span>                :<span class="lineCov">       3530 :     return res;</span>
+<a name="219"><span class="lineNum">     219 </span>                :            :   }</a>
+<span class="lineNum">     220 </span>                :            : 
+<span class="lineNum">     221 </span>                :<span class="lineCov">      33290 :   unsigned int decoder::prefix_code()</span>
+<span class="lineNum">     222 </span>                :            :   {
+<span class="lineNum">     223 </span>        [<span class="branchCov" title="Branch 0 was taken 510 times"> + </span><span class="branchCov" title="Branch 1 was taken 32780 times"> + </span>]:<span class="lineCov">      33290 :     if (bit) {</span>
+<span class="lineNum">     224 </span>                :<span class="lineCov">        510 :       ++pos;</span>
+<span class="lineNum">     225 </span>                :<span class="lineCov">        510 :       bit=0;</span>
+<span class="lineNum">     226 </span>                :            :     }
+<span class="lineNum">     227 </span>                :            : 
+<span class="lineNum">     228 </span>                :<span class="lineCov">      33290 :     unsigned int res=0;</span>
+<span class="lineNum">     229 </span>                :<span class="lineCov">      33290 :     unsigned int k=1;</span>
+<span class="lineNum">     230 </span>        [<span class="branchCov" title="Branch 0 was taken 26817 times"> + </span><span class="branchCov" title="Branch 1 was taken 33290 times"> + </span>]:<span class="lineCov">      60107 :     while(!(bytes[pos]&amp;128)) {</span>
+<span class="lineNum">     231 </span>                :<span class="lineCov">      26817 :       res+=bytes[pos]*k;</span>
+<span class="lineNum">     232 </span>                :<span class="lineCov">      26817 :       ++pos;</span>
+<span class="lineNum">     233 </span>                :<span class="lineCov">      26817 :       k&lt;&lt;=7;</span>
+<span class="lineNum">     234 </span>                :            :     }
+<span class="lineNum">     235 </span>                :<span class="lineCov">      33290 :     res+=(bytes[pos]-128)*k;</span>
+<span class="lineNum">     236 </span>                :<span class="lineCov">      33290 :     ++pos;</span>
+<span class="lineNum">     237 </span>                :            : 
+<span class="lineNum">     238 </span>                :<span class="lineCov">      33290 :     return res;</span>
+<span class="lineNum">     239 </span>                :            :   }
+<span class="lineNum">     240 </span>                :            :   
+<span class="lineNum">     241 </span>                :            : 
+<a name="242"><span class="lineNum">     242 </span>                :            : } // code</a>
+<span class="lineNum">     243 </span>                :            : } // data
+<span class="lineNum">     244 </span>[<span class="branchCov" title="Branch 0 was taken 34 times"> + </span><span class="branchNoCov" title="Branch 1 was not taken"> - </span>][<span class="branchCov" title="Branch 2 was taken 34 times"> + </span><span class="branchNoCov" title="Branch 3 was not taken"> - </span>]:<span class="lineCov">         68 : } // pfi</span>
+</pre>
+      </td>
+    </tr>
+  </table>
+  <br>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="ruler"><img src="../../glass.png" width=3 height=3 alt=""></td></tr>
+    <tr><td class="versionInfo">Generated by: <a href="http://ltp.sourceforge.net/coverage/lcov.php" target="_parent">LCOV version 1.9</a></td></tr>
+  </table>
+  <br>
+
+</body>
+</html>

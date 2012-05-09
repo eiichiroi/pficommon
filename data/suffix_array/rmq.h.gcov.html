@@ -1,0 +1,511 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html lang="en">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+  <title>LCOV - pficommon - data/suffix_array/rmq.h</title>
+  <link rel="stylesheet" type="text/css" href="../../gcov.css">
+</head>
+
+<body>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="title">LCOV - code coverage report</td></tr>
+    <tr><td class="ruler"><img src="../../glass.png" width=3 height=3 alt=""></td></tr>
+
+    <tr>
+      <td width="100%">
+        <table cellpadding=1 border=0 width="100%">
+          <tr>
+            <td width="10%" class="headerItem">Current view:</td>
+            <td width="35%" class="headerValue"><a href="../../index.html">top level</a> - <a href="index.html">data/suffix_array</a> - rmq.h<span style="font-size: 80%;"> (source / <a href="rmq.h.func.html">functions</a>)</span></td>
+            <td width="5%"></td>
+            <td width="15%"></td>
+            <td width="10%" class="headerCovTableHead">Hit</td>
+            <td width="10%" class="headerCovTableHead">Total</td>
+            <td width="15%" class="headerCovTableHead">Coverage</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Test:</td>
+            <td class="headerValue">pficommon</td>
+            <td></td>
+            <td class="headerItem">Lines:</td>
+            <td class="headerCovTableEntry">127</td>
+            <td class="headerCovTableEntry">127</td>
+            <td class="headerCovTableEntryHi">100.0 %</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Date:</td>
+            <td class="headerValue">2012-05-09</td>
+            <td></td>
+            <td class="headerItem">Functions:</td>
+            <td class="headerCovTableEntry">7</td>
+            <td class="headerCovTableEntry">7</td>
+            <td class="headerCovTableEntryHi">100.0 %</td>
+          </tr>
+          <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td class="headerItem">Branches:</td>
+            <td class="headerCovTableEntry">96</td>
+            <td class="headerCovTableEntry">118</td>
+            <td class="headerCovTableEntryMed">81.4 %</td>
+          </tr>
+          <tr><td><img src="../../glass.png" width=3 height=3 alt=""></td></tr>
+        </table>
+      </td>
+    </tr>
+
+    <tr><td class="ruler"><img src="../../glass.png" width=3 height=3 alt=""></td></tr>
+  </table>
+
+  <table cellpadding=0 cellspacing=0 border=0>
+    <tr>
+      <td><br></td>
+    </tr>
+    <tr>
+      <td>
+<pre class="sourceHeading">           Branch data     Line data    Source code</pre>
+<pre class="source">
+<a name="1"><span class="lineNum">       1 </span>                :            : // Copyright (c)2008-2011, Preferred Infrastructure Inc.</a>
+<span class="lineNum">       2 </span>                :            : // 
+<span class="lineNum">       3 </span>                :            : // All rights reserved.
+<span class="lineNum">       4 </span>                :            : // 
+<span class="lineNum">       5 </span>                :            : // Redistribution and use in source and binary forms, with or without
+<span class="lineNum">       6 </span>                :            : // modification, are permitted provided that the following conditions are met:
+<span class="lineNum">       7 </span>                :            : // 
+<span class="lineNum">       8 </span>                :            : //     * Redistributions of source code must retain the above copyright
+<span class="lineNum">       9 </span>                :            : //       notice, this list of conditions and the following disclaimer.
+<span class="lineNum">      10 </span>                :            : // 
+<span class="lineNum">      11 </span>                :            : //     * Redistributions in binary form must reproduce the above
+<span class="lineNum">      12 </span>                :            : //       copyright notice, this list of conditions and the following
+<span class="lineNum">      13 </span>                :            : //       disclaimer in the documentation and/or other materials provided
+<span class="lineNum">      14 </span>                :            : //       with the distribution.
+<span class="lineNum">      15 </span>                :            : // 
+<span class="lineNum">      16 </span>                :            : //     * Neither the name of Preferred Infrastructure nor the names of other
+<span class="lineNum">      17 </span>                :            : //       contributors may be used to endorse or promote products derived
+<span class="lineNum">      18 </span>                :            : //       from this software without specific prior written permission.
+<span class="lineNum">      19 </span>                :            : // 
+<span class="lineNum">      20 </span>                :            : // THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+<span class="lineNum">      21 </span>                :            : // &quot;AS IS&quot; AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+<span class="lineNum">      22 </span>                :            : // LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+<span class="lineNum">      23 </span>                :            : // A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
+<span class="lineNum">      24 </span>                :            : // OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+<span class="lineNum">      25 </span>                :            : // SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+<span class="lineNum">      26 </span>                :            : // LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+<span class="lineNum">      27 </span>                :            : // DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+<span class="lineNum">      28 </span>                :            : // THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+<span class="lineNum">      29 </span>                :            : // (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+<span class="lineNum">      30 </span>                :            : // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+<span class="lineNum">      31 </span>                :            : 
+<span class="lineNum">      32 </span>                :            : /**
+<span class="lineNum">      33 </span>                :            :    Range minimum query (rmq) in O(log N) time and O(N) precomputed information.
+<span class="lineNum">      34 </span>                :            : */
+<span class="lineNum">      35 </span>                :            : 
+<span class="lineNum">      36 </span>                :            : /*
+<span class="lineNum">      37 </span>                :            :   Implementation is based on 
+<span class="lineNum">      38 </span>                :            :   
+<span class="lineNum">      39 </span>                :            :   Johannes Fischer, Volker Heun. 
+<span class="lineNum">      40 </span>                :            :   &quot;Theoretical and Practical Improvements on the RMQ-Problem, with Applications to LCA and LCE&quot;,
+<span class="lineNum">      41 </span>                :            :   Proceedings of the 17th Annual Symposium on Combinatorial Pattern Matching (CPM'06), 
+<span class="lineNum">      42 </span>                :            :   Lecture Notes in Computer Science 4009, 36-48, Springer-Verlag, 2006.
+<span class="lineNum">      43 </span>                :            :   
+<span class="lineNum">      44 </span>                :            :   and
+<span class="lineNum">      45 </span>                :            :   
+<span class="lineNum">      46 </span>                :            :   Johannes Fischer, Volker Heun. 
+<span class="lineNum">      47 </span>                :            :   &quot;A New Succinct Representation of RMQ-Information and Improvements in the Enhanced Suffix Array&quot;,
+<span class="lineNum">      48 </span>                :            :   Proceedings of the International Symposium on Combinatorics, Algorithms, Probabilistic and Experimental Methodologies (ESCAPE'07), 
+<span class="lineNum">      49 </span>                :            :   Lecture Notes in Computer Science 4614, 459-470, Springer-Verlag, 2007.
+<span class="lineNum">      50 </span>                :            : 
+<span class="lineNum">      51 </span>                :            :   but modified for simplicity.
+<span class="lineNum">      52 </span>                :            : 
+<span class="lineNum">      53 </span>                :            :   There are two differences in Fischer'07 and this implementation:
+<span class="lineNum">      54 </span>                :            :   * Blocks / superblocks are replaced by Catalan number representation.
+<span class="lineNum">      55 </span>                :            :   * Use precomputed Catalan number table for all blocks.
+<span class="lineNum">      56 </span>                :            :   * Use O(16/7 N) bits
+<span class="lineNum">      57 </span>                :            : 
+<span class="lineNum">      58 </span>                :            :   Drawback of this method is query time of order O(log(8)N).
+<span class="lineNum">      59 </span>                :            :   It takes about 10 recursion to calculate RMQ if N = 1e9.
+<span class="lineNum">      60 </span>                :            : 
+<span class="lineNum">      61 </span>                :            :   FIXME: compare speed with another implementation. 
+<span class="lineNum">      62 </span>                :            :   especially when RMQ is changed to Bender &amp; Farach's (O(NlogN),O(1))
+<span class="lineNum">      63 </span>                :            : */
+<span class="lineNum">      64 </span>                :            : /*
+<span class="lineNum">      65 </span>                :            :   Large block_size may cause overflow. FYI:
+<span class="lineNum">      66 </span>                :            :   
+<span class="lineNum">      67 </span>                :            :   C = 4^s / (sqrt(pi) * s^(3/2))
+<span class="lineNum">      68 </span>                :            :   
+<span class="lineNum">      69 </span>                :            :   s  | C
+<span class="lineNum">      70 </span>                :            :   ---+-----
+<span class="lineNum">      71 </span>                :            :   8  | 1635
+<span class="lineNum">      72 </span>                :            :   10 | 19K
+<span class="lineNum">      73 </span>                :            :   16 | 38M
+<span class="lineNum">      74 </span>                :            :   20 | 6.9G
+<span class="lineNum">      75 </span>                :            :  */
+<span class="lineNum">      76 </span>                :            : 
+<span class="lineNum">      77 </span>                :            : #include &lt;vector&gt;
+<span class="lineNum">      78 </span>                :            : #include &lt;iterator&gt;
+<span class="lineNum">      79 </span>                :            : #include &lt;climits&gt;
+<span class="lineNum">      80 </span>                :            : 
+<span class="lineNum">      81 </span>                :            : // new in C99, but
+<span class="lineNum">      82 </span>                :            : // nowadays almost all compilers should have it
+<span class="lineNum">      83 </span>                :            : #include &lt;stdint.h&gt;
+<span class="lineNum">      84 </span>                :            : 
+<span class="lineNum">      85 </span>                :            : namespace pfi {
+<span class="lineNum">      86 </span>                :            : namespace data {
+<span class="lineNum">      87 </span>                :            : namespace suffix_array {
+<span class="lineNum">      88 </span>                :            : 
+<span class="lineNum">      89 </span>                :            :   namespace {
+<span class="lineNum">      90 </span>                :            :     enum {
+<span class="lineNum">      91 </span>                :            :       block_bits = 3,
+<span class="lineNum">      92 </span>                :            :       block_size = 1 &lt;&lt; block_bits,
+<span class="lineNum">      93 </span>                :            :       block_size_sq = block_size * (block_size+1) / 2,
+<span class="lineNum">      94 </span>                :            :       block_access_depth = 3
+<span class="lineNum">      95 </span>                :            :     };
+<span class="lineNum">      96 </span>                :            : 
+<span class="lineNum">      97 </span>                :            :     // enough to fit in int16
+<span class="lineNum">      98 </span>                :            :     typedef int16_t block_type;
+<span class="lineNum">      99 </span>                :            : 
+<span class="lineNum">     100 </span>                :            :     /** 
+<span class="lineNum">     101 </span>                :            :         Ballot number table.
+<span class="lineNum">     102 </span>                :            :         Generated from balgen.hs, with s = 8        
+<span class="lineNum">     103 </span>                :            :     */
+<span class="lineNum">     104 </span>                :            :     const int ballot_table[block_size+1][block_size+1] = {
+<span class="lineNum">     105 </span>                :            : #include &quot;ballot_num8.dat&quot;
+<span class="lineNum">     106 </span>                :            :     };
+<span class="lineNum">     107 </span>                :            : 
+<span class="lineNum">     108 </span>                :            :     /** 
+<span class="lineNum">     109 </span>                :            :         Minimum position table for cartesian types
+<span class="lineNum">     110 </span>                :            :     */
+<span class="lineNum">     111 </span>                :            :     const unsigned char cartesian_table[][block_size_sq] = {
+<span class="lineNum">     112 </span>                :            : #include &quot;cartesian_table8.dat&quot;
+<span class="lineNum">     113 </span>                :            :     };
+<span class="lineNum">     114 </span>                :            : 
+<span class="lineNum">     115 </span>                :            :     /**
+<span class="lineNum">     116 </span>                :            :        RMQ(i,j) -&gt; cartesian_table[foo][access_table[i][j]] conversion
+<span class="lineNum">     117 </span>                :            :     */
+<span class="lineNum">     118 </span>                :            :     const int access_table[block_size][block_size] = {
+<span class="lineNum">     119 </span>                :            :       {  0,  1,  2,  3,  4,  5,  6,  7, },
+<span class="lineNum">     120 </span>                :            :       { -1,  8,  9, 10, 11, 12, 13, 14, },
+<span class="lineNum">     121 </span>                :            :       { -1, -1, 15, 16, 17, 18, 19, 20, },
+<span class="lineNum">     122 </span>                :            :       { -1, -1, -1, 21, 22, 23, 24, 25, },
+<span class="lineNum">     123 </span>                :            :       { -1, -1, -1, -1, 26, 27, 28, 29, },
+<span class="lineNum">     124 </span>                :            :       { -1, -1, -1, -1, -1, 30, 31, 32, },
+<span class="lineNum">     125 </span>                :            :       { -1, -1, -1, -1, -1, -1, 33, 34, },
+<span class="lineNum">     126 </span>                :            :       { -1, -1, -1, -1, -1, -1, -1, 35, },
+<span class="lineNum">     127 </span>                :            :     };
+<span class="lineNum">     128 </span>                :            :     
+<span class="lineNum">     129 </span>                :            :     const int msb_table[256] = {
+<span class="lineNum">     130 </span>                :            :       0, 1, 2, 2, 3, 3, 3, 3, 4, 4, 4, 4, 4, 4, 4, 4, 
+<span class="lineNum">     131 </span>                :            :       5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 
+<span class="lineNum">     132 </span>                :            :       6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 
+<span class="lineNum">     133 </span>                :            :       6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 
+<span class="lineNum">     134 </span>                :            :       7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 
+<span class="lineNum">     135 </span>                :            :       7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 
+<span class="lineNum">     136 </span>                :            :       7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 
+<span class="lineNum">     137 </span>                :            :       7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 
+<span class="lineNum">     138 </span>                :            :       8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 
+<span class="lineNum">     139 </span>                :            :       8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 
+<span class="lineNum">     140 </span>                :            :       8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 
+<span class="lineNum">     141 </span>                :            :       8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 
+<span class="lineNum">     142 </span>                :            :       8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 
+<span class="lineNum">     143 </span>                :            :       8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 
+<span class="lineNum">     144 </span>                :            :       8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 
+<span class="lineNum">     145 </span>                :            :       8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 
+<span class="lineNum">     146 </span>                :            :     };
+<span class="lineNum">     147 </span>                :            : 
+<span class="lineNum">     148 </span>                :<span class="lineCov">          2 :     const int all_block = access_table[0][block_size - 1];</span>
+<span class="lineNum">     149 </span>                :            :     
+<span class="lineNum">     150 </span>                :            :     int get_msb(unsigned int b){
+<span class="lineNum">     151 </span>        [<span class="branchNoCov" title="Branch 0 was not taken"> - </span><span class="branchCov" title="Branch 1 was taken 3756 times"> + </span>]:<span class="lineCov">       3756 :       if(b &gt;= (1 &lt;&lt; 24)) return 24 + msb_table[b &gt;&gt; 24];</span>
+<span class="lineNum">     152 </span>        [<span class="branchNoCov" title="Branch 0 was not taken"> - </span><span class="branchCov" title="Branch 1 was taken 3756 times"> + </span>]:<span class="lineCov">       3756 :       if(b &gt;= (1 &lt;&lt; 16)) return 16 + msb_table[b &gt;&gt; 16];</span>
+<span class="lineNum">     153 </span>        [<span class="branchNoCov" title="Branch 0 was not taken"> - </span><span class="branchCov" title="Branch 1 was taken 3756 times"> + </span>]:<span class="lineCov">       3756 :       if(b &gt;= (1 &lt;&lt; 8))  return 8  + msb_table[b &gt;&gt; 8];</span>
+<span class="lineNum">     154 </span>                :<span class="lineCov">       3756 :       return msb_table[b];</span>
+<span class="lineNum">     155 </span>                :            :     }
+<span class="lineNum">     156 </span>                :            : 
+<span class="lineNum">     157 </span>                :            :     /**
+<span class="lineNum">     158 </span>                :            :        Calculate cartesian tree's &quot;type&quot;.
+<span class="lineNum">     159 </span>                :            :        See J. Fischer and V. Heun, &quot;New succinct ... &quot;
+<span class="lineNum">     160 </span>                :            :        
+<span class="lineNum">     161 </span>                :            :        @param b Beginning of iterator that points to the sequence of number
+<span class="lineNum">     162 </span>                :            :        @return cartesian tree type
+<span class="lineNum">     163 </span>                :            :     */
+<span class="lineNum">     164 </span>                :            :     const int infty = INT_MAX;
+<span class="lineNum">     165 </span>                :            :     const int neg_infty = INT_MIN;
+<span class="lineNum">     166 </span>                :            :     template&lt;typename IT&gt;
+<span class="lineNum">     167 </span>                :            :     int cartesian_type(IT b){
+<span class="lineNum">     168 </span>                :<span class="lineCov">       9404 :       const size_t s = block_size;</span>
+<span class="lineNum">     169 </span>                :            :       // FIXME: remove this &quot;R&quot; reconstruction for speeding up
+<span class="lineNum">     170 </span>                :<span class="lineCov">       9404 :       std::vector&lt;int&gt; R(s+1);</span>
+<span class="lineNum">     171 </span>                :<span class="lineCov">       9404 :       R[0] = neg_infty;</span>
+<span class="lineNum">     172 </span>                :<span class="lineCov">       9404 :       int q = s;</span>
+<span class="lineNum">     173 </span>                :<span class="lineCov">       9404 :       int N = 0;</span>
+<span class="lineNum">     174 </span>[<span class="branchCov" title="Branch 0 was taken 9264 times"> + </span><span class="branchCov" title="Branch 1 was taken 1158 times"> + </span>][<span class="branchCov" title="Branch 2 was taken 65968 times"> + </span><span class="branchCov" title="Branch 3 was taken 8246 times"> + </span>]:<span class="lineCov">      84636 :       for(size_t i = 0; i &lt; s; ++i){</span>
+<span class="lineNum">     175 </span>[<span class="branchCov" title="Branch 0 was taken 6104 times"> + </span><span class="branchCov" title="Branch 1 was taken 9264 times"> + </span>][<span class="branchCov" title="Branch 2 was taken 43752 times"> + </span><span class="branchCov" title="Branch 3 was taken 65968 times"> + </span>]:<span class="lineCov">     125088 :         while(R[q + i - s] &gt; *(b+i)){</span>
+<span class="lineNum">     176 </span>                :<span class="lineCov">      49856 :           N += ballot_table[s-(i+1)][q];</span>
+<span class="lineNum">     177 </span>                :<span class="lineCov">      49856 :           --q;</span>
+<span class="lineNum">     178 </span>                :            :         }
+<span class="lineNum">     179 </span>                :<span class="lineCov">     300928 :         R[q+i+1-s] = *(b+i);</span>
+<span class="lineNum">     180 </span>                :            :       }
+<span class="lineNum">     181 </span>                :<span class="lineCov">       9404 :       return N;</span>
+<span class="lineNum">     182 </span>                :            :     }
+<span class="lineNum">     183 </span>                :            :     
+<span class="lineNum">     184 </span>                :            :     /**
+<span class="lineNum">     185 </span>                :            :        This routine is used if s != distance(b,e).
+<span class="lineNum">     186 </span>                :            :     */
+<span class="lineNum">     187 </span>                :            :     template&lt;typename IT&gt;
+<span class="lineNum">     188 </span>                :<span class="lineCov">         12 :     int cartesian_type(IT b, IT e){</span>
+<span class="lineNum">     189 </span>                :<span class="lineCov">         12 :       const size_t real_s = distance(b, e);</span>
+<span class="lineNum">     190 </span>                :<span class="lineCov">         12 :       const size_t s = block_size;</span>
+<span class="lineNum">     191 </span>                :<span class="lineCov">         12 :       std::vector&lt;int&gt; R(s+1);</span>
+<span class="lineNum">     192 </span>                :<span class="lineCov">         12 :       R[0] = neg_infty;</span>
+<span class="lineNum">     193 </span>                :<span class="lineCov">         12 :       int q = s;</span>
+<span class="lineNum">     194 </span>                :<span class="lineCov">         12 :       int N = 0;</span>
+<span class="lineNum">     195 </span>[<span class="branchCov" title="Branch 0 was taken 14 times"> + </span><span class="branchCov" title="Branch 1 was taken 4 times"> + </span>][<span class="branchCov" title="Branch 2 was taken 20 times"> + </span><span class="branchCov" title="Branch 3 was taken 8 times"> + </span>]:<span class="lineCov">         46 :       for(size_t i = 0; i &lt; real_s; ++i){</span>
+<span class="lineNum">     196 </span>[<span class="branchCov" title="Branch 0 was taken 4 times"> + </span><span class="branchCov" title="Branch 1 was taken 14 times"> + </span>][<span class="branchCov" title="Branch 2 was taken 4 times"> + </span><span class="branchCov" title="Branch 3 was taken 20 times"> + </span>]:<span class="lineCov">         42 :         while(R[q + i - s] &gt; *(b+i)){</span>
+<span class="lineNum">     197 </span>                :<span class="lineCov">          8 :           N += ballot_table[s-(i+1)][q];</span>
+<span class="lineNum">     198 </span>                :<span class="lineCov">          8 :           --q;</span>
+<span class="lineNum">     199 </span>                :            :         }
+<span class="lineNum">     200 </span>                :<span class="lineCov">        136 :         R[q+i+1-s] = *(b+i);</span>
+<span class="lineNum">     201 </span>                :            :       }
+<span class="lineNum">     202 </span>                :<span class="lineCov">         12 :       return N;</span>
+<span class="lineNum">     203 </span>                :            :     }
+<span class="lineNum">     204 </span>                :            :   }
+<span class="lineNum">     205 </span>                :            :   
+<a name="206"><span class="lineNum">     206 </span>                :            :   /** Range-minimum-query data structure */</a>
+<span class="lineNum">     207 </span>                :            :   template&lt;typename CONT&gt;
+<span class="lineNum">     208 </span>                :<span class="lineCov">          4 :   class rmq{</span>
+<span class="lineNum">     209 </span>                :            :     typedef typename CONT::value_type T;
+<span class="lineNum">     210 </span>                :            : 
+<span class="lineNum">     211 </span>                :            :   public:
+<span class="lineNum">     212 </span>                :            :     /**
+<span class="lineNum">     213 </span>                :            :        RMQ constructor.
+<span class="lineNum">     214 </span>                :            :        takes container v and precompute data structure
+<span class="lineNum">     215 </span>                :            :        
+<span class="lineNum">     216 </span>                :            :        @param v target container
+<span class="lineNum">     217 </span>                :            :     */
+<span class="lineNum">     218 </span>                :<span class="lineCov">         12 :     rmq(const CONT &amp;v): orig(v), types(block_access_depth), log_rmq_table(){</span>
+<span class="lineNum">     219 </span>                :<span class="lineCov">          4 :       construct_type(v.begin(), v.end(), 0);</span>
+<span class="lineNum">     220 </span>                :<span class="lineCov">          4 :     }</span>
+<span class="lineNum">     221 </span>                :            :     /* TODO: load/save from file */
+<span class="lineNum">     222 </span>                :            : 
+<span class="lineNum">     223 </span>                :            :     /**
+<span class="lineNum">     224 </span>                :            :        RMQ query in the range [l,r]. (right inclusive)
+<span class="lineNum">     225 </span>                :            :        
+<span class="lineNum">     226 </span>                :            :        @param l leftmost range
+<span class="lineNum">     227 </span>                :            :        @param r rightmost range (inclusive)
+<span class="lineNum">     228 </span>                :            :        @return position of minimum element
+<span class="lineNum">     229 </span>                :            :     */
+<span class="lineNum">     230 </span>                :            :     int query(int l, int r){
+<span class="lineNum">     231 </span>                :            :       int buf[(block_access_depth &lt;&lt; 1) + 1];
+<span class="lineNum">     232 </span>[<span class="branchCov" title="Branch 0 was taken 28000 times"> + </span><span class="branchCov" title="Branch 1 was taken 4000 times"> + </span>][<span class="branchCov" title="Branch 2 was taken 630 times"> + </span><span class="branchCov" title="Branch 3 was taken 90 times"> + </span>]:<span class="lineCov">      32720 :       for(size_t i = 0; i &lt; (block_access_depth &lt;&lt; 1) + 1; ++i)</span>
+<span class="lineNum">     233 </span>                :<span class="lineCov">      28630 :         buf[i] = -1;</span>
+<span class="lineNum">     234 </span>                :            : 
+<span class="lineNum">     235 </span>                :<span class="lineCov">       4090 :       return query_iter(l, r, 0, buf);</span>
+<span class="lineNum">     236 </span>                :            :     }
+<span class="lineNum">     237 </span>                :            :     
+<span class="lineNum">     238 </span>                :            :     /**
+<span class="lineNum">     239 </span>                :            :        RMQ query in the range [l,r). (right exclusive)
+<span class="lineNum">     240 </span>                :            :        
+<span class="lineNum">     241 </span>                :            :        @param l leftmost range
+<span class="lineNum">     242 </span>                :            :        @param r rightmost range (exclusive)
+<span class="lineNum">     243 </span>                :            :        @return position of minimum element
+<span class="lineNum">     244 </span>                :            :     */
+<span class="lineNum">     245 </span>                :            :     int query_exclusive(int l, int r){
+<span class="lineNum">     246 </span>                :            :       return query(l, r-1);
+<span class="lineNum">     247 </span>                :            :     }
+<span class="lineNum">     248 </span>                :            :       
+<span class="lineNum">     249 </span>                :            :   private:
+<span class="lineNum">     250 </span>                :            :     const CONT &amp;orig;
+<span class="lineNum">     251 </span>                :            :     std::vector&lt;std::vector&lt;block_type&gt; &gt; types;
+<span class="lineNum">     252 </span>                :            :     std::vector&lt;std::vector&lt;int&gt; &gt; log_rmq_table;
+<span class="lineNum">     253 </span>                :            : 
+<span class="lineNum">     254 </span>                :            :     template&lt;typename IT&gt;
+<span class="lineNum">     255 </span>                :<span class="lineCov">         16 :     void construct_type(IT b, IT e, int level){</span>
+<span class="lineNum">     256 </span>[<span class="branchCov" title="Branch 0 was taken 4 times"> + </span><span class="branchCov" title="Branch 1 was taken 8 times"> + </span>][<span class="branchNoCov" title="Branch 2 was not taken"> - </span><span class="branchCov" title="Branch 3 was taken 4 times"> + </span>]:<span class="lineCov">         16 :       if(level &gt;= block_access_depth) { construct_log_table(b, e); return; }</span>
+<span class="lineNum">     257 </span>                :            : 
+<span class="lineNum">     258 </span>                :<span class="lineCov">         12 :       size_t s = distance(b, e);</span>
+<span class="lineNum">     259 </span>                :<span class="lineCov">         12 :       size_t blks = (s + block_size - 1) &gt;&gt; block_bits;</span>
+<span class="lineNum">     260 </span>                :<span class="lineCov">         12 :       size_t blks_p = s &gt;&gt; block_bits;</span>
+<span class="lineNum">     261 </span>                :<span class="lineCov">         24 :       std::vector&lt;block_type&gt; &amp;tys = types[level];</span>
+<span class="lineNum">     262 </span>                :<span class="lineCov">         12 :       std::vector&lt;T&gt; rm(blks);</span>
+<span class="lineNum">     263 </span>                :<span class="lineCov">         12 :       tys.resize(blks);        </span>
+<span class="lineNum">     264 </span>                :            : 
+<span class="lineNum">     265 </span>                :            :       // cartesian type calculation
+<span class="lineNum">     266 </span>                :            :       {
+<span class="lineNum">     267 </span>                :<span class="lineCov">         12 :         IT it(b);</span>
+<span class="lineNum">     268 </span>[<span class="branchCov" title="Branch 0 was taken 1158 times"> + </span><span class="branchCov" title="Branch 1 was taken 8 times"> + </span>][<span class="branchCov" title="Branch 2 was taken 8246 times"> + </span><span class="branchCov" title="Branch 3 was taken 4 times"> + </span>]:<span class="lineCov">       9416 :         for(size_t i = 0; i &lt; blks_p; ++i){</span>
+<span class="lineNum">     269 </span>                :<span class="lineCov">       9404 :           int ty = cartesian_type(it);</span>
+<span class="lineNum">     270 </span>                :<span class="lineCov">       9404 :           tys[i] = ty;</span>
+<span class="lineNum">     271 </span>                :<span class="lineCov">      28212 :           rm[i] = *(it + cartesian_table[ty][all_block]);</span>
+<span class="lineNum">     272 </span>                :<span class="lineCov">       9404 :           it += block_size;</span>
+<span class="lineNum">     273 </span>                :            :         }
+<span class="lineNum">     274 </span>[<span class="branchCov" title="Branch 0 was taken 8 times"> + </span><span class="branchNoCov" title="Branch 1 was not taken"> - </span>][<span class="branchCov" title="Branch 2 was taken 4 times"> + </span><span class="branchNoCov" title="Branch 3 was not taken"> - </span>]:<span class="lineCov">         12 :         if(blks != blks_p){</span>
+<span class="lineNum">     275 </span>                :<span class="lineCov">         12 :           int ty = cartesian_type(it, e);</span>
+<span class="lineNum">     276 </span>                :<span class="lineCov">         12 :           tys[blks_p] = ty;</span>
+<span class="lineNum">     277 </span>                :<span class="lineCov">         12 :           rm[blks_p] = *(it + cartesian_table[ty][all_block]);</span>
+<span class="lineNum">     278 </span>                :            :         }
+<span class="lineNum">     279 </span>                :            :       }
+<span class="lineNum">     280 </span>                :            :       // FIXME: is this tail-recursive?
+<span class="lineNum">     281 </span>                :<span class="lineCov">         12 :       construct_type(rm.begin(), rm.end(), level + 1);</span>
+<span class="lineNum">     282 </span>                :            :     }
+<span class="lineNum">     283 </span>                :            : 
+<span class="lineNum">     284 </span>                :            :     template&lt;typename IT&gt;
+<span class="lineNum">     285 </span>                :            :     void construct_log_table(IT b, IT e){
+<span class="lineNum">     286 </span>                :            :       // four-russian-trick
+<span class="lineNum">     287 </span>                :<span class="lineCov">          4 :       size_t s = distance(b, e);</span>
+<span class="lineNum">     288 </span>                :            : 
+<span class="lineNum">     289 </span>                :<span class="lineCov">          4 :       log_rmq_table.clear();</span>
+<span class="lineNum">     290 </span>                :            :       {
+<span class="lineNum">     291 </span>                :            :         // first pass: fill k = 1 case 
+<span class="lineNum">     292 </span>                :<span class="lineCov">          4 :         log_rmq_table.push_back(std::vector&lt;int&gt;(s-1));</span>
+<span class="lineNum">     293 </span>                :<span class="lineCov">          8 :         std::vector&lt;int&gt; &amp;log_cur_table = log_rmq_table.back();</span>
+<span class="lineNum">     294 </span>                :            :           
+<span class="lineNum">     295 </span>                :<span class="lineCov">          4 :         int lmin_ = -1;</span>
+<span class="lineNum">     296 </span>                :<span class="lineCov">          4 :         IT it(b);</span>
+<span class="lineNum">     297 </span>[<span class="branchCov" title="Branch 0 was taken 128 times"> + </span><span class="branchCov" title="Branch 1 was taken 4 times"> + </span>][<span class="branchNoExec" title="Branch 2 was not executed"> # </span><span class="branchNoExec" title="Branch 3 was not executed"> # </span>]:<span class="lineCov">        132 :         for(size_t i = 0; i &lt; s-1; ++i, ++it){</span>
+<span class="lineNum">     298 </span>[<span class="branchCov" title="Branch 0 was taken 68 times"> + </span><span class="branchCov" title="Branch 1 was taken 60 times"> + </span>][<span class="branchNoExec" title="Branch 2 was not executed"> # </span><span class="branchNoExec" title="Branch 3 was not executed"> # </span>]:<span class="lineCov">        128 :           if(*it &lt; *(it+1)){</span>
+<span class="lineNum">     299 </span>[<span class="branchCov" title="Branch 0 was taken 30 times"> + </span><span class="branchCov" title="Branch 1 was taken 38 times"> + </span>][<span class="branchNoExec" title="Branch 2 was not executed"> # </span><span class="branchNoExec" title="Branch 3 was not executed"> # </span>]:<span class="lineCov">         98 :             log_cur_table[i] = (lmin_ &gt;= 0 ? lmin_: query_super_cartesian_block(i));</span>
+<span class="lineNum">     300 </span>                :<span class="lineCov">         68 :             lmin_ = -1;</span>
+<span class="lineNum">     301 </span>                :            :           }else{
+<span class="lineNum">     302 </span>                :<span class="lineCov">        120 :             int rmin = query_super_cartesian_block(i+1);</span>
+<span class="lineNum">     303 </span>                :<span class="lineCov">         60 :             log_cur_table[i] = rmin;</span>
+<span class="lineNum">     304 </span>                :<span class="lineCov">         60 :             lmin_ = rmin;</span>
+<span class="lineNum">     305 </span>                :            :           }
+<span class="lineNum">     306 </span>                :            :         }
+<span class="lineNum">     307 </span>                :            :       }
+<span class="lineNum">     308 </span>                :            : 
+<span class="lineNum">     309 </span>[<span class="branchCov" title="Branch 0 was taken 10 times"> + </span><span class="branchCov" title="Branch 1 was taken 4 times"> + </span>][<span class="branchNoExec" title="Branch 2 was not executed"> # </span><span class="branchNoExec" title="Branch 3 was not executed"> # </span>]:<span class="lineCov">         14 :       for(size_t k = 2; (1U&lt;&lt;k) &lt; s; ++k){</span>
+<span class="lineNum">     310 </span>                :<span class="lineCov">         10 :         int prev_size = 1 &lt;&lt; (k-1);</span>
+<span class="lineNum">     311 </span>                :<span class="lineCov">         10 :         int cur_size = 1 &lt;&lt; k;</span>
+<span class="lineNum">     312 </span>                :<span class="lineCov">         10 :         log_rmq_table.push_back(std::vector&lt;int&gt;(s-cur_size+1));</span>
+<span class="lineNum">     313 </span>                :<span class="lineCov">         20 :         std::vector&lt;int&gt; &amp;prev = log_rmq_table[k-2];</span>
+<span class="lineNum">     314 </span>                :<span class="lineCov">         20 :         std::vector&lt;int&gt; &amp;cur = log_rmq_table.back();</span>
+<span class="lineNum">     315 </span>                :            : 
+<span class="lineNum">     316 </span>[<span class="branchCov" title="Branch 0 was taken 412 times"> + </span><span class="branchCov" title="Branch 1 was taken 10 times"> + </span>][<span class="branchNoExec" title="Branch 2 was not executed"> # </span><span class="branchNoExec" title="Branch 3 was not executed"> # </span>]:<span class="lineCov">        422 :         for(size_t i = 0; i &lt; s - cur_size + 1; ++i){</span>
+<span class="lineNum">     317 </span>                :            :           // try not to call query_super_cartesian_block again
+<span class="lineNum">     318 </span>                :<span class="lineCov">        412 :           int lm_ = prev[i];</span>
+<span class="lineNum">     319 </span>                :<span class="lineCov">        412 :           int lm = lm_ &gt;&gt; (block_bits * block_access_depth); </span>
+<span class="lineNum">     320 </span>                :<span class="lineCov">        824 :           int rm_ = prev[i + prev_size];</span>
+<span class="lineNum">     321 </span>                :<span class="lineCov">        412 :           int rm = rm_ &gt;&gt; (block_bits * block_access_depth);</span>
+<span class="lineNum">     322 </span>                :            : 
+<span class="lineNum">     323 </span>[<span class="branchCov" title="Branch 0 was taken 192 times"> + </span><span class="branchCov" title="Branch 1 was taken 220 times"> + </span>][<span class="branchNoExec" title="Branch 2 was not executed"> # </span><span class="branchNoExec" title="Branch 3 was not executed"> # </span>]:<span class="lineCov">        412 :           cur[i] = (*(b+lm) &lt; *(b+rm) ? lm_ : rm_);</span>
+<span class="lineNum">     324 </span>                :            :         }
+<span class="lineNum">     325 </span>                :            :       }
+<span class="lineNum">     326 </span>                :            :     }
+<span class="lineNum">     327 </span>                :            :       
+<span class="lineNum">     328 </span>                :            :     int query_in_cartesian_block(int level, int blockpos){
+<span class="lineNum">     329 </span>                :<span class="lineCov">      42980 :       int ty = types[level][blockpos];</span>
+<span class="lineNum">     330 </span>                :<span class="lineCov">      21490 :       return cartesian_table[ty][all_block];</span>
+<span class="lineNum">     331 </span>                :            :     }
+<span class="lineNum">     332 </span>                :            : 
+<span class="lineNum">     333 </span>                :            :     int query_cartesian_block(int level, int super_blockpos){
+<span class="lineNum">     334 </span>                :<span class="lineCov">      21280 :       int pos = super_blockpos;</span>
+<span class="lineNum">     335 </span>[<span class="branchCov" title="Branch 0 was taken 288 times"> + </span><span class="branchCov" title="Branch 1 was taken 96 times"> + </span>][<span class="branchCov" title="Branch 2 was taken 124 times"> + </span><span class="branchCov" title="Branch 3 was taken 142 times"> + </span>]:<span class="lineCov">      42770 :       for(int l = level; l &gt;= 0; --l){</span>
+<span class="lineNum">         </span>[<span class="branchCov" title="Branch 4 was taken 10368 times"> + </span><span class="branchCov" title="Branch 5 was taken 10402 times"> + </span>][<span class="branchCov" title="Branch 6 was taken 10440 times"> + </span><span class="branchCov" title="Branch 7 was taken 10550 times"> + </span>]
+<span class="lineNum">         </span>[<span class="branchCov" title="Branch 8 was taken 90 times"> + </span><span class="branchCov" title="Branch 9 was taken 30 times"> + </span>][<span class="branchCov" title="Branch 10 was taken 180 times"> + </span><span class="branchCov" title="Branch 11 was taken 60 times"> + </span>]
+<span class="lineNum">         </span>[<span class="branchNoExec" title="Branch 12 was not executed"> # </span><span class="branchNoExec" title="Branch 13 was not executed"> # </span>][<span class="branchNoExec" title="Branch 14 was not executed"> # </span><span class="branchNoExec" title="Branch 15 was not executed"> # </span>]
+<span class="lineNum">     336 </span>                :<span class="lineCov">      42980 :         pos = (pos &lt;&lt; block_bits) + query_in_cartesian_block(l, pos);</span>
+<span class="lineNum">     337 </span>                :            :       }
+<span class="lineNum">     338 </span>                :<span class="lineCov">      21280 :       return pos;</span>
+<span class="lineNum">     339 </span>                :            :     }
+<span class="lineNum">     340 </span>                :            : 
+<span class="lineNum">     341 </span>                :            :     int query_super_cartesian_block(int super_blockpos){
+<span class="lineNum">     342 </span>                :<span class="lineCov">         90 :       return query_cartesian_block(block_access_depth - 1, super_blockpos);</span>
+<span class="lineNum">     343 </span>                :            :     }
+<span class="lineNum">     344 </span>                :            : 
+<span class="lineNum">     345 </span>                :<span class="lineCov">      16020 :     int query_iter(int l, int r, int level, int* buf){</span>
+<span class="lineNum">     346 </span>        [<span class="branchCov" title="Branch 0 was taken 3924 times"> + </span><span class="branchCov" title="Branch 1 was taken 12096 times"> + </span>]:<span class="lineCov">      19944 :       if(level &gt;= block_access_depth) return query_iter_super_block(l, r, buf);</span>
+<span class="lineNum">     347 </span>                :            :         
+<span class="lineNum">     348 </span>                :<span class="lineCov">      12096 :       int lb = l &gt;&gt; block_bits;</span>
+<span class="lineNum">     349 </span>                :<span class="lineCov">      12096 :       int lh = l &amp; (block_size - 1);</span>
+<span class="lineNum">     350 </span>                :<span class="lineCov">      12096 :       int rb = r &gt;&gt; block_bits;</span>
+<span class="lineNum">     351 </span>                :<span class="lineCov">      12096 :       int rh = r &amp; (block_size - 1);</span>
+<span class="lineNum">     352 </span>                :            : 
+<span class="lineNum">     353 </span>                :<span class="lineCov">      24192 :       std::vector&lt;block_type&gt; &amp;tys = types[level];</span>
+<span class="lineNum">     354 </span>                :            : 
+<span class="lineNum">     355 </span>        [<span class="branchCov" title="Branch 0 was taken 166 times"> + </span><span class="branchCov" title="Branch 1 was taken 11930 times"> + </span>]:<span class="lineCov">      12096 :       if(lb &gt;= rb){</span>
+<span class="lineNum">     356 </span>                :            :         // in-block query
+<span class="lineNum">     357 </span>        [<span class="branchCov" title="Branch 0 was taken 142 times"> + </span><span class="branchCov" title="Branch 1 was taken 24 times"> + </span>]:<span class="lineCov">        166 :         if(l &lt;= r){</span>
+<span class="lineNum">     358 </span>                :<span class="lineCov">        142 :           buf[block_access_depth] = </span>
+<span class="lineNum">     359 </span>                :            :             query_cartesian_block(level - 1, // level = 0 -&gt; ok
+<span class="lineNum">     360 </span>                :            :                                   (lb &lt;&lt; block_bits)
+<span class="lineNum">     361 </span>                :            :                                   + cartesian_table[tys[lb]][access_table[lh][rh]]);
+<span class="lineNum">     362 </span>                :            :         }
+<span class="lineNum">     363 </span>                :            :         
+<span class="lineNum">     364 </span>                :<span class="lineCov">        166 :         return best_in_buf(buf);</span>
+<span class="lineNum">     365 </span>                :            :       }else{
+<span class="lineNum">     366 </span>                :            :         // out-of-block query
+<span class="lineNum">     367 </span>        [<span class="branchCov" title="Branch 0 was taken 10402 times"> + </span><span class="branchCov" title="Branch 1 was taken 1528 times"> + </span>]:<span class="lineCov">      11930 :         if(lh != 0){</span>
+<span class="lineNum">     368 </span>                :<span class="lineCov">      31206 :           buf[level] =</span>
+<span class="lineNum">     369 </span>                :            :             query_cartesian_block(level-1,
+<span class="lineNum">     370 </span>                :            :                                   (lb &lt;&lt; block_bits)
+<span class="lineNum">     371 </span>                :            :                                   + cartesian_table[tys[lb]][access_table[lh][block_size-1]]);
+<span class="lineNum">     372 </span>                :<span class="lineCov">      10402 :           lb++;</span>
+<span class="lineNum">     373 </span>                :            :         }
+<span class="lineNum">     374 </span>        [<span class="branchCov" title="Branch 0 was taken 10550 times"> + </span><span class="branchCov" title="Branch 1 was taken 1380 times"> + </span>]:<span class="lineCov">      11930 :         if(rh != block_size - 1){</span>
+<span class="lineNum">     375 </span>                :<span class="lineCov">      31650 :           buf[(block_access_depth &lt;&lt; 1) - level] = </span>
+<span class="lineNum">     376 </span>                :            :             query_cartesian_block(level-1,
+<span class="lineNum">     377 </span>                :            :                                   (rb &lt;&lt; block_bits)
+<span class="lineNum">     378 </span>                :            :                                   + cartesian_table[tys[rb]][access_table[0][rh]]);
+<span class="lineNum">     379 </span>                :<span class="lineCov">      10550 :           rb--;</span>
+<span class="lineNum">     380 </span>                :            :         }
+<span class="lineNum">     381 </span>                :            :           
+<span class="lineNum">     382 </span>                :<span class="lineCov">      16020 :         return query_iter(lb, rb, level + 1, buf);</span>
+<span class="lineNum">     383 </span>                :            :       }
+<span class="lineNum">     384 </span>                :            :     }
+<span class="lineNum">     385 </span>                :            :       
+<span class="lineNum">     386 </span>                :            :     int query_iter_super_block(int l, int r, int *buf){
+<span class="lineNum">     387 </span>                :<span class="lineCov">       3924 :       r++;</span>
+<span class="lineNum">     388 </span>                :<span class="lineCov">       3924 :       int s = r - l;</span>
+<span class="lineNum">     389 </span>        [<span class="branchCov" title="Branch 0 was taken 72 times"> + </span><span class="branchCov" title="Branch 1 was taken 3852 times"> + </span>]:<span class="lineCov">       3996 :       if(s &lt;= 0) return best_in_buf(buf);</span>
+<span class="lineNum">     390 </span>        [<span class="branchCov" title="Branch 0 was taken 96 times"> + </span><span class="branchCov" title="Branch 1 was taken 3756 times"> + </span>]:<span class="lineCov">       3852 :       if(s == 1) { </span>
+<span class="lineNum">     391 </span>                :<span class="lineCov">        192 :         buf[block_access_depth] = query_cartesian_block(block_access_depth - 1, l); </span>
+<span class="lineNum">     392 </span>                :<span class="lineCov">         96 :         return best_in_buf(buf); </span>
+<span class="lineNum">     393 </span>                :            :       }
+<span class="lineNum">     394 </span>                :<span class="lineCov">       7512 :       int b = get_msb(s);</span>
+<span class="lineNum">     395 </span>                :<span class="lineCov">       3756 :       int bl = 1 &lt;&lt; (b-1);</span>
+<span class="lineNum">     396 </span>                :<span class="lineCov">       7512 :       int leftix  = log_rmq_table[b-2][l];</span>
+<span class="lineNum">     397 </span>                :<span class="lineCov">       7512 :       int rightix = log_rmq_table[b-2][r-bl];</span>
+<span class="lineNum">     398 </span>        [<span class="branchCov" title="Branch 0 was taken 616 times"> + </span><span class="branchCov" title="Branch 1 was taken 3140 times"> + </span>]:<span class="lineCov">       3756 :       buf[block_access_depth] = (orig[leftix] &lt; orig[rightix] ? leftix : rightix);</span>
+<span class="lineNum">     399 </span>                :<span class="lineCov">       3756 :       return best_in_buf(buf);</span>
+<span class="lineNum">     400 </span>                :            :     }
+<span class="lineNum">     401 </span>                :            : 
+<span class="lineNum">     402 </span>                :            :     int best_in_buf(int *buf){
+<span class="lineNum">     403 </span>                :<span class="lineCov">       4090 :       int cur_min_ix = -1;</span>
+<span class="lineNum">     404 </span>                :<span class="lineCov">       4090 :       T cur_min = T();</span>
+<span class="lineNum">     405 </span>                :            :       
+<span class="lineNum">     406 </span>[<span class="branchCov" title="Branch 0 was taken 504 times"> + </span><span class="branchCov" title="Branch 1 was taken 72 times"> + </span>][<span class="branchCov" title="Branch 2 was taken 672 times"> + </span><span class="branchCov" title="Branch 3 was taken 96 times"> + </span>]:<span class="lineCov">      32720 :       for(int i = 0; i &lt; (block_access_depth &lt;&lt; 1) + 1; ++i){</span>
+<span class="lineNum">         </span>[<span class="branchCov" title="Branch 4 was taken 26292 times"> + </span><span class="branchCov" title="Branch 5 was taken 3756 times"> + </span>][<span class="branchCov" title="Branch 6 was taken 1162 times"> + </span><span class="branchCov" title="Branch 7 was taken 166 times"> + </span>]
+<span class="lineNum">     407 </span>                :<span class="lineCov">      28630 :         int m = buf[i];</span>
+<span class="lineNum">     408 </span>[<span class="branchCov" title="Branch 0 was taken 120 times"> + </span><span class="branchCov" title="Branch 1 was taken 384 times"> + </span>][<span class="branchCov" title="Branch 2 was taken 66 times"> + </span><span class="branchCov" title="Branch 3 was taken 606 times"> + </span>]:<span class="lineCov">      28630 :         if(m == -1) continue;</span>
+<span class="lineNum">         </span>[<span class="branchCov" title="Branch 4 was taken 2756 times"> + </span><span class="branchCov" title="Branch 5 was taken 23536 times"> + </span>][<span class="branchCov" title="Branch 6 was taken 742 times"> + </span><span class="branchCov" title="Branch 7 was taken 420 times"> + </span>]
+<span class="lineNum">     409 </span>                :<span class="lineCov">      49892 :         T mval = orig[m];</span>
+<span class="lineNum">     410 </span>[<span class="branchCov" title="Branch 0 was taken 214 times"> + </span><span class="branchCov" title="Branch 1 was taken 170 times"> + </span>][<span class="branchCov" title="Branch 2 was taken 316 times"> + </span><span class="branchCov" title="Branch 3 was taken 290 times"> + </span>]:<span class="lineCov">      24946 :         if(cur_min_ix == -1 || mval &lt; cur_min){</span>
+<span class="lineNum">         </span>[<span class="branchCov" title="Branch 4 was taken 12790 times"> + </span><span class="branchCov" title="Branch 5 was taken 10746 times"> + </span>][<span class="branchCov" title="Branch 6 was taken 284 times"> + </span><span class="branchCov" title="Branch 7 was taken 136 times"> + </span>]
+<span class="lineNum">     411 </span>                :<span class="lineCov">      13604 :           cur_min_ix = m;</span>
+<span class="lineNum">     412 </span>                :<span class="lineCov">      13604 :           cur_min = mval;</span>
+<span class="lineNum">     413 </span>                :            :         }
+<span class="lineNum">     414 </span>                :            :       }
+<span class="lineNum">     415 </span>                :<span class="lineCov">       4090 :       return cur_min_ix;</span>
+<span class="lineNum">     416 </span>                :            :     }
+<span class="lineNum">     417 </span>                :            :   };
+<span class="lineNum">     418 </span>                :            : } // suffix_array
+<span class="lineNum">     419 </span>                :            : } // data
+<span class="lineNum">     420 </span>                :            : } // pfi
+</pre>
+      </td>
+    </tr>
+  </table>
+  <br>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="ruler"><img src="../../glass.png" width=3 height=3 alt=""></td></tr>
+    <tr><td class="versionInfo">Generated by: <a href="http://ltp.sourceforge.net/coverage/lcov.php" target="_parent">LCOV version 1.9</a></td></tr>
+  </table>
+  <br>
+
+</body>
+</html>

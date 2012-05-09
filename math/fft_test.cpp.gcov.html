@@ -1,0 +1,263 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html lang="en">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+  <title>LCOV - pficommon - math/fft_test.cpp</title>
+  <link rel="stylesheet" type="text/css" href="../gcov.css">
+</head>
+
+<body>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="title">LCOV - code coverage report</td></tr>
+    <tr><td class="ruler"><img src="../glass.png" width=3 height=3 alt=""></td></tr>
+
+    <tr>
+      <td width="100%">
+        <table cellpadding=1 border=0 width="100%">
+          <tr>
+            <td width="10%" class="headerItem">Current view:</td>
+            <td width="35%" class="headerValue"><a href="../index.html">top level</a> - <a href="index.html">math</a> - fft_test.cpp<span style="font-size: 80%;"> (source / <a href="fft_test.cpp.func.html">functions</a>)</span></td>
+            <td width="5%"></td>
+            <td width="15%"></td>
+            <td width="10%" class="headerCovTableHead">Hit</td>
+            <td width="10%" class="headerCovTableHead">Total</td>
+            <td width="15%" class="headerCovTableHead">Coverage</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Test:</td>
+            <td class="headerValue">pficommon</td>
+            <td></td>
+            <td class="headerItem">Lines:</td>
+            <td class="headerCovTableEntry">66</td>
+            <td class="headerCovTableEntry">66</td>
+            <td class="headerCovTableEntryHi">100.0 %</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Date:</td>
+            <td class="headerValue">2012-05-09</td>
+            <td></td>
+            <td class="headerItem">Functions:</td>
+            <td class="headerCovTableEntry">19</td>
+            <td class="headerCovTableEntry">20</td>
+            <td class="headerCovTableEntryHi">95.0 %</td>
+          </tr>
+          <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td class="headerItem">Branches:</td>
+            <td class="headerCovTableEntry">78</td>
+            <td class="headerCovTableEntry">112</td>
+            <td class="headerCovTableEntryLo">69.6 %</td>
+          </tr>
+          <tr><td><img src="../glass.png" width=3 height=3 alt=""></td></tr>
+        </table>
+      </td>
+    </tr>
+
+    <tr><td class="ruler"><img src="../glass.png" width=3 height=3 alt=""></td></tr>
+  </table>
+
+  <table cellpadding=0 cellspacing=0 border=0>
+    <tr>
+      <td><br></td>
+    </tr>
+    <tr>
+      <td>
+<pre class="sourceHeading">           Branch data     Line data    Source code</pre>
+<pre class="source">
+<a name="1"><span class="lineNum">       1 </span>                :            : // Copyright (c)2008-2011, Preferred Infrastructure Inc.</a>
+<span class="lineNum">       2 </span>                :            : // 
+<span class="lineNum">       3 </span>                :            : // All rights reserved.
+<span class="lineNum">       4 </span>                :            : // 
+<span class="lineNum">       5 </span>                :            : // Redistribution and use in source and binary forms, with or without
+<span class="lineNum">       6 </span>                :            : // modification, are permitted provided that the following conditions are met:
+<span class="lineNum">       7 </span>                :            : // 
+<span class="lineNum">       8 </span>                :            : //     * Redistributions of source code must retain the above copyright
+<span class="lineNum">       9 </span>                :            : //       notice, this list of conditions and the following disclaimer.
+<span class="lineNum">      10 </span>                :            : // 
+<span class="lineNum">      11 </span>                :            : //     * Redistributions in binary form must reproduce the above
+<span class="lineNum">      12 </span>                :            : //       copyright notice, this list of conditions and the following
+<span class="lineNum">      13 </span>                :            : //       disclaimer in the documentation and/or other materials provided
+<span class="lineNum">      14 </span>                :            : //       with the distribution.
+<span class="lineNum">      15 </span>                :            : // 
+<span class="lineNum">      16 </span>                :            : //     * Neither the name of Preferred Infrastructure nor the names of other
+<span class="lineNum">      17 </span>                :            : //       contributors may be used to endorse or promote products derived
+<span class="lineNum">      18 </span>                :            : //       from this software without specific prior written permission.
+<span class="lineNum">      19 </span>                :            : // 
+<span class="lineNum">      20 </span>                :            : // THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+<span class="lineNum">      21 </span>                :            : // &quot;AS IS&quot; AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+<span class="lineNum">      22 </span>                :            : // LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+<span class="lineNum">      23 </span>                :            : // A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
+<span class="lineNum">      24 </span>                :            : // OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+<span class="lineNum">      25 </span>                :            : // SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+<span class="lineNum">      26 </span>                :            : // LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+<span class="lineNum">      27 </span>                :            : // DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+<span class="lineNum">      28 </span>                :            : // THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+<span class="lineNum">      29 </span>                :            : // (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+<span class="lineNum">      30 </span>                :            : // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+<span class="lineNum">      31 </span>                :            : 
+<span class="lineNum">      32 </span>                :            : #include &lt;gtest/gtest.h&gt;
+<span class="lineNum">      33 </span>                :            : 
+<span class="lineNum">      34 </span>                :            : #include &quot;fft.h&quot;
+<span class="lineNum">      35 </span>                :            : 
+<span class="lineNum">      36 </span>                :            : #include &lt;cmath&gt;
+<span class="lineNum">      37 </span>                :            : #include &lt;complex&gt;
+<span class="lineNum">      38 </span>                :            : #include &lt;vector&gt;
+<span class="lineNum">      39 </span>                :            : 
+<span class="lineNum">      40 </span>                :            : using namespace std;
+<span class="lineNum">      41 </span>                :            : using namespace pfi::math;
+<span class="lineNum">      42 </span>                :            : 
+<span class="lineNum">      43 </span>                :            : typedef complex&lt;double&gt; cplx;
+<span class="lineNum">      44 </span>                :            : 
+<span class="lineNum">      45 </span>                :            : template &lt;class T&gt;
+<span class="lineNum">      46 </span>                :            : ostream &amp;operator&lt;&lt;(ostream &amp;os, const vector&lt;T&gt; &amp;v)
+<span class="lineNum">      47 </span>                :            : {
+<span class="lineNum">      48 </span>                :            :   for (size_t i=0; i&lt;v.size(); i++){
+<span class="lineNum">      49 </span>                :            :     if (i&gt;0) os&lt;&lt;&quot;, &quot;;
+<span class="lineNum">      50 </span>                :            :     os&lt;&lt;v[i];
+<span class="lineNum">      51 </span>                :            :   }
+<span class="lineNum">      52 </span>                :            :   return os;
+<a name="53"><span class="lineNum">      53 </span>                :            : }</a>
+<span class="lineNum">      54 </span>                :            : 
+<span class="lineNum">      55 </span>        [<span class="branchNoCov" title="Branch 1 was not taken"> - </span><span class="branchCov" title="Branch 2 was taken 2 times"> + </span>]:<span class="lineCov">          8 : TEST(fft, length_test)</span>
+<span class="lineNum">      56 </span>                :            : {
+<span class="lineNum">      57 </span>                :            :   vector&lt;cplx&gt; dat;
+<span class="lineNum">      58 </span>[<span class="branchCov" title="Branch 0 was taken 2 times"> + </span><span class="branchNoCov" title="Branch 1 was not taken"> - </span>][<span class="branchCov" title="Branch 3 was taken 2 times"> + </span><span class="branchNoCov" title="Branch 4 was not taken"> - </span>]:<span class="lineCov">          4 :   EXPECT_THROW(fft(dat.begin(), dat.end()), length_error);</span>
+<span class="lineNum">         </span>        [<span class="branchNoCov" title="Branch 7 was not taken"> - </span><span class="branchCov" title="Branch 8 was taken 2 times"> + </span>]
+<span class="lineNum">      59 </span>                :<span class="lineCov">          2 :   dat.resize(3);</span>
+<span class="lineNum">      60 </span>[<span class="branchCov" title="Branch 0 was taken 2 times"> + </span><span class="branchNoCov" title="Branch 1 was not taken"> - </span>][<span class="branchCov" title="Branch 3 was taken 2 times"> + </span><span class="branchNoCov" title="Branch 4 was not taken"> - </span>]:<span class="lineCov">          4 :   EXPECT_THROW(fft(dat.begin(), dat.end()), length_error);</span>
+<span class="lineNum">         </span>        [<span class="branchNoCov" title="Branch 7 was not taken"> - </span><span class="branchCov" title="Branch 8 was taken 2 times"> + </span>]
+<span class="lineNum">      61 </span>                :<span class="lineCov">          2 :   dat.resize(127);</span>
+<span class="lineNum">      62 </span>[<span class="branchCov" title="Branch 0 was taken 2 times"> + </span><span class="branchNoCov" title="Branch 1 was not taken"> - </span>][<span class="branchCov" title="Branch 3 was taken 2 times"> + </span><span class="branchNoCov" title="Branch 4 was not taken"> - </span>]:<span class="lineCov">          4 :   EXPECT_THROW(fft(dat.begin(), dat.end()), length_error);</span>
+<span class="lineNum">         </span>        [<span class="branchNoCov" title="Branch 7 was not taken"> - </span><span class="branchCov" title="Branch 8 was taken 2 times"> + </span>]
+<span class="lineNum">      63 </span>                :<span class="lineCov">          2 :   dat.resize(1);</span>
+<span class="lineNum">      64 </span>[<span class="branchCov" title="Branch 1 was taken 2 times"> + </span><span class="branchNoCov" title="Branch 2 was not taken"> - </span>][<span class="branchCov" title="Branch 4 was taken 2 times"> + </span><span class="branchNoCov" title="Branch 5 was not taken"> - </span>]:<span class="lineCov">          2 :   EXPECT_NO_THROW(fft(dat.begin(), dat.end()));</span>
+<span class="lineNum">      65 </span>                :<span class="lineCov">          2 :   dat.resize(8);</span>
+<span class="lineNum">      66 </span>[<span class="branchCov" title="Branch 1 was taken 2 times"> + </span><span class="branchNoCov" title="Branch 2 was not taken"> - </span>][<span class="branchCov" title="Branch 4 was taken 2 times"> + </span><span class="branchNoCov" title="Branch 5 was not taken"> - </span>]:<span class="lineCov">          2 :   EXPECT_NO_THROW(fft(dat.begin(), dat.end()));</span>
+<span class="lineNum">      67 </span>                :<span class="lineCov">          2 :   dat.resize(256);</span>
+<span class="lineNum">      68 </span>[<span class="branchCov" title="Branch 1 was taken 2 times"> + </span><span class="branchNoCov" title="Branch 2 was not taken"> - </span>][<span class="branchCov" title="Branch 4 was taken 2 times"> + </span><span class="branchNoCov" title="Branch 5 was not taken"> - </span>]:<span class="lineCov">          2 :   EXPECT_NO_THROW(fft(dat.begin(), dat.end()));</span>
+<a name="69"><span class="lineNum">      69 </span>                :<span class="lineCov">          2 : }</span></a>
+<span class="lineNum">      70 </span>                :            : 
+<span class="lineNum">      71 </span>                :<span class="lineCov">    3084696 : double frand(double low, double high)</span>
+<span class="lineNum">      72 </span>                :            : {
+<span class="lineNum">      73 </span>                :<span class="lineCov">    3084696 :   double r=(double)rand()/RAND_MAX;</span>
+<span class="lineNum">      74 </span>                :<span class="lineCov">    3084696 :   return (high-low)*r+low;</span>
+<a name="75"><span class="lineNum">      75 </span>                :            : }</a>
+<span class="lineNum">      76 </span>                :            : 
+<span class="lineNum">      77 </span>                :<span class="lineCov">    3084756 : inline bool double_eq(double a, double b)</span>
+<span class="lineNum">      78 </span>                :            : {
+<span class="lineNum">      79 </span>                :<span class="lineCov">    6169512 :   double err=abs(a-b);</span>
+<span class="lineNum">      80 </span>                :<span class="lineCov">    3084756 :   return (err/abs(a))&lt;1e-8;</span>
+<span class="lineNum">      81 </span>                :            : }
+<span class="lineNum">      82 </span>                :            : 
+<span class="lineNum">      83 </span>                :            : #define ASSERT_COMPLEX_VECTOR_EQ(a, b)                  \
+<span class="lineNum">      84 </span>                :            :   ASSERT_EQ(a.size(), b.size());                        \
+<span class="lineNum">      85 </span>                :            :   for (size_t i=0; i&lt;a.size(); i++){                 \
+<span class="lineNum">      86 </span>                :            :     ASSERT_PRED2(double_eq, a[i].real(), b[i].real());  \
+<span class="lineNum">      87 </span>                :            :     ASSERT_PRED2(double_eq, a[i].imag(), b[i].imag());  \
+<a name="88"><span class="lineNum">      88 </span>                :            :   }</a>
+<span class="lineNum">      89 </span>                :            : 
+<span class="lineNum">      90 </span>        [<span class="branchNoCov" title="Branch 1 was not taken"> - </span><span class="branchCov" title="Branch 2 was taken 2 times"> + </span>]:<span class="lineCov">          8 : TEST(fft, fft_ifft)</span>
+<span class="lineNum">      91 </span>                :            : {
+<span class="lineNum">      92 </span>        [<span class="branchCov" title="Branch 0 was taken 200 times"> + </span><span class="branchCov" title="Branch 1 was taken 2 times"> + </span>]:<span class="lineCov">        202 :   for (int i=0;i&lt;100;i++){</span>
+<span class="lineNum">      93 </span>                :<span class="lineCov">        200 :     int n=1&lt;&lt;(rand()%16+1);</span>
+<span class="lineNum">      94 </span>                :<span class="lineCov">        200 :     vector&lt;cplx&gt; dat(n);</span>
+<span class="lineNum">      95 </span>        [<span class="branchCov" title="Branch 0 was taken 1542348 times"> + </span><span class="branchCov" title="Branch 1 was taken 200 times"> + </span>]:<span class="lineCov">    1542548 :     for (int i=0;i&lt;n;i++)</span>
+<span class="lineNum">      96 </span>                :<span class="lineCov">    1542348 :       dat[i]=cplx(frand(-1e5, 1e5), frand(-1e5, 1e5));</span>
+<span class="lineNum">      97 </span>                :<span class="lineCov">        200 :     vector&lt;cplx&gt; to(dat);</span>
+<span class="lineNum">      98 </span>                :            :     fft(to.begin(), to.end());
+<span class="lineNum">      99 </span>                :            :     ifft(to.begin(), to.end());
+<span class="lineNum">     100 </span>        [<span class="branchCov" title="Branch 0 was taken 1542348 times"> + </span><span class="branchCov" title="Branch 1 was taken 200 times"> + </span>]:<span class="lineCov">    1542548 :     for (int i=0;i&lt;n;i++)</span>
+<span class="lineNum">     101 </span>                :<span class="lineCov">    1542348 :       to[i]/=n;</span>
+<span class="lineNum">     102 </span>[<span class="branchNoCov" title="Branch 0 was not taken"> - </span><span class="branchCov" title="Branch 1 was taken 200 times"> + </span>][<span class="branchNoCov" title="Branch 11 was not taken"> - </span><span class="branchCov" title="Branch 12 was taken 1542348 times"> + </span>]:<span class="lineCov">    1542548 :     ASSERT_COMPLEX_VECTOR_EQ(dat, to);</span>
+<span class="lineNum">         </span>[<span class="branchNoCov" title="Branch 22 was not taken"> - </span><span class="branchCov" title="Branch 23 was taken 1542348 times"> + </span>][<span class="branchCov" title="Branch 32 was taken 1542348 times"> + </span><span class="branchCov" title="Branch 33 was taken 200 times"> + </span>]
+<span class="lineNum">     103 </span>                :            :   }
+<a name="104"><span class="lineNum">     104 </span>                :            : }</a>
+<span class="lineNum">     105 </span>                :            : 
+<span class="lineNum">     106 </span>        [<span class="branchNoCov" title="Branch 1 was not taken"> - </span><span class="branchCov" title="Branch 2 was taken 2 times"> + </span>]:<span class="lineCov">          8 : TEST(fft, fft)</span>
+<span class="lineNum">     107 </span>                :            : {
+<span class="lineNum">     108 </span>                :            :   double dat[][16]={
+<span class="lineNum">     109 </span>                :            :     {68037.543430941907,-21123.414636181391, },
+<span class="lineNum">     110 </span>                :            :     {68037.543430941907,-21123.414636181391, },
+<span class="lineNum">     111 </span>                :            :     {56619.844751721161,59688.006695214659, 82329.471587356849,-60489.726141323205, },
+<span class="lineNum">     112 </span>                :            :     {138949.316339078010,-801.719446108546, -25709.626835635689,120177.732836537863, },
+<span class="lineNum">     113 </span>                :            :     {-32955.448857022202,53645.918962380791, -44445.057839362446,10793.991159086101, -4520.589627567955,25774.184952384880, -27043.105441631327,2680.182039123101, },
+<span class="lineNum">     114 </span>                :            :     {-108964.201765583930,92894.277112974873, -20321.050109491247,45273.686407727029, 34012.124796403616,65945.930716556468, -36548.668349417247,10469.781612264793, },
+<span class="lineNum">     115 </span>                :            :     {90445.945034942561,83239.013600740116, 27142.345591980193,43459.385886536620, -71679.488928839331,21393.775251411731, -96739.885675134079,-51422.645874052607, -72553.684642796259,60835.350845398090, -68664.182149183092,-19811.121150763298, -74041.910643708849,-78238.239594846149, 99784.903600711783,-56348.618937818625, },
+<span class="lineNum">     116 </span>                :            :     {-166305.957812027074,3106.900026605887, 517563.294672435382,132515.622378821485, 295033.189512339013,245485.683272353257, -95119.648251923427,54728.834572851090, -89352.320548776668,171352.900178801676, 7699.994375557959,-92433.140297876482, 32194.130417049921,156351.974306792021, 221854.877914885292,-5196.665632428008, },
+<span class="lineNum">     117 </span>                :<span class="lineCov">          2 :   };</span>
+<span class="lineNum">     118 </span>                :            : 
+<span class="lineNum">     119 </span>        [<span class="branchCov" title="Branch 0 was taken 8 times"> + </span><span class="branchCov" title="Branch 1 was taken 2 times"> + </span>]:<span class="lineCov">         10 :   for (int i=0;i&lt;4;i++){</span>
+<span class="lineNum">     120 </span>                :<span class="lineCov">          8 :     int n=1&lt;&lt;i;</span>
+<span class="lineNum">     121 </span>                :<span class="lineCov">         16 :     vector&lt;cplx&gt; v(n), w(n);</span>
+<span class="lineNum">     122 </span>                :            : 
+<span class="lineNum">     123 </span>        [<span class="branchCov" title="Branch 0 was taken 30 times"> + </span><span class="branchCov" title="Branch 1 was taken 8 times"> + </span>]:<span class="lineCov">         38 :     for (int j=0; j&lt;n; j++) v[j]=cplx(dat[i*2+0][j*2+0], dat[i*2+0][j*2+1]);</span>
+<span class="lineNum">     124 </span>        [<span class="branchCov" title="Branch 0 was taken 30 times"> + </span><span class="branchCov" title="Branch 1 was taken 8 times"> + </span>]:<span class="lineCov">         38 :     for (int j=0; j&lt;n; j++) w[j]=cplx(dat[i*2+1][j*2+0], dat[i*2+1][j*2+1]);</span>
+<span class="lineNum">     125 </span>                :            : 
+<span class="lineNum">     126 </span>                :            :     ifft(v.begin(), v.end());
+<span class="lineNum">     127 </span>[<span class="branchNoCov" title="Branch 0 was not taken"> - </span><span class="branchCov" title="Branch 1 was taken 8 times"> + </span>][<span class="branchNoCov" title="Branch 11 was not taken"> - </span><span class="branchCov" title="Branch 12 was taken 30 times"> + </span>]:<span class="lineCov">         38 :     ASSERT_COMPLEX_VECTOR_EQ(v, w);</span>
+<span class="lineNum">         </span>[<span class="branchNoCov" title="Branch 22 was not taken"> - </span><span class="branchCov" title="Branch 23 was taken 30 times"> + </span>][<span class="branchCov" title="Branch 32 was taken 30 times"> + </span><span class="branchCov" title="Branch 33 was taken 8 times"> + </span>]
+<span class="lineNum">     128 </span>                :            :   }
+<a name="129"><span class="lineNum">     129 </span>                :            : }</a>
+<span class="lineNum">     130 </span>                :            : 
+<span class="lineNum">     131 </span>        [<span class="branchNoCov" title="Branch 1 was not taken"> - </span><span class="branchCov" title="Branch 2 was taken 2 times"> + </span>]:<span class="lineCov">          8 : TEST(fft, fft2d)</span>
+<span class="lineNum">     132 </span>                :            : {
+<span class="lineNum">     133 </span>                :<span class="lineCov">          2 :   int const m = 32, n = 64;</span>
+<span class="lineNum">     134 </span>                :<span class="lineCov">          2 :   double const pi = std::acos(-1);</span>
+<span class="lineNum">     135 </span>[<span class="branchCov" title="Branch 0 was taken 4096 times"> + </span><span class="branchCov" title="Branch 1 was taken 64 times"> + </span>][<span class="branchCov" title="Branch 2 was taken 64 times"> + </span><span class="branchCov" title="Branch 3 was taken 2 times"> + </span>]:<span class="lineCov">       4162 :   std::complex&lt;double&gt; a[m][n];</span>
+<span class="lineNum">     136 </span>        [<span class="branchCov" title="Branch 0 was taken 64 times"> + </span><span class="branchCov" title="Branch 1 was taken 2 times"> + </span>]:<span class="lineCov">         66 :   for (int i = 0; i &lt; m; ++i)</span>
+<span class="lineNum">     137 </span>        [<span class="branchCov" title="Branch 0 was taken 4096 times"> + </span><span class="branchCov" title="Branch 1 was taken 64 times"> + </span>]:<span class="lineCov">       4160 :     for (int j = 0; j &lt; n; ++j)</span>
+<span class="lineNum">     138 </span>                :<span class="lineCov">       4096 :       a[i][j] = std::cos(2*pi * i / m) * std::cos(2*pi * j / n);</span>
+<span class="lineNum">     139 </span>                :            : 
+<span class="lineNum">     140 </span>                :            :   pfi::math::fft2d(&amp;a[0][0], &amp;a[m][0], n);
+<span class="lineNum">     141 </span>                :            : 
+<span class="lineNum">     142 </span>        [<span class="branchCov" title="Branch 0 was taken 64 times"> + </span><span class="branchCov" title="Branch 1 was taken 2 times"> + </span>]:<span class="lineCov">         66 :   for (int i = 0; i &lt; m; ++i) {</span>
+<span class="lineNum">     143 </span>        [<span class="branchCov" title="Branch 0 was taken 4096 times"> + </span><span class="branchCov" title="Branch 1 was taken 64 times"> + </span>]:<span class="lineCov">       4160 :     for (int j = 0; j &lt; n; ++j) {</span>
+<span class="lineNum">     144 </span>[<span class="branchCov" title="Branch 0 was taken 256 times"> + </span><span class="branchCov" title="Branch 1 was taken 3840 times"> + </span>][<span class="branchCov" title="Branch 2 was taken 8 times"> + </span><span class="branchCov" title="Branch 3 was taken 248 times"> + </span>]:<span class="lineCov">       4104 :       if ((i == 1 || i == m-1) &amp;&amp; (j == 1 || j == n-1))</span>
+<span class="lineNum">     145 </span>        [<span class="branchNoCov" title="Branch 1 was not taken"> - </span><span class="branchCov" title="Branch 2 was taken 8 times"> + </span>]:<span class="lineCov">          8 :         EXPECT_NEAR(m*n / 4, a[i][j].real(), 1e-5);</span>
+<span class="lineNum">     146 </span>                :            :       else
+<span class="lineNum">     147 </span>        [<span class="branchNoCov" title="Branch 1 was not taken"> - </span><span class="branchCov" title="Branch 2 was taken 4088 times"> + </span>]:<span class="lineCov">       4088 :         EXPECT_NEAR(0, a[i][j].real(), 1e-5);</span>
+<span class="lineNum">     148 </span>        [<span class="branchNoCov" title="Branch 1 was not taken"> - </span><span class="branchCov" title="Branch 2 was taken 4096 times"> + </span>]:<span class="lineCov">       4096 :       EXPECT_NEAR(0, a[i][j].imag(), 1e-5);</span>
+<span class="lineNum">     149 </span>                :            :     }
+<span class="lineNum">     150 </span>                :            :   }
+<a name="151"><span class="lineNum">     151 </span>                :<span class="lineCov">          2 : }</span></a>
+<span class="lineNum">     152 </span>                :            : 
+<span class="lineNum">     153 </span>        [<span class="branchNoCov" title="Branch 1 was not taken"> - </span><span class="branchCov" title="Branch 2 was taken 2 times"> + </span>]:<span class="lineCov">          8 : TEST(fft, fft2d_matrix)</span>
+<span class="lineNum">     154 </span>                :            : {
+<span class="lineNum">     155 </span>                :<span class="lineCov">          2 :   int const m = 32, n = 64;</span>
+<span class="lineNum">     156 </span>                :<span class="lineCov">          2 :   double const pi = std::acos(-1);</span>
+<span class="lineNum">     157 </span>                :<span class="lineCov">          2 :   std::vector&lt;std::vector&lt;std::complex&lt;double&gt; &gt; &gt; a(m, std::vector&lt;std::complex&lt;double&gt; &gt;(n));</span>
+<span class="lineNum">     158 </span>        [<span class="branchCov" title="Branch 0 was taken 64 times"> + </span><span class="branchCov" title="Branch 1 was taken 2 times"> + </span>]:<span class="lineCov">         66 :   for (int i = 0; i &lt; m; ++i)</span>
+<span class="lineNum">     159 </span>        [<span class="branchCov" title="Branch 0 was taken 4096 times"> + </span><span class="branchCov" title="Branch 1 was taken 64 times"> + </span>]:<span class="lineCov">       4160 :     for (int j = 0; j &lt; n; ++j)</span>
+<span class="lineNum">     160 </span>                :<span class="lineCov">       4096 :       a[i][j] = std::cos(2*pi * i / m) * std::cos(2*pi * j / n);</span>
+<span class="lineNum">     161 </span>                :            : 
+<span class="lineNum">     162 </span>                :            :   pfi::math::fft2d(a);
+<span class="lineNum">     163 </span>                :            : 
+<span class="lineNum">     164 </span>        [<span class="branchCov" title="Branch 0 was taken 64 times"> + </span><span class="branchCov" title="Branch 1 was taken 2 times"> + </span>]:<span class="lineCov">         66 :   for (int i = 0; i &lt; m; ++i) {</span>
+<span class="lineNum">     165 </span>        [<span class="branchCov" title="Branch 0 was taken 4096 times"> + </span><span class="branchCov" title="Branch 1 was taken 64 times"> + </span>]:<span class="lineCov">       4160 :     for (int j = 0; j &lt; n; ++j) {</span>
+<span class="lineNum">     166 </span>[<span class="branchCov" title="Branch 0 was taken 256 times"> + </span><span class="branchCov" title="Branch 1 was taken 3840 times"> + </span>][<span class="branchCov" title="Branch 2 was taken 8 times"> + </span><span class="branchCov" title="Branch 3 was taken 248 times"> + </span>]:<span class="lineCov">       4096 :       if ((i == 1 || i == m-1) &amp;&amp; (j == 1 || j == n-1))</span>
+<span class="lineNum">     167 </span>        [<span class="branchNoCov" title="Branch 1 was not taken"> - </span><span class="branchCov" title="Branch 2 was taken 8 times"> + </span>]:<span class="lineCov">          8 :         EXPECT_NEAR(m*n / 4, a[i][j].real(), 1e-5);</span>
+<span class="lineNum">     168 </span>                :            :       else
+<span class="lineNum">     169 </span>        [<span class="branchNoCov" title="Branch 1 was not taken"> - </span><span class="branchCov" title="Branch 2 was taken 4088 times"> + </span>]:<span class="lineCov">       4088 :         EXPECT_NEAR(0, a[i][j].real(), 1e-5);</span>
+<span class="lineNum">     170 </span>        [<span class="branchNoCov" title="Branch 1 was not taken"> - </span><span class="branchCov" title="Branch 2 was taken 4096 times"> + </span>]:<span class="lineCov">       4096 :       EXPECT_NEAR(0, a[i][j].imag(), 1e-5);</span>
+<a name="171"><span class="lineNum">     171 </span>                :            :     }</a>
+<span class="lineNum">     172 </span>                :<span class="lineCov">          2 :   }</span>
+<span class="lineNum">     173 </span>[<span class="branchCov" title="Branch 0 was taken 2 times"> + </span><span class="branchNoCov" title="Branch 1 was not taken"> - </span>][<span class="branchCov" title="Branch 2 was taken 2 times"> + </span><span class="branchNoCov" title="Branch 3 was not taken"> - </span>]:<span class="lineCov">          8 : }</span>
+</pre>
+      </td>
+    </tr>
+  </table>
+  <br>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="ruler"><img src="../glass.png" width=3 height=3 alt=""></td></tr>
+    <tr><td class="versionInfo">Generated by: <a href="http://ltp.sourceforge.net/coverage/lcov.php" target="_parent">LCOV version 1.9</a></td></tr>
+  </table>
+  <br>
+
+</body>
+</html>

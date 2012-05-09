@@ -1,0 +1,466 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html lang="en">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+  <title>LCOV - pficommon - network/mprpc/argument.h</title>
+  <link rel="stylesheet" type="text/css" href="../../gcov.css">
+</head>
+
+<body>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="title">LCOV - code coverage report</td></tr>
+    <tr><td class="ruler"><img src="../../glass.png" width=3 height=3 alt=""></td></tr>
+
+    <tr>
+      <td width="100%">
+        <table cellpadding=1 border=0 width="100%">
+          <tr>
+            <td width="10%" class="headerItem">Current view:</td>
+            <td width="35%" class="headerValue"><a href="../../index.html">top level</a> - <a href="index.html">network/mprpc</a> - argument.h<span style="font-size: 80%;"> (source / <a href="argument.h.func.html">functions</a>)</span></td>
+            <td width="5%"></td>
+            <td width="15%"></td>
+            <td width="10%" class="headerCovTableHead">Hit</td>
+            <td width="10%" class="headerCovTableHead">Total</td>
+            <td width="15%" class="headerCovTableHead">Coverage</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Test:</td>
+            <td class="headerValue">pficommon</td>
+            <td></td>
+            <td class="headerItem">Lines:</td>
+            <td class="headerCovTableEntry">8</td>
+            <td class="headerCovTableEntry">8</td>
+            <td class="headerCovTableEntryHi">100.0 %</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Date:</td>
+            <td class="headerValue">2012-05-09</td>
+            <td></td>
+            <td class="headerItem">Functions:</td>
+            <td class="headerCovTableEntry">0</td>
+            <td class="headerCovTableEntry">0</td>
+            <td class="headerCovTableEntryHi">-</td>
+          </tr>
+          <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td class="headerItem">Branches:</td>
+            <td class="headerCovTableEntry">12</td>
+            <td class="headerCovTableEntry">24</td>
+            <td class="headerCovTableEntryLo">50.0 %</td>
+          </tr>
+          <tr><td><img src="../../glass.png" width=3 height=3 alt=""></td></tr>
+        </table>
+      </td>
+    </tr>
+
+    <tr><td class="ruler"><img src="../../glass.png" width=3 height=3 alt=""></td></tr>
+  </table>
+
+  <table cellpadding=0 cellspacing=0 border=0>
+    <tr>
+      <td><br></td>
+    </tr>
+    <tr>
+      <td>
+<pre class="sourceHeading">           Branch data     Line data    Source code</pre>
+<pre class="source">
+<a name="1"><span class="lineNum">       1 </span>                :            : // Copyright (c)2008-2011, Preferred Infrastructure Inc.</a>
+<span class="lineNum">       2 </span>                :            : // 
+<span class="lineNum">       3 </span>                :            : // All rights reserved.
+<span class="lineNum">       4 </span>                :            : // 
+<span class="lineNum">       5 </span>                :            : // Redistribution and use in source and binary forms, with or without
+<span class="lineNum">       6 </span>                :            : // modification, are permitted provided that the following conditions are met:
+<span class="lineNum">       7 </span>                :            : // 
+<span class="lineNum">       8 </span>                :            : //     * Redistributions of source code must retain the above copyright
+<span class="lineNum">       9 </span>                :            : //       notice, this list of conditions and the following disclaimer.
+<span class="lineNum">      10 </span>                :            : // 
+<span class="lineNum">      11 </span>                :            : //     * Redistributions in binary form must reproduce the above
+<span class="lineNum">      12 </span>                :            : //       copyright notice, this list of conditions and the following
+<span class="lineNum">      13 </span>                :            : //       disclaimer in the documentation and/or other materials provided
+<span class="lineNum">      14 </span>                :            : //       with the distribution.
+<span class="lineNum">      15 </span>                :            : // 
+<span class="lineNum">      16 </span>                :            : //     * Neither the name of Preferred Infrastructure nor the names of other
+<span class="lineNum">      17 </span>                :            : //       contributors may be used to endorse or promote products derived
+<span class="lineNum">      18 </span>                :            : //       from this software without specific prior written permission.
+<span class="lineNum">      19 </span>                :            : // 
+<span class="lineNum">      20 </span>                :            : // THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+<span class="lineNum">      21 </span>                :            : // &quot;AS IS&quot; AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+<span class="lineNum">      22 </span>                :            : // LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+<span class="lineNum">      23 </span>                :            : // A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
+<span class="lineNum">      24 </span>                :            : // OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+<span class="lineNum">      25 </span>                :            : // SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+<span class="lineNum">      26 </span>                :            : // LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+<span class="lineNum">      27 </span>                :            : // DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+<span class="lineNum">      28 </span>                :            : // THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+<span class="lineNum">      29 </span>                :            : // (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+<span class="lineNum">      30 </span>                :            : // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+<span class="lineNum">      31 </span>                :            : 
+<span class="lineNum">      32 </span>                :            : #ifndef INCLUDE_GUARD_PFI_NETWORK_MPRPC_ARGUMENT_H_
+<span class="lineNum">      33 </span>                :            : #define INCLUDE_GUARD_PFI_NETWORK_MPRPC_ARGUMENT_H_
+<span class="lineNum">      34 </span>                :            : 
+<span class="lineNum">      35 </span>                :            : #include &lt;msgpack.hpp&gt;
+<span class="lineNum">      36 </span>                :            : #include &lt;algorithm&gt;
+<span class="lineNum">      37 </span>                :            : 
+<span class="lineNum">      38 </span>                :            : namespace pfi {
+<span class="lineNum">      39 </span>                :            : namespace network {
+<span class="lineNum">      40 </span>                :            : namespace mprpc {
+<span class="lineNum">      41 </span>                :            : 
+<span class="lineNum">      42 </span>                :            : 
+<span class="lineNum">      43 </span>                :            : struct argument0 {
+<span class="lineNum">      44 </span>                :            :   template &lt;typename Packer&gt;
+<span class="lineNum">      45 </span>                :            :   void msgpack_pack(Packer&amp; o) const
+<span class="lineNum">      46 </span>                :            :   {
+<span class="lineNum">      47 </span>                :            :     o.pack_array(0);
+<span class="lineNum">      48 </span>                :            :   }
+<span class="lineNum">      49 </span>                :            : 
+<span class="lineNum">      50 </span>                :            :   void msgpack_unpack(msgpack::object o)
+<span class="lineNum">      51 </span>                :            :   {
+<span class="lineNum">      52 </span>                :            :     if(o.type != msgpack::type::ARRAY) { throw msgpack::type_error(); }
+<span class="lineNum">      53 </span>                :            :   }
+<span class="lineNum">      54 </span>                :            : };
+<span class="lineNum">      55 </span>                :            : 
+<span class="lineNum">      56 </span>                :            : template &lt;typename A1&gt;
+<span class="lineNum">      57 </span>                :<span class="lineCov">       1204 : struct argument1 {</span>
+<span class="lineNum">      58 </span>                :            :   template &lt;typename Packer&gt;
+<span class="lineNum">      59 </span>                :            :   void msgpack_pack(Packer&amp; o) const
+<span class="lineNum">      60 </span>                :            :   {
+<span class="lineNum">      61 </span>                :<span class="lineCov">       1002 :     o.pack_array(1);</span>
+<span class="lineNum">      62 </span>                :<span class="lineCov">       1002 :     o.pack(a1);</span>
+<span class="lineNum">      63 </span>                :            :   }
+<span class="lineNum">      64 </span>                :            : 
+<span class="lineNum">      65 </span>                :            :   void msgpack_unpack(msgpack::object o)
+<span class="lineNum">      66 </span>                :            :   {
+<span class="lineNum">      67 </span>[<span class="branchNoCov" title="Branch 0 was not taken"> - </span><span class="branchCov" title="Branch 1 was taken 2 times"> + </span>][<span class="branchNoCov" title="Branch 4 was not taken"> - </span><span class="branchCov" title="Branch 5 was taken 200 times"> + </span>]:<span class="lineCov">       1002 :     if(o.type != msgpack::type::ARRAY) { throw msgpack::type_error(); }</span>
+<span class="lineNum">         </span>[<span class="branchNoCov" title="Branch 8 was not taken"> - </span><span class="branchCov" title="Branch 9 was taken 200 times"> + </span>][<span class="branchNoCov" title="Branch 12 was not taken"> - </span><span class="branchCov" title="Branch 13 was taken 200 times"> + </span>]
+<span class="lineNum">         </span>[<span class="branchNoCov" title="Branch 16 was not taken"> - </span><span class="branchCov" title="Branch 17 was taken 200 times"> + </span>][<span class="branchNoCov" title="Branch 20 was not taken"> - </span><span class="branchCov" title="Branch 21 was taken 200 times"> + </span>]
+<span class="lineNum">      68 </span>                :<span class="lineCov">       1002 :     const size_t sz = o.via.array.size;</span>
+<span class="lineNum">      69 </span>[<span class="branchCov" title="Branch 0 was taken 2 times"> + </span><span class="branchNoCov" title="Branch 1 was not taken"> - </span>][<span class="branchCov" title="Branch 2 was taken 200 times"> + </span><span class="branchNoCov" title="Branch 3 was not taken"> - </span>]:<span class="lineCov">       1002 :     if(sz &lt;= 0) { return; } o.via.array.ptr[0].convert(&amp;a1);</span>
+<span class="lineNum">         </span>[<span class="branchCov" title="Branch 6 was taken 200 times"> + </span><span class="branchNoCov" title="Branch 7 was not taken"> - </span>][<span class="branchCov" title="Branch 10 was taken 200 times"> + </span><span class="branchNoCov" title="Branch 11 was not taken"> - </span>]
+<span class="lineNum">         </span>[<span class="branchCov" title="Branch 14 was taken 200 times"> + </span><span class="branchNoCov" title="Branch 15 was not taken"> - </span>][<span class="branchCov" title="Branch 18 was taken 200 times"> + </span><span class="branchNoCov" title="Branch 19 was not taken"> - </span>]
+<span class="lineNum">      70 </span>                :            :   }
+<span class="lineNum">      71 </span>                :            : 
+<span class="lineNum">      72 </span>                :<span class="lineCov">       1002 :   argument1() { }</span>
+<span class="lineNum">      73 </span>                :            : 
+<span class="lineNum">      74 </span>                :<span class="lineCov">        802 :   argument1(A1 _a1) : a1(_a1) { }</span>
+<span class="lineNum">      75 </span>                :            : 
+<span class="lineNum">      76 </span>                :            :   A1 a1;
+<span class="lineNum">      77 </span>                :            : };
+<span class="lineNum">      78 </span>                :            : 
+<span class="lineNum">      79 </span>                :            : template &lt;typename A1, typename A2&gt;
+<span class="lineNum">      80 </span>                :            : struct argument2 {
+<span class="lineNum">      81 </span>                :            :   template &lt;typename Packer&gt;
+<span class="lineNum">      82 </span>                :            :   void msgpack_pack(Packer&amp; o) const
+<span class="lineNum">      83 </span>                :            :   {
+<span class="lineNum">      84 </span>                :            :     o.pack_array(2);
+<span class="lineNum">      85 </span>                :            :     o.pack(a1);
+<span class="lineNum">      86 </span>                :            :     o.pack(a2);
+<span class="lineNum">      87 </span>                :            :   }
+<span class="lineNum">      88 </span>                :            : 
+<span class="lineNum">      89 </span>                :            :   void msgpack_unpack(msgpack::object o)
+<span class="lineNum">      90 </span>                :            :   {
+<span class="lineNum">      91 </span>                :            :     if(o.type != msgpack::type::ARRAY) { throw msgpack::type_error(); }
+<span class="lineNum">      92 </span>                :            :     const size_t sz = o.via.array.size;
+<span class="lineNum">      93 </span>                :            :     if(sz &lt;= 0) { return; } o.via.array.ptr[0].convert(&amp;a1);
+<span class="lineNum">      94 </span>                :            :     if(sz &lt;= 1) { return; } o.via.array.ptr[1].convert(&amp;a2);
+<span class="lineNum">      95 </span>                :            :   }
+<span class="lineNum">      96 </span>                :            : 
+<span class="lineNum">      97 </span>                :            :   argument2() { }
+<span class="lineNum">      98 </span>                :            : 
+<span class="lineNum">      99 </span>                :            :   argument2(A1 _a1, A2 _a2) : a1(_a1), a2(_a2) { }
+<span class="lineNum">     100 </span>                :            : 
+<span class="lineNum">     101 </span>                :            :   A1 a1;
+<span class="lineNum">     102 </span>                :            :   A2 a2;
+<span class="lineNum">     103 </span>                :            : };
+<span class="lineNum">     104 </span>                :            : 
+<span class="lineNum">     105 </span>                :            : template &lt;typename A1, typename A2, typename A3&gt;
+<span class="lineNum">     106 </span>                :            : struct argument3 {
+<span class="lineNum">     107 </span>                :            :   template &lt;typename Packer&gt;
+<span class="lineNum">     108 </span>                :            :   void msgpack_pack(Packer&amp; o) const
+<span class="lineNum">     109 </span>                :            :   {
+<span class="lineNum">     110 </span>                :            :     o.pack_array(3);
+<span class="lineNum">     111 </span>                :            :     o.pack(a1);
+<span class="lineNum">     112 </span>                :            :     o.pack(a2);
+<span class="lineNum">     113 </span>                :            :     o.pack(a3);
+<span class="lineNum">     114 </span>                :            :   }
+<span class="lineNum">     115 </span>                :            : 
+<span class="lineNum">     116 </span>                :            :   void msgpack_unpack(msgpack::object o)
+<span class="lineNum">     117 </span>                :            :   {
+<span class="lineNum">     118 </span>                :            :     if(o.type != msgpack::type::ARRAY) { throw msgpack::type_error(); }
+<span class="lineNum">     119 </span>                :            :     const size_t sz = o.via.array.size;
+<span class="lineNum">     120 </span>                :            :     if(sz &lt;= 0) { return; } o.via.array.ptr[0].convert(&amp;a1);
+<span class="lineNum">     121 </span>                :            :     if(sz &lt;= 1) { return; } o.via.array.ptr[1].convert(&amp;a2);
+<span class="lineNum">     122 </span>                :            :     if(sz &lt;= 2) { return; } o.via.array.ptr[2].convert(&amp;a3);
+<span class="lineNum">     123 </span>                :            :   }
+<span class="lineNum">     124 </span>                :            : 
+<span class="lineNum">     125 </span>                :            :   argument3() { }
+<span class="lineNum">     126 </span>                :            : 
+<span class="lineNum">     127 </span>                :            :   argument3(A1 _a1, A2 _a2, A3 _a3) : a1(_a1), a2(_a2), a3(_a3) { }
+<span class="lineNum">     128 </span>                :            : 
+<span class="lineNum">     129 </span>                :            :   A1 a1;
+<span class="lineNum">     130 </span>                :            :   A2 a2;
+<span class="lineNum">     131 </span>                :            :   A3 a3;
+<span class="lineNum">     132 </span>                :            : };
+<span class="lineNum">     133 </span>                :            : 
+<span class="lineNum">     134 </span>                :            : template &lt;typename A1, typename A2, typename A3, typename A4&gt;
+<span class="lineNum">     135 </span>                :            : struct argument4 {
+<span class="lineNum">     136 </span>                :            :   template &lt;typename Packer&gt;
+<span class="lineNum">     137 </span>                :            :   void msgpack_pack(Packer&amp; o) const
+<span class="lineNum">     138 </span>                :            :   {
+<span class="lineNum">     139 </span>                :            :     o.pack_array(4);
+<span class="lineNum">     140 </span>                :            :     o.pack(a1);
+<span class="lineNum">     141 </span>                :            :     o.pack(a2);
+<span class="lineNum">     142 </span>                :            :     o.pack(a3);
+<span class="lineNum">     143 </span>                :            :     o.pack(a4);
+<span class="lineNum">     144 </span>                :            :   }
+<span class="lineNum">     145 </span>                :            : 
+<span class="lineNum">     146 </span>                :            :   void msgpack_unpack(msgpack::object o)
+<span class="lineNum">     147 </span>                :            :   {
+<span class="lineNum">     148 </span>                :            :     if(o.type != msgpack::type::ARRAY) { throw msgpack::type_error(); }
+<span class="lineNum">     149 </span>                :            :     const size_t sz = o.via.array.size;
+<span class="lineNum">     150 </span>                :            :     if(sz &lt;= 0) { return; } o.via.array.ptr[0].convert(&amp;a1);
+<span class="lineNum">     151 </span>                :            :     if(sz &lt;= 1) { return; } o.via.array.ptr[1].convert(&amp;a2);
+<span class="lineNum">     152 </span>                :            :     if(sz &lt;= 2) { return; } o.via.array.ptr[2].convert(&amp;a3);
+<span class="lineNum">     153 </span>                :            :     if(sz &lt;= 3) { return; } o.via.array.ptr[3].convert(&amp;a4);
+<span class="lineNum">     154 </span>                :            :   }
+<span class="lineNum">     155 </span>                :            : 
+<span class="lineNum">     156 </span>                :            :   argument4() { }
+<span class="lineNum">     157 </span>                :            : 
+<span class="lineNum">     158 </span>                :            :   argument4(A1 _a1, A2 _a2, A3 _a3, A4 _a4) : a1(_a1), a2(_a2), a3(_a3), a4(_a4) { }
+<span class="lineNum">     159 </span>                :            : 
+<span class="lineNum">     160 </span>                :            :   A1 a1;
+<span class="lineNum">     161 </span>                :            :   A2 a2;
+<span class="lineNum">     162 </span>                :            :   A3 a3;
+<span class="lineNum">     163 </span>                :            :   A4 a4;
+<span class="lineNum">     164 </span>                :            : };
+<span class="lineNum">     165 </span>                :            : 
+<span class="lineNum">     166 </span>                :            : template &lt;typename A1, typename A2, typename A3, typename A4, typename A5&gt;
+<span class="lineNum">     167 </span>                :            : struct argument5 {
+<span class="lineNum">     168 </span>                :            :   template &lt;typename Packer&gt;
+<span class="lineNum">     169 </span>                :            :   void msgpack_pack(Packer&amp; o) const
+<span class="lineNum">     170 </span>                :            :   {
+<span class="lineNum">     171 </span>                :            :     o.pack_array(5);
+<span class="lineNum">     172 </span>                :            :     o.pack(a1);
+<span class="lineNum">     173 </span>                :            :     o.pack(a2);
+<span class="lineNum">     174 </span>                :            :     o.pack(a3);
+<span class="lineNum">     175 </span>                :            :     o.pack(a4);
+<span class="lineNum">     176 </span>                :            :     o.pack(a5);
+<span class="lineNum">     177 </span>                :            :   }
+<span class="lineNum">     178 </span>                :            : 
+<span class="lineNum">     179 </span>                :            :   void msgpack_unpack(msgpack::object o)
+<span class="lineNum">     180 </span>                :            :   {
+<span class="lineNum">     181 </span>                :            :     if(o.type != msgpack::type::ARRAY) { throw msgpack::type_error(); }
+<span class="lineNum">     182 </span>                :            :     const size_t sz = o.via.array.size;
+<span class="lineNum">     183 </span>                :            :     if(sz &lt;= 0) { return; } o.via.array.ptr[0].convert(&amp;a1);
+<span class="lineNum">     184 </span>                :            :     if(sz &lt;= 1) { return; } o.via.array.ptr[1].convert(&amp;a2);
+<span class="lineNum">     185 </span>                :            :     if(sz &lt;= 2) { return; } o.via.array.ptr[2].convert(&amp;a3);
+<span class="lineNum">     186 </span>                :            :     if(sz &lt;= 3) { return; } o.via.array.ptr[3].convert(&amp;a4);
+<span class="lineNum">     187 </span>                :            :     if(sz &lt;= 4) { return; } o.via.array.ptr[4].convert(&amp;a5);
+<span class="lineNum">     188 </span>                :            :   }
+<span class="lineNum">     189 </span>                :            : 
+<span class="lineNum">     190 </span>                :            :   argument5() { }
+<span class="lineNum">     191 </span>                :            : 
+<span class="lineNum">     192 </span>                :            :   argument5(A1 _a1, A2 _a2, A3 _a3, A4 _a4, A5 _a5) : a1(_a1), a2(_a2), a3(_a3), a4(_a4), a5(_a5) { }
+<span class="lineNum">     193 </span>                :            : 
+<span class="lineNum">     194 </span>                :            :   A1 a1;
+<span class="lineNum">     195 </span>                :            :   A2 a2;
+<span class="lineNum">     196 </span>                :            :   A3 a3;
+<span class="lineNum">     197 </span>                :            :   A4 a4;
+<span class="lineNum">     198 </span>                :            :   A5 a5;
+<span class="lineNum">     199 </span>                :            : };
+<span class="lineNum">     200 </span>                :            : 
+<span class="lineNum">     201 </span>                :            : template &lt;typename A1, typename A2, typename A3, typename A4, typename A5, typename A6&gt;
+<span class="lineNum">     202 </span>                :            : struct argument6 {
+<span class="lineNum">     203 </span>                :            :   template &lt;typename Packer&gt;
+<span class="lineNum">     204 </span>                :            :   void msgpack_pack(Packer&amp; o) const
+<span class="lineNum">     205 </span>                :            :   {
+<span class="lineNum">     206 </span>                :            :     o.pack_array(6);
+<span class="lineNum">     207 </span>                :            :     o.pack(a1);
+<span class="lineNum">     208 </span>                :            :     o.pack(a2);
+<span class="lineNum">     209 </span>                :            :     o.pack(a3);
+<span class="lineNum">     210 </span>                :            :     o.pack(a4);
+<span class="lineNum">     211 </span>                :            :     o.pack(a5);
+<span class="lineNum">     212 </span>                :            :     o.pack(a6);
+<span class="lineNum">     213 </span>                :            :   }
+<span class="lineNum">     214 </span>                :            : 
+<span class="lineNum">     215 </span>                :            :   void msgpack_unpack(msgpack::object o)
+<span class="lineNum">     216 </span>                :            :   {
+<span class="lineNum">     217 </span>                :            :     if(o.type != msgpack::type::ARRAY) { throw msgpack::type_error(); }
+<span class="lineNum">     218 </span>                :            :     const size_t sz = o.via.array.size;
+<span class="lineNum">     219 </span>                :            :     if(sz &lt;= 0) { return; } o.via.array.ptr[0].convert(&amp;a1);
+<span class="lineNum">     220 </span>                :            :     if(sz &lt;= 1) { return; } o.via.array.ptr[1].convert(&amp;a2);
+<span class="lineNum">     221 </span>                :            :     if(sz &lt;= 2) { return; } o.via.array.ptr[2].convert(&amp;a3);
+<span class="lineNum">     222 </span>                :            :     if(sz &lt;= 3) { return; } o.via.array.ptr[3].convert(&amp;a4);
+<span class="lineNum">     223 </span>                :            :     if(sz &lt;= 4) { return; } o.via.array.ptr[4].convert(&amp;a5);
+<span class="lineNum">     224 </span>                :            :     if(sz &lt;= 5) { return; } o.via.array.ptr[5].convert(&amp;a6);
+<span class="lineNum">     225 </span>                :            :   }
+<span class="lineNum">     226 </span>                :            : 
+<span class="lineNum">     227 </span>                :            :   argument6() { }
+<span class="lineNum">     228 </span>                :            : 
+<span class="lineNum">     229 </span>                :            :   argument6(A1 _a1, A2 _a2, A3 _a3, A4 _a4, A5 _a5, A6 _a6) : a1(_a1), a2(_a2), a3(_a3), a4(_a4), a5(_a5), a6(_a6) { }
+<span class="lineNum">     230 </span>                :            : 
+<span class="lineNum">     231 </span>                :            :   A1 a1;
+<span class="lineNum">     232 </span>                :            :   A2 a2;
+<span class="lineNum">     233 </span>                :            :   A3 a3;
+<span class="lineNum">     234 </span>                :            :   A4 a4;
+<span class="lineNum">     235 </span>                :            :   A5 a5;
+<span class="lineNum">     236 </span>                :            :   A6 a6;
+<span class="lineNum">     237 </span>                :            : };
+<span class="lineNum">     238 </span>                :            : 
+<span class="lineNum">     239 </span>                :            : template &lt;typename A1, typename A2, typename A3, typename A4, typename A5, typename A6, typename A7&gt;
+<span class="lineNum">     240 </span>                :            : struct argument7 {
+<span class="lineNum">     241 </span>                :            :   template &lt;typename Packer&gt;
+<span class="lineNum">     242 </span>                :            :   void msgpack_pack(Packer&amp; o) const
+<span class="lineNum">     243 </span>                :            :   {
+<span class="lineNum">     244 </span>                :            :     o.pack_array(7);
+<span class="lineNum">     245 </span>                :            :     o.pack(a1);
+<span class="lineNum">     246 </span>                :            :     o.pack(a2);
+<span class="lineNum">     247 </span>                :            :     o.pack(a3);
+<span class="lineNum">     248 </span>                :            :     o.pack(a4);
+<span class="lineNum">     249 </span>                :            :     o.pack(a5);
+<span class="lineNum">     250 </span>                :            :     o.pack(a6);
+<span class="lineNum">     251 </span>                :            :     o.pack(a7);
+<span class="lineNum">     252 </span>                :            :   }
+<span class="lineNum">     253 </span>                :            : 
+<span class="lineNum">     254 </span>                :            :   void msgpack_unpack(msgpack::object o)
+<span class="lineNum">     255 </span>                :            :   {
+<span class="lineNum">     256 </span>                :            :     if(o.type != msgpack::type::ARRAY) { throw msgpack::type_error(); }
+<span class="lineNum">     257 </span>                :            :     const size_t sz = o.via.array.size;
+<span class="lineNum">     258 </span>                :            :     if(sz &lt;= 0) { return; } o.via.array.ptr[0].convert(&amp;a1);
+<span class="lineNum">     259 </span>                :            :     if(sz &lt;= 1) { return; } o.via.array.ptr[1].convert(&amp;a2);
+<span class="lineNum">     260 </span>                :            :     if(sz &lt;= 2) { return; } o.via.array.ptr[2].convert(&amp;a3);
+<span class="lineNum">     261 </span>                :            :     if(sz &lt;= 3) { return; } o.via.array.ptr[3].convert(&amp;a4);
+<span class="lineNum">     262 </span>                :            :     if(sz &lt;= 4) { return; } o.via.array.ptr[4].convert(&amp;a5);
+<span class="lineNum">     263 </span>                :            :     if(sz &lt;= 5) { return; } o.via.array.ptr[5].convert(&amp;a6);
+<span class="lineNum">     264 </span>                :            :     if(sz &lt;= 6) { return; } o.via.array.ptr[6].convert(&amp;a7);
+<span class="lineNum">     265 </span>                :            :   }
+<span class="lineNum">     266 </span>                :            : 
+<span class="lineNum">     267 </span>                :            :   argument7() { }
+<span class="lineNum">     268 </span>                :            : 
+<span class="lineNum">     269 </span>                :            :   argument7(A1 _a1, A2 _a2, A3 _a3, A4 _a4, A5 _a5, A6 _a6, A7 _a7) : a1(_a1), a2(_a2), a3(_a3), a4(_a4), a5(_a5), a6(_a6), a7(_a7) { }
+<span class="lineNum">     270 </span>                :            : 
+<span class="lineNum">     271 </span>                :            :   A1 a1;
+<span class="lineNum">     272 </span>                :            :   A2 a2;
+<span class="lineNum">     273 </span>                :            :   A3 a3;
+<span class="lineNum">     274 </span>                :            :   A4 a4;
+<span class="lineNum">     275 </span>                :            :   A5 a5;
+<span class="lineNum">     276 </span>                :            :   A6 a6;
+<span class="lineNum">     277 </span>                :            :   A7 a7;
+<span class="lineNum">     278 </span>                :            : };
+<span class="lineNum">     279 </span>                :            : 
+<span class="lineNum">     280 </span>                :            : template &lt;typename A1, typename A2, typename A3, typename A4, typename A5, typename A6, typename A7, typename A8&gt;
+<span class="lineNum">     281 </span>                :            : struct argument8 {
+<span class="lineNum">     282 </span>                :            :   template &lt;typename Packer&gt;
+<span class="lineNum">     283 </span>                :            :   void msgpack_pack(Packer&amp; o) const
+<span class="lineNum">     284 </span>                :            :   {
+<span class="lineNum">     285 </span>                :            :     o.pack_array(8);
+<span class="lineNum">     286 </span>                :            :     o.pack(a1);
+<span class="lineNum">     287 </span>                :            :     o.pack(a2);
+<span class="lineNum">     288 </span>                :            :     o.pack(a3);
+<span class="lineNum">     289 </span>                :            :     o.pack(a4);
+<span class="lineNum">     290 </span>                :            :     o.pack(a5);
+<span class="lineNum">     291 </span>                :            :     o.pack(a6);
+<span class="lineNum">     292 </span>                :            :     o.pack(a7);
+<span class="lineNum">     293 </span>                :            :     o.pack(a8);
+<span class="lineNum">     294 </span>                :            :   }
+<span class="lineNum">     295 </span>                :            : 
+<span class="lineNum">     296 </span>                :            :   void msgpack_unpack(msgpack::object o)
+<span class="lineNum">     297 </span>                :            :   {
+<span class="lineNum">     298 </span>                :            :     if(o.type != msgpack::type::ARRAY) { throw msgpack::type_error(); }
+<span class="lineNum">     299 </span>                :            :     const size_t sz = o.via.array.size;
+<span class="lineNum">     300 </span>                :            :     if(sz &lt;= 0) { return; } o.via.array.ptr[0].convert(&amp;a1);
+<span class="lineNum">     301 </span>                :            :     if(sz &lt;= 1) { return; } o.via.array.ptr[1].convert(&amp;a2);
+<span class="lineNum">     302 </span>                :            :     if(sz &lt;= 2) { return; } o.via.array.ptr[2].convert(&amp;a3);
+<span class="lineNum">     303 </span>                :            :     if(sz &lt;= 3) { return; } o.via.array.ptr[3].convert(&amp;a4);
+<span class="lineNum">     304 </span>                :            :     if(sz &lt;= 4) { return; } o.via.array.ptr[4].convert(&amp;a5);
+<span class="lineNum">     305 </span>                :            :     if(sz &lt;= 5) { return; } o.via.array.ptr[5].convert(&amp;a6);
+<span class="lineNum">     306 </span>                :            :     if(sz &lt;= 6) { return; } o.via.array.ptr[6].convert(&amp;a7);
+<span class="lineNum">     307 </span>                :            :     if(sz &lt;= 7) { return; } o.via.array.ptr[7].convert(&amp;a8);
+<span class="lineNum">     308 </span>                :            :   }
+<span class="lineNum">     309 </span>                :            : 
+<span class="lineNum">     310 </span>                :            :   argument8() { }
+<span class="lineNum">     311 </span>                :            : 
+<span class="lineNum">     312 </span>                :            :   argument8(A1 _a1, A2 _a2, A3 _a3, A4 _a4, A5 _a5, A6 _a6, A7 _a7, A8 _a8) : a1(_a1), a2(_a2), a3(_a3), a4(_a4), a5(_a5), a6(_a6), a7(_a7), a8(_a8) { }
+<span class="lineNum">     313 </span>                :            : 
+<span class="lineNum">     314 </span>                :            :   A1 a1;
+<span class="lineNum">     315 </span>                :            :   A2 a2;
+<span class="lineNum">     316 </span>                :            :   A3 a3;
+<span class="lineNum">     317 </span>                :            :   A4 a4;
+<span class="lineNum">     318 </span>                :            :   A5 a5;
+<span class="lineNum">     319 </span>                :            :   A6 a6;
+<span class="lineNum">     320 </span>                :            :   A7 a7;
+<span class="lineNum">     321 </span>                :            :   A8 a8;
+<span class="lineNum">     322 </span>                :            : };
+<span class="lineNum">     323 </span>                :            : 
+<span class="lineNum">     324 </span>                :            : template &lt;typename A1, typename A2, typename A3, typename A4, typename A5, typename A6, typename A7, typename A8, typename A9&gt;
+<span class="lineNum">     325 </span>                :            : struct argument9 {
+<span class="lineNum">     326 </span>                :            :   template &lt;typename Packer&gt;
+<span class="lineNum">     327 </span>                :            :   void msgpack_pack(Packer&amp; o) const
+<span class="lineNum">     328 </span>                :            :   {
+<span class="lineNum">     329 </span>                :            :     o.pack_array(9);
+<span class="lineNum">     330 </span>                :            :     o.pack(a1);
+<span class="lineNum">     331 </span>                :            :     o.pack(a2);
+<span class="lineNum">     332 </span>                :            :     o.pack(a3);
+<span class="lineNum">     333 </span>                :            :     o.pack(a4);
+<span class="lineNum">     334 </span>                :            :     o.pack(a5);
+<span class="lineNum">     335 </span>                :            :     o.pack(a6);
+<span class="lineNum">     336 </span>                :            :     o.pack(a7);
+<span class="lineNum">     337 </span>                :            :     o.pack(a8);
+<span class="lineNum">     338 </span>                :            :     o.pack(a9);
+<span class="lineNum">     339 </span>                :            :   }
+<span class="lineNum">     340 </span>                :            : 
+<span class="lineNum">     341 </span>                :            :   void msgpack_unpack(msgpack::object o)
+<span class="lineNum">     342 </span>                :            :   {
+<span class="lineNum">     343 </span>                :            :     if(o.type != msgpack::type::ARRAY) { throw msgpack::type_error(); }
+<span class="lineNum">     344 </span>                :            :     const size_t sz = o.via.array.size;
+<span class="lineNum">     345 </span>                :            :     if(sz &lt;= 0) { return; } o.via.array.ptr[0].convert(&amp;a1);
+<span class="lineNum">     346 </span>                :            :     if(sz &lt;= 1) { return; } o.via.array.ptr[1].convert(&amp;a2);
+<span class="lineNum">     347 </span>                :            :     if(sz &lt;= 2) { return; } o.via.array.ptr[2].convert(&amp;a3);
+<span class="lineNum">     348 </span>                :            :     if(sz &lt;= 3) { return; } o.via.array.ptr[3].convert(&amp;a4);
+<span class="lineNum">     349 </span>                :            :     if(sz &lt;= 4) { return; } o.via.array.ptr[4].convert(&amp;a5);
+<span class="lineNum">     350 </span>                :            :     if(sz &lt;= 5) { return; } o.via.array.ptr[5].convert(&amp;a6);
+<span class="lineNum">     351 </span>                :            :     if(sz &lt;= 6) { return; } o.via.array.ptr[6].convert(&amp;a7);
+<span class="lineNum">     352 </span>                :            :     if(sz &lt;= 7) { return; } o.via.array.ptr[7].convert(&amp;a8);
+<span class="lineNum">     353 </span>                :            :     if(sz &lt;= 8) { return; } o.via.array.ptr[8].convert(&amp;a9);
+<span class="lineNum">     354 </span>                :            :   }
+<span class="lineNum">     355 </span>                :            : 
+<span class="lineNum">     356 </span>                :            :   argument9() { }
+<span class="lineNum">     357 </span>                :            : 
+<span class="lineNum">     358 </span>                :            :   argument9(A1 _a1, A2 _a2, A3 _a3, A4 _a4, A5 _a5, A6 _a6, A7 _a7, A8 _a8, A9 _a9) : a1(_a1), a2(_a2), a3(_a3), a4(_a4), a5(_a5), a6(_a6), a7(_a7), a8(_a8), a9(_a9) { }
+<span class="lineNum">     359 </span>                :            : 
+<span class="lineNum">     360 </span>                :            :   A1 a1;
+<span class="lineNum">     361 </span>                :            :   A2 a2;
+<span class="lineNum">     362 </span>                :            :   A3 a3;
+<span class="lineNum">     363 </span>                :            :   A4 a4;
+<span class="lineNum">     364 </span>                :            :   A5 a5;
+<span class="lineNum">     365 </span>                :            :   A6 a6;
+<span class="lineNum">     366 </span>                :            :   A7 a7;
+<span class="lineNum">     367 </span>                :            :   A8 a8;
+<span class="lineNum">     368 </span>                :            :   A9 a9;
+<span class="lineNum">     369 </span>                :            : };
+<span class="lineNum">     370 </span>                :            : 
+<span class="lineNum">     371 </span>                :            : 
+<span class="lineNum">     372 </span>                :            : 
+<span class="lineNum">     373 </span>                :            : }  // namespace mprpc
+<span class="lineNum">     374 </span>                :            : }  // namespace network
+<span class="lineNum">     375 </span>                :            : }  // namespace pfi
+<span class="lineNum">     376 </span>                :            : 
+<span class="lineNum">     377 </span>                :            : #endif // #ifndef INCLUDE_GUARD_PFI_NETWORK_MPRPC_ARGUMENT_H_
+</pre>
+      </td>
+    </tr>
+  </table>
+  <br>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="ruler"><img src="../../glass.png" width=3 height=3 alt=""></td></tr>
+    <tr><td class="versionInfo">Generated by: <a href="http://ltp.sourceforge.net/coverage/lcov.php" target="_parent">LCOV version 1.9</a></td></tr>
+  </table>
+  <br>
+
+</body>
+</html>

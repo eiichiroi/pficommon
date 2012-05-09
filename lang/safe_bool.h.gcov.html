@@ -1,0 +1,203 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html lang="en">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+  <title>LCOV - pficommon - lang/safe_bool.h</title>
+  <link rel="stylesheet" type="text/css" href="../gcov.css">
+</head>
+
+<body>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="title">LCOV - code coverage report</td></tr>
+    <tr><td class="ruler"><img src="../glass.png" width=3 height=3 alt=""></td></tr>
+
+    <tr>
+      <td width="100%">
+        <table cellpadding=1 border=0 width="100%">
+          <tr>
+            <td width="10%" class="headerItem">Current view:</td>
+            <td width="35%" class="headerValue"><a href="../index.html">top level</a> - <a href="index.html">lang</a> - safe_bool.h<span style="font-size: 80%;"> (source / <a href="safe_bool.h.func.html">functions</a>)</span></td>
+            <td width="5%"></td>
+            <td width="15%"></td>
+            <td width="10%" class="headerCovTableHead">Hit</td>
+            <td width="10%" class="headerCovTableHead">Total</td>
+            <td width="15%" class="headerCovTableHead">Coverage</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Test:</td>
+            <td class="headerValue">pficommon</td>
+            <td></td>
+            <td class="headerItem">Lines:</td>
+            <td class="headerCovTableEntry">4</td>
+            <td class="headerCovTableEntry">5</td>
+            <td class="headerCovTableEntryMed">80.0 %</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Date:</td>
+            <td class="headerValue">2012-05-09</td>
+            <td></td>
+            <td class="headerItem">Functions:</td>
+            <td class="headerCovTableEntry">0</td>
+            <td class="headerCovTableEntry">1</td>
+            <td class="headerCovTableEntryLo">0.0 %</td>
+          </tr>
+          <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td class="headerItem">Branches:</td>
+            <td class="headerCovTableEntry">64</td>
+            <td class="headerCovTableEntry">102</td>
+            <td class="headerCovTableEntryLo">62.7 %</td>
+          </tr>
+          <tr><td><img src="../glass.png" width=3 height=3 alt=""></td></tr>
+        </table>
+      </td>
+    </tr>
+
+    <tr><td class="ruler"><img src="../glass.png" width=3 height=3 alt=""></td></tr>
+  </table>
+
+  <table cellpadding=0 cellspacing=0 border=0>
+    <tr>
+      <td><br></td>
+    </tr>
+    <tr>
+      <td>
+<pre class="sourceHeading">           Branch data     Line data    Source code</pre>
+<pre class="source">
+<a name="1"><span class="lineNum">       1 </span>                :            : // Copyright (c)2008-2011, Preferred Infrastructure Inc.</a>
+<span class="lineNum">       2 </span>                :            : // 
+<span class="lineNum">       3 </span>                :            : // All rights reserved.
+<span class="lineNum">       4 </span>                :            : // 
+<span class="lineNum">       5 </span>                :            : // Redistribution and use in source and binary forms, with or without
+<span class="lineNum">       6 </span>                :            : // modification, are permitted provided that the following conditions are met:
+<span class="lineNum">       7 </span>                :            : // 
+<span class="lineNum">       8 </span>                :            : //     * Redistributions of source code must retain the above copyright
+<span class="lineNum">       9 </span>                :            : //       notice, this list of conditions and the following disclaimer.
+<span class="lineNum">      10 </span>                :            : // 
+<span class="lineNum">      11 </span>                :            : //     * Redistributions in binary form must reproduce the above
+<span class="lineNum">      12 </span>                :            : //       copyright notice, this list of conditions and the following
+<span class="lineNum">      13 </span>                :            : //       disclaimer in the documentation and/or other materials provided
+<span class="lineNum">      14 </span>                :            : //       with the distribution.
+<span class="lineNum">      15 </span>                :            : // 
+<span class="lineNum">      16 </span>                :            : //     * Neither the name of Preferred Infrastructure nor the names of other
+<span class="lineNum">      17 </span>                :            : //       contributors may be used to endorse or promote products derived
+<span class="lineNum">      18 </span>                :            : //       from this software without specific prior written permission.
+<span class="lineNum">      19 </span>                :            : // 
+<span class="lineNum">      20 </span>                :            : // THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+<span class="lineNum">      21 </span>                :            : // &quot;AS IS&quot; AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+<span class="lineNum">      22 </span>                :            : // LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+<span class="lineNum">      23 </span>                :            : // A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
+<span class="lineNum">      24 </span>                :            : // OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+<span class="lineNum">      25 </span>                :            : // SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+<span class="lineNum">      26 </span>                :            : // LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+<span class="lineNum">      27 </span>                :            : // DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+<span class="lineNum">      28 </span>                :            : // THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+<span class="lineNum">      29 </span>                :            : // (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+<span class="lineNum">      30 </span>                :            : // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+<span class="lineNum">      31 </span>                :            : 
+<span class="lineNum">      32 </span>                :            : #ifndef INCLUDE_GUARD_PFI_LANG_SAFE_BOOL_H_
+<span class="lineNum">      33 </span>                :            : #define INCLUDE_GUARD_PFI_LANG_SAFE_BOOL_H_
+<span class="lineNum">      34 </span>                :            : 
+<span class="lineNum">      35 </span>                :            : namespace pfi{
+<span class="lineNum">      36 </span>                :            : namespace lang{
+<span class="lineNum">      37 </span>                :            : 
+<span class="lineNum">      38 </span>                :            : class safe_bool_base{
+<a name="39"><span class="lineNum">      39 </span>                :            : public:</a>
+<span class="lineNum">      40 </span>                :            :   typedef void (safe_bool_base::*bool_type)() const;
+<span class="lineNum">      41 </span>                :<span class="lineNoCov">          0 :   void this_type_does_not_support_comparisons() const {}</span>
+<span class="lineNum">      42 </span>                :            : 
+<span class="lineNum">      43 </span>                :            : protected:
+<span class="lineNum">      44 </span>                :            :   safe_bool_base(){}
+<span class="lineNum">      45 </span>                :            :   safe_bool_base(const safe_bool_base &amp;){}
+<span class="lineNum">      46 </span>                :<span class="lineCov">         48 :   safe_bool_base&amp; operator=(const safe_bool_base&amp;){ return *this; }</span>
+<span class="lineNum">      47 </span>                :            :   ~safe_bool_base(){}
+<span class="lineNum">      48 </span>                :            : };
+<span class="lineNum">      49 </span>                :            : 
+<span class="lineNum">      50 </span>                :            : template &lt;class T&gt;
+<span class="lineNum">      51 </span>                :<span class="lineCov">     382365 : class safe_bool : private safe_bool_base{</span>
+<span class="lineNum">      52 </span>                :            : public:
+<span class="lineNum">      53 </span>                :            :   operator bool_type() const {
+<span class="lineNum">      54 </span>                :            :     return (static_cast&lt;const T*&gt;(this))-&gt;bool_test()
+<span class="lineNum">      55 </span>[<span class="branchCov" title="Branch 0 was taken 1166 times"> + </span><span class="branchCov" title="Branch 1 was taken 14 times"> + </span>][<span class="branchCov" title="Branch 2 was taken 104 times"> + </span><span class="branchCov" title="Branch 3 was taken 6 times"> + </span>]:<span class="lineCov">     499656 :       ? &amp;safe_bool_base::this_type_does_not_support_comparisons : 0;</span>
+<span class="lineNum">         </span>[<span class="branchCov" title="Branch 4 was taken 6 times"> + </span><span class="branchCov" title="Branch 5 was taken 4 times"> + </span>][<span class="branchCov" title="Branch 6 was taken 48 times"> + </span><span class="branchCov" title="Branch 7 was taken 26 times"> + </span>]
+<span class="lineNum">         </span>[<span class="branchCov" title="Branch 8 was taken 16 times"> + </span><span class="branchCov" title="Branch 9 was taken 8 times"> + </span>][<span class="branchCov" title="Branch 10 was taken 32 times"> + </span><span class="branchCov" title="Branch 11 was taken 16 times"> + </span>]
+<span class="lineNum">         </span>[<span class="branchCov" title="Branch 12 was taken 4 times"> + </span><span class="branchCov" title="Branch 13 was taken 4 times"> + </span>][<span class="branchCov" title="Branch 14 was taken 2 times"> + </span><span class="branchCov" title="Branch 15 was taken 4 times"> + </span>]
+<span class="lineNum">         </span>[<span class="branchNoCov" title="Branch 16 was not taken"> - </span><span class="branchCov" title="Branch 17 was taken 2 times"> + </span>][<span class="branchCov" title="Branch 18 was taken 2 times"> + </span><span class="branchNoCov" title="Branch 19 was not taken"> - </span>]
+<span class="lineNum">         </span>[<span class="branchNoCov" title="Branch 20 was not taken"> - </span><span class="branchCov" title="Branch 21 was taken 2 times"> + </span>][<span class="branchNoCov" title="Branch 22 was not taken"> - </span><span class="branchCov" title="Branch 23 was taken 2 times"> + </span>]
+<span class="lineNum">         </span>[<span class="branchCov" title="Branch 24 was taken 2 times"> + </span><span class="branchNoCov" title="Branch 25 was not taken"> - </span>][<span class="branchNoCov" title="Branch 26 was not taken"> - </span><span class="branchCov" title="Branch 27 was taken 2 times"> + </span>]
+<span class="lineNum">         </span>[<span class="branchCov" title="Branch 28 was taken 2 times"> + </span><span class="branchNoCov" title="Branch 29 was not taken"> - </span>][<span class="branchCov" title="Branch 30 was taken 2 times"> + </span><span class="branchNoCov" title="Branch 31 was not taken"> - </span>]
+<span class="lineNum">         </span>[<span class="branchCov" title="Branch 0 was taken 8030 times"> + </span><span class="branchCov" title="Branch 1 was taken 2 times"> + </span>][<span class="branchCov" title="Branch 2 was taken 92280 times"> + </span><span class="branchCov" title="Branch 3 was taken 2 times"> + </span>]
+<span class="lineNum">         </span>[<span class="branchCov" title="Branch 4 was taken 2374 times"> + </span><span class="branchCov" title="Branch 5 was taken 2 times"> + </span>][<span class="branchCov" title="Branch 6 was taken 2 times"> + </span><span class="branchNoCov" title="Branch 7 was not taken"> - </span>]
+<span class="lineNum">         </span>[<span class="branchCov" title="Branch 8 was taken 4 times"> + </span><span class="branchNoCov" title="Branch 9 was not taken"> - </span>][<span class="branchCov" title="Branch 10 was taken 4 times"> + </span><span class="branchNoCov" title="Branch 11 was not taken"> - </span>]
+<span class="lineNum">         </span>[<span class="branchCov" title="Branch 12 was taken 2 times"> + </span><span class="branchNoCov" title="Branch 13 was not taken"> - </span>][<span class="branchCov" title="Branch 2 was taken 16610 times"> + </span><span class="branchNoCov" title="Branch 3 was not taken"> - </span>]
+<span class="lineNum">         </span>[<span class="branchCov" title="Branch 4 was taken 10206 times"> + </span><span class="branchNoCov" title="Branch 5 was not taken"> - </span>][<span class="branchCov" title="Branch 6 was taken 202 times"> + </span><span class="branchNoCov" title="Branch 7 was not taken"> - </span>]
+<span class="lineNum">         </span>[<span class="branchCov" title="Branch 8 was taken 120257 times"> + </span><span class="branchNoCov" title="Branch 9 was not taken"> - </span>][<span class="branchCov" title="Branch 10 was taken 120257 times"> + </span><span class="branchNoCov" title="Branch 11 was not taken"> - </span>]
+<span class="lineNum">         </span>[<span class="branchCov" title="Branch 12 was taken 8 times"> + </span><span class="branchNoCov" title="Branch 13 was not taken"> - </span>][<span class="branchCov" title="Branch 14 was taken 120208 times"> + </span><span class="branchNoCov" title="Branch 15 was not taken"> - </span>]
+<span class="lineNum">         </span>[<span class="branchCov" title="Branch 16 was taken 206 times"> + </span><span class="branchNoCov" title="Branch 17 was not taken"> - </span>][<span class="branchCov" title="Branch 18 was taken 206 times"> + </span><span class="branchNoCov" title="Branch 19 was not taken"> - </span>]
+<span class="lineNum">         </span>[<span class="branchCov" title="Branch 8 was taken 2 times"> + </span><span class="branchCov" title="Branch 9 was taken 2 times"> + </span>][<span class="branchCov" title="Branch 20 was taken 200 times"> + </span><span class="branchNoCov" title="Branch 21 was not taken"> - </span>]
+<span class="lineNum">         </span>[<span class="branchCov" title="Branch 22 was taken 200 times"> + </span><span class="branchNoCov" title="Branch 23 was not taken"> - </span>][<span class="branchCov" title="Branch 24 was taken 200 times"> + </span><span class="branchNoCov" title="Branch 25 was not taken"> - </span>]
+<span class="lineNum">         </span>[<span class="branchCov" title="Branch 26 was taken 200 times"> + </span><span class="branchNoCov" title="Branch 27 was not taken"> - </span>][<span class="branchCov" title="Branch 28 was taken 200 times"> + </span><span class="branchNoCov" title="Branch 29 was not taken"> - </span>]
+<span class="lineNum">         </span>[<span class="branchCov" title="Branch 30 was taken 200 times"> + </span><span class="branchNoCov" title="Branch 31 was not taken"> - </span>][<span class="branchCov" title="Branch 32 was taken 200 times"> + </span><span class="branchNoCov" title="Branch 33 was not taken"> - </span>]
+<span class="lineNum">         </span>[<span class="branchCov" title="Branch 34 was taken 200 times"> + </span><span class="branchNoCov" title="Branch 35 was not taken"> - </span>][<span class="branchCov" title="Branch 36 was taken 200 times"> + </span><span class="branchNoCov" title="Branch 37 was not taken"> - </span>]
+<span class="lineNum">         </span>[<span class="branchCov" title="Branch 38 was taken 200 times"> + </span><span class="branchNoCov" title="Branch 39 was not taken"> - </span>][<span class="branchCov" title="Branch 40 was taken 200 times"> + </span><span class="branchNoCov" title="Branch 41 was not taken"> - </span>]
+<span class="lineNum">         </span>[<span class="branchCov" title="Branch 42 was taken 200 times"> + </span><span class="branchNoCov" title="Branch 43 was not taken"> - </span>][<span class="branchCov" title="Branch 4 was taken 998 times"> + </span><span class="branchCov" title="Branch 5 was taken 4 times"> + </span>]
+<span class="lineNum">         </span>[<span class="branchCov" title="Branch 6 was taken 1002 times"> + </span><span class="branchNoCov" title="Branch 7 was not taken"> - </span>][<span class="branchCov" title="Branch 8 was taken 1002 times"> + </span><span class="branchNoCov" title="Branch 9 was not taken"> - </span>]
+<span class="lineNum">         </span>[<span class="branchCov" title="Branch 10 was taken 4 times"> + </span><span class="branchNoCov" title="Branch 11 was not taken"> - </span>][<span class="branchCov" title="Branch 12 was taken 1002 times"> + </span><span class="branchNoCov" title="Branch 13 was not taken"> - </span>]
+<span class="lineNum">         </span>        [<span class="branchCov" title="Branch 14 was taken 1002 times"> + </span><span class="branchNoCov" title="Branch 15 was not taken"> - </span>]
+<span class="lineNum">      56 </span>                :            :   }
+<span class="lineNum">      57 </span>                :            : protected:
+<span class="lineNum">      58 </span>                :<span class="lineCov">     380517 :   ~safe_bool(){}</span>
+<span class="lineNum">      59 </span>                :            : };
+<span class="lineNum">      60 </span>                :            : 
+<span class="lineNum">      61 </span>                :            : template &lt;class T&gt;
+<span class="lineNum">      62 </span>                :            : bool operator==(const safe_bool&lt;T&gt; &amp;lhs, bool b)
+<span class="lineNum">      63 </span>                :            : {
+<span class="lineNum">      64 </span>                :            :   if (lhs)
+<span class="lineNum">      65 </span>                :            :     return b;
+<span class="lineNum">      66 </span>                :            :   else
+<span class="lineNum">      67 </span>                :            :     return !b;
+<span class="lineNum">      68 </span>                :            : }
+<span class="lineNum">      69 </span>                :            : 
+<span class="lineNum">      70 </span>                :            : template &lt;class T&gt;
+<span class="lineNum">      71 </span>                :            : bool operator==(bool b, const safe_bool&lt;T&gt; &amp;rhs)
+<span class="lineNum">      72 </span>                :            : {
+<span class="lineNum">      73 </span>                :            :   if (rhs)
+<span class="lineNum">      74 </span>                :            :     return b;
+<span class="lineNum">      75 </span>                :            :   else
+<span class="lineNum">      76 </span>                :            :     return !b;
+<span class="lineNum">      77 </span>                :            : }
+<span class="lineNum">      78 </span>                :            : 
+<span class="lineNum">      79 </span>                :            : template &lt;class T, class U&gt;
+<span class="lineNum">      80 </span>                :            : void operator==(const safe_bool&lt;T&gt; &amp;lhs, const safe_bool&lt;U&gt; &amp;rhs)
+<span class="lineNum">      81 </span>                :            : {
+<span class="lineNum">      82 </span>                :            :   lhs.this_type_does_not_support_comparisons();
+<span class="lineNum">      83 </span>                :            : }
+<span class="lineNum">      84 </span>                :            : 
+<span class="lineNum">      85 </span>                :            : template &lt;class T, class U&gt;
+<span class="lineNum">      86 </span>                :            : void operator!=(const safe_bool&lt;T&gt; &amp;lhs, const safe_bool&lt;U&gt; &amp;rhs)
+<span class="lineNum">      87 </span>                :            : {
+<span class="lineNum">      88 </span>                :            :   lhs.this_type_does_not_support_comparisons();
+<span class="lineNum">      89 </span>                :            : }
+<span class="lineNum">      90 </span>                :            : 
+<span class="lineNum">      91 </span>                :            : } // lang
+<span class="lineNum">      92 </span>                :            : } // pfi
+<span class="lineNum">      93 </span>                :            : #endif // #ifndef INCLUDE_GUARD_PFI_LANG_SAFE_BOOL_H_
+</pre>
+      </td>
+    </tr>
+  </table>
+  <br>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="ruler"><img src="../glass.png" width=3 height=3 alt=""></td></tr>
+    <tr><td class="versionInfo">Generated by: <a href="http://ltp.sourceforge.net/coverage/lcov.php" target="_parent">LCOV version 1.9</a></td></tr>
+  </table>
+  <br>
+
+</body>
+</html>

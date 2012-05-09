@@ -1,0 +1,339 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html lang="en">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+  <title>LCOV - pficommon - system/sysstat.cpp</title>
+  <link rel="stylesheet" type="text/css" href="../gcov.css">
+</head>
+
+<body>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="title">LCOV - code coverage report</td></tr>
+    <tr><td class="ruler"><img src="../glass.png" width=3 height=3 alt=""></td></tr>
+
+    <tr>
+      <td width="100%">
+        <table cellpadding=1 border=0 width="100%">
+          <tr>
+            <td width="10%" class="headerItem">Current view:</td>
+            <td width="35%" class="headerValue"><a href="../index.html">top level</a> - <a href="index.html">system</a> - sysstat.cpp<span style="font-size: 80%;"> (source / <a href="sysstat.cpp.func.html">functions</a>)</span></td>
+            <td width="5%"></td>
+            <td width="15%"></td>
+            <td width="10%" class="headerCovTableHead">Hit</td>
+            <td width="10%" class="headerCovTableHead">Total</td>
+            <td width="15%" class="headerCovTableHead">Coverage</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Test:</td>
+            <td class="headerValue">pficommon</td>
+            <td></td>
+            <td class="headerItem">Lines:</td>
+            <td class="headerCovTableEntry">0</td>
+            <td class="headerCovTableEntry">44</td>
+            <td class="headerCovTableEntryLo">0.0 %</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Date:</td>
+            <td class="headerValue">2012-05-09</td>
+            <td></td>
+            <td class="headerItem">Functions:</td>
+            <td class="headerCovTableEntry">0</td>
+            <td class="headerCovTableEntry">4</td>
+            <td class="headerCovTableEntryLo">0.0 %</td>
+          </tr>
+          <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td class="headerItem">Branches:</td>
+            <td class="headerCovTableEntry">0</td>
+            <td class="headerCovTableEntry">22</td>
+            <td class="headerCovTableEntryLo">0.0 %</td>
+          </tr>
+          <tr><td><img src="../glass.png" width=3 height=3 alt=""></td></tr>
+        </table>
+      </td>
+    </tr>
+
+    <tr><td class="ruler"><img src="../glass.png" width=3 height=3 alt=""></td></tr>
+  </table>
+
+  <table cellpadding=0 cellspacing=0 border=0>
+    <tr>
+      <td><br></td>
+    </tr>
+    <tr>
+      <td>
+<pre class="sourceHeading">           Branch data     Line data    Source code</pre>
+<pre class="source">
+<a name="1"><span class="lineNum">       1 </span>                :            : // Copyright (c)2008-2011, Preferred Infrastructure Inc.</a>
+<span class="lineNum">       2 </span>                :            : // 
+<span class="lineNum">       3 </span>                :            : // All rights reserved.
+<span class="lineNum">       4 </span>                :            : // 
+<span class="lineNum">       5 </span>                :            : // Redistribution and use in source and binary forms, with or without
+<span class="lineNum">       6 </span>                :            : // modification, are permitted provided that the following conditions are met:
+<span class="lineNum">       7 </span>                :            : // 
+<span class="lineNum">       8 </span>                :            : //     * Redistributions of source code must retain the above copyright
+<span class="lineNum">       9 </span>                :            : //       notice, this list of conditions and the following disclaimer.
+<span class="lineNum">      10 </span>                :            : // 
+<span class="lineNum">      11 </span>                :            : //     * Redistributions in binary form must reproduce the above
+<span class="lineNum">      12 </span>                :            : //       copyright notice, this list of conditions and the following
+<span class="lineNum">      13 </span>                :            : //       disclaimer in the documentation and/or other materials provided
+<span class="lineNum">      14 </span>                :            : //       with the distribution.
+<span class="lineNum">      15 </span>                :            : // 
+<span class="lineNum">      16 </span>                :            : //     * Neither the name of Preferred Infrastructure nor the names of other
+<span class="lineNum">      17 </span>                :            : //       contributors may be used to endorse or promote products derived
+<span class="lineNum">      18 </span>                :            : //       from this software without specific prior written permission.
+<span class="lineNum">      19 </span>                :            : // 
+<span class="lineNum">      20 </span>                :            : // THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+<span class="lineNum">      21 </span>                :            : // &quot;AS IS&quot; AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+<span class="lineNum">      22 </span>                :            : // LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+<span class="lineNum">      23 </span>                :            : // A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
+<span class="lineNum">      24 </span>                :            : // OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+<span class="lineNum">      25 </span>                :            : // SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+<span class="lineNum">      26 </span>                :            : // LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+<span class="lineNum">      27 </span>                :            : // DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+<span class="lineNum">      28 </span>                :            : // THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+<span class="lineNum">      29 </span>                :            : // (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+<span class="lineNum">      30 </span>                :            : // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+<span class="lineNum">      31 </span>                :            : 
+<span class="lineNum">      32 </span>                :            : #include &quot;sysstat.h&quot;
+<span class="lineNum">      33 </span>                :            : 
+<span class="lineNum">      34 </span>                :            : #include &lt;fstream&gt;
+<span class="lineNum">      35 </span>                :            : #include &lt;string&gt;
+<span class="lineNum">      36 </span>                :            : #include &lt;sstream&gt;
+<span class="lineNum">      37 </span>                :            : #include &lt;cstdlib&gt;
+<span class="lineNum">      38 </span>                :            : #include &lt;unistd.h&gt;
+<span class="lineNum">      39 </span>                :            : 
+<span class="lineNum">      40 </span>                :            : #if defined(__linux__)
+<span class="lineNum">      41 </span>                :            : #include &lt;sys/vfs.h&gt;
+<span class="lineNum">      42 </span>                :            : #endif
+<span class="lineNum">      43 </span>                :            : #if defined(__sparcv8) || defined(__sparcv9)
+<span class="lineNum">      44 </span>                :            : #include &lt;kstat.h&gt;
+<span class="lineNum">      45 </span>                :            : #include &lt;sys/statvfs.h&gt;
+<span class="lineNum">      46 </span>                :            : #endif
+<span class="lineNum">      47 </span>                :            : #if defined(__APPLE__)
+<span class="lineNum">      48 </span>                :            : #include &lt;sys/param.h&gt;
+<span class="lineNum">      49 </span>                :            : #include &lt;sys/mount.h&gt;
+<span class="lineNum">      50 </span>                :            : #include &lt;mach/mach_traps.h&gt;
+<span class="lineNum">      51 </span>                :            : #include &lt;mach/mach_types.h&gt;
+<span class="lineNum">      52 </span>                :            : #include &lt;mach/mach.h&gt;
+<span class="lineNum">      53 </span>                :            : #endif
+<span class="lineNum">      54 </span>                :            : 
+<span class="lineNum">      55 </span>                :            : using namespace std;
+<span class="lineNum">      56 </span>                :            : 
+<span class="lineNum">      57 </span>                :            : namespace pfi{
+<span class="lineNum">      58 </span>                :            : namespace system{
+<span class="lineNum">      59 </span>                :            : namespace sysstat{
+<span class="lineNum">      60 </span>                :            : 
+<span class="lineNum">      61 </span>                :            : static double get_loadavg();
+<span class="lineNum">      62 </span>                :            : static uint64_t get_total_memory();
+<span class="lineNum">      63 </span>                :            : static uint64_t get_free_memory();
+<span class="lineNum">      64 </span>                :            : 
+<span class="lineNum">      65 </span>                :            : #if defined(__sparcv8) || defined(__sparcv9)
+<span class="lineNum">      66 </span>                :            : #if defined(__sparcv8)
+<span class="lineNum">      67 </span>                :            : typedef uint32_t kstat_ret_type;
+<span class="lineNum">      68 </span>                :            : #else
+<span class="lineNum">      69 </span>                :            : typedef uint64_t kstat_ret_type;
+<span class="lineNum">      70 </span>                :            : #endif
+<span class="lineNum">      71 </span>                :            : static kstat_ret_type kstat_get_ui(const char* ks_module,
+<span class="lineNum">      72 </span>                :            :                                    int ks_instance,
+<span class="lineNum">      73 </span>                :            :                                    const char* ks_name,
+<span class="lineNum">      74 </span>                :            :                                    const char* name);
+<a name="75"><span class="lineNum">      75 </span>                :            : #endif</a>
+<span class="lineNum">      76 </span>                :            : 
+<span class="lineNum">      77 </span>                :<span class="lineNoCov">          0 : int get_sysstat(sysstat_ret&amp; st)</span>
+<span class="lineNum">      78 </span>                :            : {
+<span class="lineNum">      79 </span>                :<span class="lineNoCov">          0 :   st.loadavg = get_loadavg();</span>
+<span class="lineNum">      80 </span>                :<span class="lineNoCov">          0 :   st.total_memory = get_total_memory();</span>
+<span class="lineNum">      81 </span>                :<span class="lineNoCov">          0 :   st.free_memory = get_free_memory();</span>
+<span class="lineNum">      82 </span>                :<span class="lineNoCov">          0 :   return 0;</span>
+<span class="lineNum">      83 </span>                :            : }
+<span class="lineNum">      84 </span>                :            : 
+<span class="lineNum">      85 </span>                :<span class="lineNoCov">          0 : static double get_loadavg()</span>
+<span class="lineNum">      86 </span>                :            : {
+<span class="lineNum">      87 </span>                :            : #if defined(__linux__)
+<span class="lineNum">      88 </span>                :<span class="lineNoCov">          0 :   ifstream fin(&quot;/proc/loadavg&quot;);</span>
+<span class="lineNum">      89 </span>                :            : 
+<span class="lineNum">      90 </span>                :            :   string avg1m;
+<span class="lineNum">      91 </span>                :            :   string avg5m;
+<span class="lineNum">      92 </span>                :            :   string avg15m;
+<span class="lineNum">      93 </span>                :<span class="lineNoCov">          0 :   fin &gt;&gt; avg1m &gt;&gt; avg5m &gt;&gt; avg15m;</span>
+<span class="lineNum">      94 </span>                :            : 
+<span class="lineNum">      95 </span>                :            :   double d = atof(avg1m.c_str());
+<span class="lineNum">      96 </span>                :<span class="lineNoCov">          0 :   return d;</span>
+<span class="lineNum">      97 </span>                :            : #elif defined(__sparcv8) || defined(__sparcv9)
+<span class="lineNum">      98 </span>                :            :   kstat_ret_type kstat_res = kstat_get_ui(&quot;unix&quot;, 0, &quot;system_misc&quot;, &quot;avenrun_1min&quot;);
+<span class="lineNum">      99 </span>                :            :   double res = (double)kstat_res / 256.0;
+<span class="lineNum">     100 </span>                :            :   return res;
+<span class="lineNum">     101 </span>                :            : #elif defined(__APPLE__)
+<span class="lineNum">     102 </span>                :            :   struct host_load_info hl;
+<span class="lineNum">     103 </span>                :            :   mach_msg_type_number_t count = HOST_LOAD_INFO_COUNT;
+<span class="lineNum">     104 </span>                :            :   kern_return_t error = host_statistics(mach_host_self(), HOST_LOAD_INFO, (host_info_t)&amp;hl,&amp;count);
+<span class="lineNum">     105 </span>                :            :   double res = static_cast&lt;double&gt;(hl.avenrun[2]) / static_cast&lt;double&gt;(LOAD_SCALE);
+<span class="lineNum">     106 </span>                :            :   return res;
+<span class="lineNum">     107 </span>                :            : #else
+<span class="lineNum">     108 </span>                :            : #error I dont know how to get loadavg
+<span class="lineNum">     109 </span>                :            : #endif
+<span class="lineNum">     110 </span>                :            : }
+<span class="lineNum">     111 </span>                :            : 
+<span class="lineNum">     112 </span>                :<span class="lineNoCov">          0 : static uint64_t get_total_memory()</span>
+<span class="lineNum">     113 </span>                :            : {
+<span class="lineNum">     114 </span>                :            : #if defined(__linux__)
+<span class="lineNum">     115 </span>                :<span class="lineNoCov">          0 :   ifstream fin(&quot;/proc/meminfo&quot;);</span>
+<span class="lineNum">     116 </span>                :            :   string s;
+<span class="lineNum">     117 </span>                :            : 
+<span class="lineNum">     118 </span>                :<span class="lineNoCov">          0 :   uint64_t memtotal = 0;</span>
+<span class="lineNum">     119 </span>        [<span class="branchNoExec" title="Branch 1 was not executed"> # </span><span class="branchNoExec" title="Branch 2 was not executed"> # </span>]:<span class="lineNoCov">          0 :   while (getline(fin, s)) {</span>
+<span class="lineNum">     120 </span>        [<span class="branchNoExec" title="Branch 1 was not executed"> # </span><span class="branchNoExec" title="Branch 2 was not executed"> # </span>]:<span class="lineNoCov">          0 :     if (s.find(&quot;MemTotal&quot;) == 0) {</span>
+<span class="lineNum">     121 </span>                :<span class="lineNoCov">          0 :       istringstream iss(s);</span>
+<span class="lineNum">     122 </span>                :            :       string type;
+<span class="lineNum">     123 </span>                :            :       string mem;
+<span class="lineNum">     124 </span>                :            :       string kb;
+<span class="lineNum">     125 </span>                :<span class="lineNoCov">          0 :       iss &gt;&gt; type &gt;&gt; mem &gt;&gt; kb;</span>
+<span class="lineNum">     126 </span>        [<span class="branchNoExec" title="Branch 0 was not executed"> # </span><span class="branchNoExec" title="Branch 1 was not executed"> # </span>]:<span class="lineNoCov">          0 :       if (mem != &quot;&quot;) {</span>
+<span class="lineNum">     127 </span>                :<span class="lineNoCov">          0 :         memtotal = atoll(mem.c_str());</span>
+<span class="lineNum">     128 </span>        [<span class="branchNoExec" title="Branch 0 was not executed"> # </span><span class="branchNoExec" title="Branch 1 was not executed"> # </span>]:<span class="lineNoCov">          0 :         if (kb == &quot;kB&quot;) {</span>
+<span class="lineNum">     129 </span>                :<span class="lineNoCov">          0 :           memtotal *= 1000;</span>
+<span class="lineNum">     130 </span>                :            :         }
+<span class="lineNum">     131 </span>                :<span class="lineNoCov">          0 :       }</span>
+<span class="lineNum">     132 </span>                :            :     }
+<span class="lineNum">     133 </span>                :            :   }
+<span class="lineNum">     134 </span>                :<span class="lineNoCov">          0 :   return memtotal;</span>
+<span class="lineNum">     135 </span>                :            : #elif defined(__sparcv8) || defined(__sparcv9)
+<span class="lineNum">     136 </span>                :            :   kstat_ret_type kstat_res = kstat_get_ui(&quot;unix&quot;, 0, &quot;system_pages&quot;, &quot;availrmem&quot;);
+<span class="lineNum">     137 </span>                :            :   uint64_t res = (uint64_t)kstat_res * getpagesize();
+<span class="lineNum">     138 </span>                :            :   return res;
+<span class="lineNum">     139 </span>                :            : #elif defined(__APPLE__)
+<span class="lineNum">     140 </span>                :            :   struct host_basic_info host;
+<span class="lineNum">     141 </span>                :            :   mach_msg_type_number_t count = HOST_BASIC_INFO_COUNT;
+<span class="lineNum">     142 </span>                :            :   host_info(mach_host_self(), HOST_BASIC_INFO, (host_info_t)&amp;host, &amp;count);
+<span class="lineNum">     143 </span>                :            :   return host.memory_size;
+<span class="lineNum">     144 </span>                :            : #else
+<span class="lineNum">     145 </span>                :            : #error I dont know how to get total memory size
+<span class="lineNum">     146 </span>                :            : #endif
+<span class="lineNum">     147 </span>                :            : }
+<span class="lineNum">     148 </span>                :            : 
+<span class="lineNum">     149 </span>                :<span class="lineNoCov">          0 : static uint64_t get_free_memory()</span>
+<span class="lineNum">     150 </span>                :            : {
+<span class="lineNum">     151 </span>                :            : #if defined(__linux__)
+<span class="lineNum">     152 </span>                :<span class="lineNoCov">          0 :   ifstream fin(&quot;/proc/meminfo&quot;);</span>
+<span class="lineNum">     153 </span>                :            :   string s;
+<span class="lineNum">     154 </span>                :            : 
+<span class="lineNum">     155 </span>                :<span class="lineNoCov">          0 :   uint64_t memfree = 0;</span>
+<span class="lineNum">     156 </span>                :<span class="lineNoCov">          0 :   uint64_t memcached = 0;</span>
+<span class="lineNum">     157 </span>        [<span class="branchNoExec" title="Branch 1 was not executed"> # </span><span class="branchNoExec" title="Branch 2 was not executed"> # </span>]:<span class="lineNoCov">          0 :   while (getline(fin, s)) {</span>
+<span class="lineNum">     158 </span>        [<span class="branchNoExec" title="Branch 1 was not executed"> # </span><span class="branchNoExec" title="Branch 2 was not executed"> # </span>]:<span class="lineNoCov">          0 :     if (s.find(&quot;MemFree&quot;) == 0) {</span>
+<span class="lineNum">     159 </span>                :<span class="lineNoCov">          0 :       istringstream iss(s);</span>
+<span class="lineNum">     160 </span>                :            :       string type;
+<span class="lineNum">     161 </span>                :            :       string mem;
+<span class="lineNum">     162 </span>                :            :       string kb;
+<span class="lineNum">     163 </span>                :<span class="lineNoCov">          0 :       iss &gt;&gt; type &gt;&gt; mem &gt;&gt; kb;</span>
+<span class="lineNum">     164 </span>        [<span class="branchNoExec" title="Branch 0 was not executed"> # </span><span class="branchNoExec" title="Branch 1 was not executed"> # </span>]:<span class="lineNoCov">          0 :       if (mem != &quot;&quot;) {</span>
+<span class="lineNum">     165 </span>                :<span class="lineNoCov">          0 :         memfree = atoi(mem.c_str());</span>
+<span class="lineNum">     166 </span>        [<span class="branchNoExec" title="Branch 0 was not executed"> # </span><span class="branchNoExec" title="Branch 1 was not executed"> # </span>]:<span class="lineNoCov">          0 :         if (kb == &quot;kB&quot;) {</span>
+<span class="lineNum">     167 </span>                :<span class="lineNoCov">          0 :           memfree *= 1000;</span>
+<span class="lineNum">     168 </span>                :            :         }
+<span class="lineNum">     169 </span>                :<span class="lineNoCov">          0 :       }</span>
+<span class="lineNum">     170 </span>                :            :     }
+<span class="lineNum">     171 </span>        [<span class="branchNoExec" title="Branch 1 was not executed"> # </span><span class="branchNoExec" title="Branch 2 was not executed"> # </span>]:<span class="lineNoCov">          0 :     if (s.find(&quot;Cached&quot;) == 0) {</span>
+<span class="lineNum">     172 </span>                :<span class="lineNoCov">          0 :       istringstream iss(s);</span>
+<span class="lineNum">     173 </span>                :            :       string type;
+<span class="lineNum">     174 </span>                :            :       string cached;
+<span class="lineNum">     175 </span>                :            :       string kb;
+<span class="lineNum">     176 </span>                :<span class="lineNoCov">          0 :       iss &gt;&gt; type &gt;&gt; cached &gt;&gt; kb;</span>
+<span class="lineNum">     177 </span>        [<span class="branchNoExec" title="Branch 0 was not executed"> # </span><span class="branchNoExec" title="Branch 1 was not executed"> # </span>]:<span class="lineNoCov">          0 :       if (cached != &quot;&quot;) {</span>
+<span class="lineNum">     178 </span>                :<span class="lineNoCov">          0 :         memcached = atoi(cached.c_str());</span>
+<span class="lineNum">     179 </span>        [<span class="branchNoExec" title="Branch 0 was not executed"> # </span><span class="branchNoExec" title="Branch 1 was not executed"> # </span>]:<span class="lineNoCov">          0 :         if (kb == &quot;kB&quot;) {</span>
+<span class="lineNum">     180 </span>                :<span class="lineNoCov">          0 :           memcached *= 1000;</span>
+<span class="lineNum">     181 </span>                :            :         }
+<span class="lineNum">     182 </span>                :<span class="lineNoCov">          0 :       }</span>
+<span class="lineNum">     183 </span>                :            :     }
+<span class="lineNum">     184 </span>                :            :   }
+<span class="lineNum">     185 </span>                :            : 
+<span class="lineNum">     186 </span>                :<span class="lineNoCov">          0 :   return memfree + memcached;</span>
+<span class="lineNum">     187 </span>                :            : #elif defined(__sparcv8) || defined(__sparcv9)
+<span class="lineNum">     188 </span>                :            :   kstat_ret_type kstat_res = kstat_get_ui(&quot;unix&quot;, 0, &quot;system_pages&quot;, &quot;freemem&quot;);
+<span class="lineNum">     189 </span>                :            :   uint64_t res = (uint64_t)kstat_res * getpagesize();
+<span class="lineNum">     190 </span>                :            :   return res;
+<span class="lineNum">     191 </span>                :            : #elif defined(__APPLE__)
+<span class="lineNum">     192 </span>                :            :   vm_statistics_data_t vm_info;
+<span class="lineNum">     193 </span>                :            :   mach_msg_type_number_t count = HOST_VM_INFO_COUNT;
+<span class="lineNum">     194 </span>                :            :   host_statistics(mach_host_self(), HOST_VM_INFO, (host_info_t)&amp;vm_info, &amp;count);
+<span class="lineNum">     195 </span>                :            :   return vm_info.free_count*vm_page_size;
+<span class="lineNum">     196 </span>                :            : #else
+<span class="lineNum">     197 </span>                :            : #error I dont know how to get free memory size
+<span class="lineNum">     198 </span>                :            : #endif
+<span class="lineNum">     199 </span>                :            : }
+<span class="lineNum">     200 </span>                :            : 
+<span class="lineNum">     201 </span>                :            : 
+<span class="lineNum">     202 </span>                :            : #if defined(__sparcv8) || defined(__sparcv9)
+<span class="lineNum">     203 </span>                :            : kstat_ret_type kstat_get_ui(const char* ks_module,
+<span class="lineNum">     204 </span>                :            :                             int ks_instance,
+<span class="lineNum">     205 </span>                :            :                             const char* ks_name,
+<span class="lineNum">     206 </span>                :            :                             const char* name)
+<span class="lineNum">     207 </span>                :            : {
+<span class="lineNum">     208 </span>                :            :   kstat_ctl_t* kc;
+<span class="lineNum">     209 </span>                :            :   kstat_t* ks;
+<span class="lineNum">     210 </span>                :            :   kstat_named_t* kn;
+<span class="lineNum">     211 </span>                :            :   kid_t kid;
+<span class="lineNum">     212 </span>                :            :   kstat_ret_type res = 0;
+<span class="lineNum">     213 </span>                :            : 
+<span class="lineNum">     214 </span>                :            :   kc = kstat_open();
+<span class="lineNum">     215 </span>                :            :   if (kc == NULL) {
+<span class="lineNum">     216 </span>                :            :     return res;
+<span class="lineNum">     217 </span>                :            :   }
+<span class="lineNum">     218 </span>                :            : 
+<span class="lineNum">     219 </span>                :            :   char* str1 = strdup(ks_module);
+<span class="lineNum">     220 </span>                :            :   char* str2 = strdup(ks_name);
+<span class="lineNum">     221 </span>                :            :   ks = kstat_lookup(kc, str1, 0, str2);
+<span class="lineNum">     222 </span>                :            :   free(str1);
+<span class="lineNum">     223 </span>                :            :   free(str2);
+<span class="lineNum">     224 </span>                :            :   if (ks == NULL) {
+<span class="lineNum">     225 </span>                :            :     goto KSTAT_GET_UI_RET;
+<span class="lineNum">     226 </span>                :            :   }
+<span class="lineNum">     227 </span>                :            : 
+<span class="lineNum">     228 </span>                :            :   kid = kstat_read(kc, ks, NULL);
+<span class="lineNum">     229 </span>                :            :   if (kid == -1) {
+<span class="lineNum">     230 </span>                :            :     goto KSTAT_GET_UI_RET;
+<span class="lineNum">     231 </span>                :            :   }
+<span class="lineNum">     232 </span>                :            : 
+<span class="lineNum">     233 </span>                :            :   str1 = strdup(name);
+<span class="lineNum">     234 </span>                :            :   kn = (kstat_named_t*)kstat_data_lookup(ks, str1);
+<span class="lineNum">     235 </span>                :            :   free(str1);
+<span class="lineNum">     236 </span>                :            :   if (kn == NULL) {
+<span class="lineNum">     237 </span>                :            :     goto KSTAT_GET_UI_RET;
+<span class="lineNum">     238 </span>                :            :   }
+<span class="lineNum">     239 </span>                :            : 
+<span class="lineNum">     240 </span>                :            : #if defined(__sparcv8)
+<span class="lineNum">     241 </span>                :            :   res = kn-&gt;value.ui32;
+<span class="lineNum">     242 </span>                :            : #else
+<span class="lineNum">     243 </span>                :            :   res = kn-&gt;value.ui64;
+<span class="lineNum">     244 </span>                :            : #endif
+<span class="lineNum">     245 </span>                :            : 
+<span class="lineNum">     246 </span>                :            : KSTAT_GET_UI_RET:
+<span class="lineNum">     247 </span>                :            :   kstat_close(kc);
+<span class="lineNum">     248 </span>                :            :   return res;
+<span class="lineNum">     249 </span>                :            : }
+<span class="lineNum">     250 </span>                :            : #endif
+<span class="lineNum">     251 </span>                :            : 
+<span class="lineNum">     252 </span>                :            : }
+<span class="lineNum">     253 </span>                :            : }
+<span class="lineNum">     254 </span>                :            : }
+</pre>
+      </td>
+    </tr>
+  </table>
+  <br>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="ruler"><img src="../glass.png" width=3 height=3 alt=""></td></tr>
+    <tr><td class="versionInfo">Generated by: <a href="http://ltp.sourceforge.net/coverage/lcov.php" target="_parent">LCOV version 1.9</a></td></tr>
+  </table>
+  <br>
+
+</body>
+</html>

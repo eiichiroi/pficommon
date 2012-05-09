@@ -1,0 +1,436 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html lang="en">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+  <title>LCOV - pficommon - data/serialization_test.cpp</title>
+  <link rel="stylesheet" type="text/css" href="../gcov.css">
+</head>
+
+<body>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="title">LCOV - code coverage report</td></tr>
+    <tr><td class="ruler"><img src="../glass.png" width=3 height=3 alt=""></td></tr>
+
+    <tr>
+      <td width="100%">
+        <table cellpadding=1 border=0 width="100%">
+          <tr>
+            <td width="10%" class="headerItem">Current view:</td>
+            <td width="35%" class="headerValue"><a href="../index.html">top level</a> - <a href="index.html">data</a> - serialization_test.cpp<span style="font-size: 80%;"> (source / <a href="serialization_test.cpp.func.html">functions</a>)</span></td>
+            <td width="5%"></td>
+            <td width="15%"></td>
+            <td width="10%" class="headerCovTableHead">Hit</td>
+            <td width="10%" class="headerCovTableHead">Total</td>
+            <td width="15%" class="headerCovTableHead">Coverage</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Test:</td>
+            <td class="headerValue">pficommon</td>
+            <td></td>
+            <td class="headerItem">Lines:</td>
+            <td class="headerCovTableEntry">171</td>
+            <td class="headerCovTableEntry">171</td>
+            <td class="headerCovTableEntryHi">100.0 %</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Date:</td>
+            <td class="headerValue">2012-05-09</td>
+            <td></td>
+            <td class="headerItem">Functions:</td>
+            <td class="headerCovTableEntry">46</td>
+            <td class="headerCovTableEntry">46</td>
+            <td class="headerCovTableEntryHi">100.0 %</td>
+          </tr>
+          <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td class="headerItem">Branches:</td>
+            <td class="headerCovTableEntry">83</td>
+            <td class="headerCovTableEntry">130</td>
+            <td class="headerCovTableEntryLo">63.8 %</td>
+          </tr>
+          <tr><td><img src="../glass.png" width=3 height=3 alt=""></td></tr>
+        </table>
+      </td>
+    </tr>
+
+    <tr><td class="ruler"><img src="../glass.png" width=3 height=3 alt=""></td></tr>
+  </table>
+
+  <table cellpadding=0 cellspacing=0 border=0>
+    <tr>
+      <td><br></td>
+    </tr>
+    <tr>
+      <td>
+<pre class="sourceHeading">           Branch data     Line data    Source code</pre>
+<pre class="source">
+<a name="1"><span class="lineNum">       1 </span>                :            : // Copyright (c)2008-2011, Preferred Infrastructure Inc.</a>
+<span class="lineNum">       2 </span>                :            : // 
+<span class="lineNum">       3 </span>                :            : // All rights reserved.
+<span class="lineNum">       4 </span>                :            : // 
+<span class="lineNum">       5 </span>                :            : // Redistribution and use in source and binary forms, with or without
+<span class="lineNum">       6 </span>                :            : // modification, are permitted provided that the following conditions are met:
+<span class="lineNum">       7 </span>                :            : // 
+<span class="lineNum">       8 </span>                :            : //     * Redistributions of source code must retain the above copyright
+<span class="lineNum">       9 </span>                :            : //       notice, this list of conditions and the following disclaimer.
+<span class="lineNum">      10 </span>                :            : // 
+<span class="lineNum">      11 </span>                :            : //     * Redistributions in binary form must reproduce the above
+<span class="lineNum">      12 </span>                :            : //       copyright notice, this list of conditions and the following
+<span class="lineNum">      13 </span>                :            : //       disclaimer in the documentation and/or other materials provided
+<span class="lineNum">      14 </span>                :            : //       with the distribution.
+<span class="lineNum">      15 </span>                :            : // 
+<span class="lineNum">      16 </span>                :            : //     * Neither the name of Preferred Infrastructure nor the names of other
+<span class="lineNum">      17 </span>                :            : //       contributors may be used to endorse or promote products derived
+<span class="lineNum">      18 </span>                :            : //       from this software without specific prior written permission.
+<span class="lineNum">      19 </span>                :            : // 
+<span class="lineNum">      20 </span>                :            : // THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+<span class="lineNum">      21 </span>                :            : // &quot;AS IS&quot; AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+<span class="lineNum">      22 </span>                :            : // LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+<span class="lineNum">      23 </span>                :            : // A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
+<span class="lineNum">      24 </span>                :            : // OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+<span class="lineNum">      25 </span>                :            : // SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+<span class="lineNum">      26 </span>                :            : // LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+<span class="lineNum">      27 </span>                :            : // DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+<span class="lineNum">      28 </span>                :            : // THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+<span class="lineNum">      29 </span>                :            : // (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+<span class="lineNum">      30 </span>                :            : // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+<span class="lineNum">      31 </span>                :            : 
+<span class="lineNum">      32 </span>                :            : #include &lt;gtest/gtest.h&gt;
+<span class="lineNum">      33 </span>                :            : 
+<span class="lineNum">      34 </span>                :            : #include &lt;iostream&gt;
+<span class="lineNum">      35 </span>                :            : #include &lt;fstream&gt;
+<span class="lineNum">      36 </span>                :            : #include &lt;climits&gt;
+<span class="lineNum">      37 </span>                :            : #include &lt;stdint.h&gt;
+<span class="lineNum">      38 </span>                :            : 
+<span class="lineNum">      39 </span>                :            : #include &quot;./serialization.h&quot;
+<span class="lineNum">      40 </span>                :            : 
+<span class="lineNum">      41 </span>                :            : #include &quot;../pfi-config.h&quot;
+<span class="lineNum">      42 </span>                :            : 
+<span class="lineNum">      43 </span>                :            : #if HAVE_TR1_UNORDERED_MAP
+<span class="lineNum">      44 </span>                :            : #include &quot;./serialization/tr1_unordered_map.h&quot;
+<span class="lineNum">      45 </span>                :            : #endif
+<span class="lineNum">      46 </span>                :            : 
+<span class="lineNum">      47 </span>                :            : #include &quot;./unordered_map.h&quot;
+<span class="lineNum">      48 </span>                :            : #include &quot;./serialization/unordered_map.h&quot;
+<span class="lineNum">      49 </span>                :            : 
+<span class="lineNum">      50 </span>                :            : #include &quot;../lang/shared_ptr.h&quot;
+<span class="lineNum">      51 </span>                :            : 
+<span class="lineNum">      52 </span>                :            : using namespace std;
+<span class="lineNum">      53 </span>                :            : using namespace pfi::data::serialization;
+<span class="lineNum">      54 </span>                :            : using namespace pfi::lang;
+<span class="lineNum">      55 </span>                :            : 
+<a name="56"><span class="lineNum">      56 </span>                :            : #define N 16</a>
+<span class="lineNum">      57 </span>                :            : 
+<span class="lineNum">      58 </span>                :<span class="lineCov">         28 : template&lt;typename T&gt; void check(binary_iarchive&amp; ia, T expected) {</span>
+<span class="lineNum">      59 </span>                :<span class="lineCov">         28 :   T t=T();</span>
+<span class="lineNum">      60 </span>                :            :   ia&gt;&gt;t;
+<span class="lineNum">      61 </span>[<span class="branchNoCov" title="Branch 0 was not taken"> - </span><span class="branchCov" title="Branch 1 was taken 16 times"> + </span>][<span class="branchNoCov" title="Branch 9 was not taken"> - </span><span class="branchCov" title="Branch 10 was taken 2 times"> + </span>]:<span class="lineCov">         28 :   EXPECT_EQ(t,expected);</span>
+<span class="lineNum">         </span>[<span class="branchNoCov" title="Branch 18 was not taken"> - </span><span class="branchCov" title="Branch 19 was taken 4 times"> + </span>][<span class="branchNoCov" title="Branch 27 was not taken"> - </span><span class="branchCov" title="Branch 28 was taken 4 times"> + </span>]
+<span class="lineNum">         </span>        [<span class="branchNoCov" title="Branch 36 was not taken"> - </span><span class="branchCov" title="Branch 37 was taken 2 times"> + </span>]
+<span class="lineNum">      62 </span>                :<span class="lineCov">         28 : }</span>
+<a name="63"><span class="lineNum">      63 </span>                :            : </a>
+<span class="lineNum">      64 </span>                :            : 
+<span class="lineNum">      65 </span>        [<span class="branchNoCov" title="Branch 1 was not taken"> - </span><span class="branchCov" title="Branch 2 was taken 2 times"> + </span>]:<span class="lineCov">          8 : TEST(serialization, serial) {</span>
+<span class="lineNum">      66 </span>                :            :   // TODO: float, double, long double's test
+<span class="lineNum">      67 </span>                :            : 
+<span class="lineNum">      68 </span>                :            :   {
+<span class="lineNum">      69 </span>                :<span class="lineCov">          2 :     ofstream ofs(&quot;./tmp&quot;);</span>
+<span class="lineNum">      70 </span>                :            :     binary_oarchive oa(ofs);
+<span class="lineNum">      71 </span>                :            : 
+<span class="lineNum">      72 </span>                :<span class="lineCov">          2 :     oa&lt;&lt;CHAR_MIN&lt;&lt;CHAR_MAX;</span>
+<span class="lineNum">      73 </span>                :<span class="lineCov">          2 :     oa&lt;&lt;UCHAR_MAX;</span>
+<span class="lineNum">      74 </span>                :<span class="lineCov">          2 :     oa&lt;&lt;SHRT_MIN&lt;&lt;SHRT_MAX;</span>
+<span class="lineNum">      75 </span>                :<span class="lineCov">          2 :     oa&lt;&lt;USHRT_MAX;</span>
+<span class="lineNum">      76 </span>                :<span class="lineCov">          2 :     oa&lt;&lt;INT_MIN&lt;&lt;INT_MAX;</span>
+<span class="lineNum">      77 </span>                :<span class="lineCov">          2 :     oa&lt;&lt;LONG_MIN&lt;&lt;LONG_MAX;</span>
+<span class="lineNum">      78 </span>                :<span class="lineCov">          2 :     oa&lt;&lt;ULONG_MAX;</span>
+<span class="lineNum">      79 </span>                :<span class="lineCov">          2 :     oa&lt;&lt;LLONG_MIN&lt;&lt;LLONG_MAX;</span>
+<span class="lineNum">      80 </span>                :<span class="lineCov">          2 :     oa&lt;&lt;ULLONG_MAX;</span>
+<span class="lineNum">      81 </span>                :            :   }
+<span class="lineNum">      82 </span>                :            :   {
+<span class="lineNum">      83 </span>                :<span class="lineCov">          2 :     ifstream ifs(&quot;./tmp&quot;);</span>
+<span class="lineNum">      84 </span>                :            :     binary_iarchive ia(ifs);
+<span class="lineNum">      85 </span>                :            : 
+<span class="lineNum">      86 </span>                :<span class="lineCov">          2 :     check(ia,CHAR_MIN);</span>
+<span class="lineNum">      87 </span>                :<span class="lineCov">          2 :     check(ia,CHAR_MAX);</span>
+<span class="lineNum">      88 </span>                :<span class="lineCov">          2 :     check(ia,UCHAR_MAX);</span>
+<span class="lineNum">      89 </span>                :<span class="lineCov">          2 :     check(ia,SHRT_MIN);</span>
+<span class="lineNum">      90 </span>                :<span class="lineCov">          2 :     check(ia,SHRT_MAX);</span>
+<span class="lineNum">      91 </span>                :<span class="lineCov">          2 :     check(ia,USHRT_MAX);</span>
+<span class="lineNum">      92 </span>                :<span class="lineCov">          2 :     check(ia,INT_MIN);</span>
+<span class="lineNum">      93 </span>                :<span class="lineCov">          2 :     check(ia,INT_MAX);</span>
+<span class="lineNum">      94 </span>                :<span class="lineCov">          2 :     check(ia,LONG_MIN);</span>
+<span class="lineNum">      95 </span>                :<span class="lineCov">          2 :     check(ia,LONG_MAX);</span>
+<span class="lineNum">      96 </span>                :<span class="lineCov">          2 :     check(ia,ULONG_MAX);</span>
+<span class="lineNum">      97 </span>                :<span class="lineCov">          2 :     check(ia,LLONG_MIN);</span>
+<span class="lineNum">      98 </span>                :<span class="lineCov">          2 :     check(ia,LLONG_MAX);</span>
+<span class="lineNum">      99 </span>                :<span class="lineCov">          4 :     check(ia,ULLONG_MAX);</span>
+<span class="lineNum">     100 </span>                :            :   }
+<a name="101"><span class="lineNum">     101 </span>                :<span class="lineCov">          2 : }</span></a>
+<span class="lineNum">     102 </span>                :            : 
+<span class="lineNum">     103 </span>        [<span class="branchNoCov" title="Branch 1 was not taken"> - </span><span class="branchCov" title="Branch 2 was taken 2 times"> + </span>]:<span class="lineCov">          8 : TEST(serialization, array) {</span>
+<span class="lineNum">     104 </span>                :<span class="lineCov">          2 :   srandom(time(NULL));</span>
+<span class="lineNum">     105 </span>                :            :   int vs1[N],vs2[N];
+<span class="lineNum">     106 </span>        [<span class="branchCov" title="Branch 1 was taken 32 times"> + </span><span class="branchCov" title="Branch 2 was taken 2 times"> + </span>]:<span class="lineCov">         34 :   for (size_t i=0;i&lt;N;++i) vs1[i]=random();</span>
+<span class="lineNum">     107 </span>                :            :   
+<span class="lineNum">     108 </span>                :            :   {
+<span class="lineNum">     109 </span>                :<span class="lineCov">          2 :     ofstream ofs(&quot;./tmp&quot;);</span>
+<span class="lineNum">     110 </span>                :            :     binary_oarchive oa(ofs);
+<span class="lineNum">     111 </span>                :<span class="lineCov">          2 :     oa&lt;&lt;vs1;</span>
+<span class="lineNum">     112 </span>                :            :   }
+<span class="lineNum">     113 </span>                :            :   {
+<span class="lineNum">     114 </span>                :<span class="lineCov">          2 :     ifstream ifs(&quot;./tmp&quot;);</span>
+<span class="lineNum">     115 </span>                :            :     binary_iarchive ia(ifs);
+<span class="lineNum">     116 </span>                :<span class="lineCov">          2 :     ia&gt;&gt;vs2;</span>
+<span class="lineNum">     117 </span>                :            :   }
+<span class="lineNum">     118 </span>[<span class="branchNoCov" title="Branch 0 was not taken"> - </span><span class="branchCov" title="Branch 1 was taken 32 times"> + </span>][<span class="branchCov" title="Branch 9 was taken 32 times"> + </span><span class="branchCov" title="Branch 10 was taken 2 times"> + </span>]:<span class="lineCov">         34 :   for (size_t i=0;i&lt;N;++i) EXPECT_EQ(vs1[i],vs2[i]);</span>
+<a name="119"><span class="lineNum">     119 </span>                :<span class="lineCov">          2 : }</span></a>
+<span class="lineNum">     120 </span>                :            : 
+<span class="lineNum">     121 </span>        [<span class="branchNoCov" title="Branch 1 was not taken"> - </span><span class="branchCov" title="Branch 2 was taken 2 times"> + </span>]:<span class="lineCov">          8 : TEST(serialization, deque) {</span>
+<span class="lineNum">     122 </span>                :<span class="lineCov">          2 :   srandom(time(NULL));</span>
+<span class="lineNum">     123 </span>                :<span class="lineCov">          2 :   deque&lt;int&gt; vs1,vs2;</span>
+<span class="lineNum">     124 </span>        [<span class="branchCov" title="Branch 1 was taken 32 times"> + </span><span class="branchCov" title="Branch 2 was taken 2 times"> + </span>]:<span class="lineCov">         34 :   for (size_t i=0;i&lt;N;++i) vs1.push_back(random());</span>
+<span class="lineNum">     125 </span>                :            :   {
+<span class="lineNum">     126 </span>                :<span class="lineCov">          2 :     ofstream ofs(&quot;./tmp&quot;);</span>
+<span class="lineNum">     127 </span>                :            :     binary_oarchive oa(ofs);
+<span class="lineNum">     128 </span>                :<span class="lineCov">          2 :     oa&lt;&lt;vs1;</span>
+<span class="lineNum">     129 </span>                :            :   }
+<span class="lineNum">     130 </span>                :            :   {
+<span class="lineNum">     131 </span>                :<span class="lineCov">          2 :     ifstream ifs(&quot;./tmp&quot;);</span>
+<span class="lineNum">     132 </span>                :            :     binary_iarchive ia(ifs);
+<span class="lineNum">     133 </span>                :<span class="lineCov">          2 :     ia&gt;&gt;vs2;</span>
+<span class="lineNum">     134 </span>                :            :   }
+<span class="lineNum">     135 </span>        [<span class="branchNoCov" title="Branch 0 was not taken"> - </span><span class="branchCov" title="Branch 1 was taken 2 times"> + </span>]:<span class="lineCov">          2 :   EXPECT_EQ(vs1.size(),vs2.size());</span>
+<span class="lineNum">     136 </span>[<span class="branchNoCov" title="Branch 0 was not taken"> - </span><span class="branchCov" title="Branch 1 was taken 32 times"> + </span>][<span class="branchCov" title="Branch 11 was taken 32 times"> + </span><span class="branchCov" title="Branch 12 was taken 2 times"> + </span>]:<span class="lineCov">         34 :   for (deque&lt;int&gt;::iterator it=vs1.begin(),jt=vs2.begin();it!=vs1.end();++it,++jt) EXPECT_EQ(*it,*jt);</span>
+<a name="137"><span class="lineNum">     137 </span>                :<span class="lineCov">          2 : }</span></a>
+<span class="lineNum">     138 </span>                :            : 
+<span class="lineNum">     139 </span>        [<span class="branchNoCov" title="Branch 1 was not taken"> - </span><span class="branchCov" title="Branch 2 was taken 2 times"> + </span>]:<span class="lineCov">          8 : TEST(serialization, list) {</span>
+<span class="lineNum">     140 </span>                :<span class="lineCov">          2 :   srandom(time(NULL));</span>
+<span class="lineNum">     141 </span>                :            :   list&lt;int&gt; vs1,vs2;
+<span class="lineNum">     142 </span>        [<span class="branchCov" title="Branch 2 was taken 32 times"> + </span><span class="branchCov" title="Branch 3 was taken 2 times"> + </span>]:<span class="lineCov">         34 :   for (size_t i=0;i&lt;N;++i) vs1.push_back(random());</span>
+<span class="lineNum">     143 </span>                :            :   {
+<span class="lineNum">     144 </span>                :<span class="lineCov">          2 :     ofstream ofs(&quot;./tmp&quot;);</span>
+<span class="lineNum">     145 </span>                :            :     binary_oarchive oa(ofs);
+<span class="lineNum">     146 </span>                :<span class="lineCov">          2 :     oa&lt;&lt;vs1;</span>
+<span class="lineNum">     147 </span>                :            :   }
+<span class="lineNum">     148 </span>                :            :   {
+<span class="lineNum">     149 </span>                :<span class="lineCov">          2 :     ifstream ifs(&quot;./tmp&quot;);</span>
+<span class="lineNum">     150 </span>                :            :     binary_iarchive ia(ifs);
+<span class="lineNum">     151 </span>                :<span class="lineCov">          2 :     ia&gt;&gt;vs2;</span>
+<span class="lineNum">     152 </span>                :            :   }
+<span class="lineNum">     153 </span>        [<span class="branchNoCov" title="Branch 2 was not taken"> - </span><span class="branchCov" title="Branch 3 was taken 2 times"> + </span>]:<span class="lineCov">          4 :   EXPECT_EQ(vs1.size(),vs2.size());</span>
+<span class="lineNum">     154 </span>[<span class="branchNoCov" title="Branch 0 was not taken"> - </span><span class="branchCov" title="Branch 1 was taken 32 times"> + </span>][<span class="branchCov" title="Branch 9 was taken 32 times"> + </span><span class="branchCov" title="Branch 10 was taken 2 times"> + </span>]:<span class="lineCov">         66 :   for (list&lt;int&gt;::iterator it=vs1.begin(),jt=vs2.begin();it!=vs1.end();++it,++jt) EXPECT_EQ(*it,*jt);</span>
+<a name="155"><span class="lineNum">     155 </span>                :<span class="lineCov">          2 : }</span></a>
+<span class="lineNum">     156 </span>                :            : 
+<span class="lineNum">     157 </span>        [<span class="branchNoCov" title="Branch 1 was not taken"> - </span><span class="branchCov" title="Branch 2 was taken 2 times"> + </span>]:<span class="lineCov">          8 : TEST(serialization, map) {</span>
+<span class="lineNum">     158 </span>                :<span class="lineCov">          2 :   srandom(time(NULL));</span>
+<span class="lineNum">     159 </span>                :            :   map&lt;int,int&gt; vs1,vs2;
+<span class="lineNum">     160 </span>        [<span class="branchCov" title="Branch 3 was taken 32 times"> + </span><span class="branchCov" title="Branch 4 was taken 2 times"> + </span>]:<span class="lineCov">         34 :   for (size_t i=0;i&lt;N;++i) vs1.insert(make_pair(random(),random()));</span>
+<span class="lineNum">     161 </span>                :            :   {
+<span class="lineNum">     162 </span>                :<span class="lineCov">          2 :     ofstream ofs(&quot;./tmp&quot;);</span>
+<span class="lineNum">     163 </span>                :            :     binary_oarchive oa(ofs);
+<span class="lineNum">     164 </span>                :<span class="lineCov">          2 :     oa&lt;&lt;vs1;</span>
+<span class="lineNum">     165 </span>                :            :   }
+<span class="lineNum">     166 </span>                :            :   {
+<span class="lineNum">     167 </span>                :<span class="lineCov">          2 :     ifstream ifs(&quot;./tmp&quot;);</span>
+<span class="lineNum">     168 </span>                :            :     binary_iarchive ia(ifs);
+<span class="lineNum">     169 </span>                :<span class="lineCov">          2 :     ia&gt;&gt;vs2;</span>
+<span class="lineNum">     170 </span>                :            :   }
+<span class="lineNum">     171 </span>        [<span class="branchNoCov" title="Branch 0 was not taken"> - </span><span class="branchCov" title="Branch 1 was taken 2 times"> + </span>]:<span class="lineCov">          2 :   EXPECT_EQ(vs1.size(),vs2.size());</span>
+<span class="lineNum">     172 </span>        [<span class="branchCov" title="Branch 0 was taken 32 times"> + </span><span class="branchCov" title="Branch 1 was taken 2 times"> + </span>]:<span class="lineCov">         34 :   for (map&lt;int,int&gt;::iterator it=vs1.begin(),jt=vs2.begin();it!=vs1.end();++it,++jt) {</span>
+<span class="lineNum">     173 </span>        [<span class="branchNoCov" title="Branch 0 was not taken"> - </span><span class="branchCov" title="Branch 1 was taken 32 times"> + </span>]:<span class="lineCov">         32 :     EXPECT_EQ(it-&gt;first,jt-&gt;first);</span>
+<span class="lineNum">     174 </span>        [<span class="branchNoCov" title="Branch 0 was not taken"> - </span><span class="branchCov" title="Branch 1 was taken 32 times"> + </span>]:<span class="lineCov">         32 :     EXPECT_EQ(it-&gt;second,jt-&gt;second);</span>
+<span class="lineNum">     175 </span>                :            :   }
+<a name="176"><span class="lineNum">     176 </span>                :<span class="lineCov">          2 : }</span></a>
+<span class="lineNum">     177 </span>                :            : 
+<span class="lineNum">     178 </span>        [<span class="branchNoCov" title="Branch 1 was not taken"> - </span><span class="branchCov" title="Branch 2 was taken 2 times"> + </span>]:<span class="lineCov">          8 : TEST(serialization, pair) {</span>
+<span class="lineNum">     179 </span>                :<span class="lineCov">          2 :   srandom(time(NULL));</span>
+<span class="lineNum">     180 </span>                :            :   pair&lt;int,int&gt; vs1,vs2;
+<span class="lineNum">     181 </span>                :<span class="lineCov">          2 :   vs1.first=random();</span>
+<span class="lineNum">     182 </span>                :<span class="lineCov">          2 :   vs1.second=random();</span>
+<span class="lineNum">     183 </span>                :            :   {
+<span class="lineNum">     184 </span>                :<span class="lineCov">          2 :     ofstream ofs(&quot;./tmp&quot;);</span>
+<span class="lineNum">     185 </span>                :            :     binary_oarchive oa(ofs);
+<span class="lineNum">     186 </span>                :<span class="lineCov">          2 :     oa&lt;&lt;vs1;</span>
+<span class="lineNum">     187 </span>                :            :   }
+<span class="lineNum">     188 </span>                :            :   {
+<span class="lineNum">     189 </span>                :<span class="lineCov">          2 :     ifstream ifs(&quot;./tmp&quot;);</span>
+<span class="lineNum">     190 </span>                :            :     binary_iarchive ia(ifs);
+<span class="lineNum">     191 </span>                :<span class="lineCov">          2 :     ia&gt;&gt;vs2;</span>
+<span class="lineNum">     192 </span>                :            :   }
+<span class="lineNum">     193 </span>        [<span class="branchNoCov" title="Branch 0 was not taken"> - </span><span class="branchCov" title="Branch 1 was taken 2 times"> + </span>]:<span class="lineCov">          2 :   EXPECT_EQ(vs1.first,vs2.first);</span>
+<span class="lineNum">     194 </span>        [<span class="branchNoCov" title="Branch 0 was not taken"> - </span><span class="branchCov" title="Branch 1 was taken 2 times"> + </span>]:<span class="lineCov">          2 :   EXPECT_EQ(vs1.second,vs2.second);</span>
+<span class="lineNum">     195 </span>                :<span class="lineCov">          2 : }</span>
+<a name="196"><span class="lineNum">     196 </span>                :            : </a>
+<span class="lineNum">     197 </span>                :            : 
+<span class="lineNum">     198 </span>        [<span class="branchNoCov" title="Branch 1 was not taken"> - </span><span class="branchCov" title="Branch 2 was taken 2 times"> + </span>]:<span class="lineCov">          8 : TEST(serialization, set) {</span>
+<span class="lineNum">     199 </span>                :<span class="lineCov">          2 :   srandom(time(NULL));</span>
+<span class="lineNum">     200 </span>                :            :   set&lt;int&gt; vs1,vs2;
+<span class="lineNum">     201 </span>        [<span class="branchCov" title="Branch 2 was taken 32 times"> + </span><span class="branchCov" title="Branch 3 was taken 2 times"> + </span>]:<span class="lineCov">         34 :   for (size_t i=0;i&lt;N;++i) vs1.insert(random());</span>
+<span class="lineNum">     202 </span>                :            :   {
+<span class="lineNum">     203 </span>                :<span class="lineCov">          2 :     ofstream ofs(&quot;./tmp&quot;);</span>
+<span class="lineNum">     204 </span>                :            :     binary_oarchive oa(ofs);
+<span class="lineNum">     205 </span>                :<span class="lineCov">          2 :     oa&lt;&lt;vs1;</span>
+<span class="lineNum">     206 </span>                :            :   }
+<span class="lineNum">     207 </span>                :            :   {
+<span class="lineNum">     208 </span>                :<span class="lineCov">          2 :     ifstream ifs(&quot;./tmp&quot;);</span>
+<span class="lineNum">     209 </span>                :            :     binary_iarchive ia(ifs);
+<span class="lineNum">     210 </span>                :<span class="lineCov">          2 :     ia&gt;&gt;vs2;</span>
+<span class="lineNum">     211 </span>                :            :   }
+<span class="lineNum">     212 </span>        [<span class="branchNoCov" title="Branch 0 was not taken"> - </span><span class="branchCov" title="Branch 1 was taken 2 times"> + </span>]:<span class="lineCov">          2 :   EXPECT_EQ(vs1.size(),vs2.size());</span>
+<span class="lineNum">     213 </span>[<span class="branchNoCov" title="Branch 0 was not taken"> - </span><span class="branchCov" title="Branch 1 was taken 32 times"> + </span>][<span class="branchCov" title="Branch 9 was taken 32 times"> + </span><span class="branchCov" title="Branch 10 was taken 2 times"> + </span>]:<span class="lineCov">         66 :   for (set&lt;int&gt;::iterator it=vs1.begin(),jt=vs2.begin();it!=vs1.end();++it,++jt) EXPECT_EQ(*it,*jt);</span>
+<a name="214"><span class="lineNum">     214 </span>                :<span class="lineCov">          2 : }</span></a>
+<span class="lineNum">     215 </span>                :            : 
+<span class="lineNum">     216 </span>        [<span class="branchNoCov" title="Branch 1 was not taken"> - </span><span class="branchCov" title="Branch 2 was taken 2 times"> + </span>]:<span class="lineCov">          8 : TEST(serialization, string) {</span>
+<span class="lineNum">     217 </span>                :<span class="lineCov">          2 :   srandom(time(NULL));</span>
+<span class="lineNum">     218 </span>                :            :   string vs1,vs2;
+<span class="lineNum">     219 </span>        [<span class="branchCov" title="Branch 1 was taken 32 times"> + </span><span class="branchCov" title="Branch 2 was taken 2 times"> + </span>]:<span class="lineCov">         34 :   for (size_t i=0;i&lt;N;++i) vs1+=random()%CHAR_MAX;</span>
+<span class="lineNum">     220 </span>                :            :   {
+<span class="lineNum">     221 </span>                :<span class="lineCov">          2 :     ofstream ofs(&quot;./tmp&quot;);</span>
+<span class="lineNum">     222 </span>                :            :     binary_oarchive oa(ofs);
+<span class="lineNum">     223 </span>                :<span class="lineCov">          2 :     oa&lt;&lt;vs1;</span>
+<span class="lineNum">     224 </span>                :            :   }
+<span class="lineNum">     225 </span>                :            :   {
+<span class="lineNum">     226 </span>                :<span class="lineCov">          2 :     ifstream ifs(&quot;./tmp&quot;);</span>
+<span class="lineNum">     227 </span>                :            :     binary_iarchive ia(ifs);
+<span class="lineNum">     228 </span>                :<span class="lineCov">          2 :     ia&gt;&gt;vs2;</span>
+<span class="lineNum">     229 </span>                :            :   }
+<span class="lineNum">     230 </span>        [<span class="branchNoCov" title="Branch 0 was not taken"> - </span><span class="branchCov" title="Branch 1 was taken 2 times"> + </span>]:<span class="lineCov">          2 :   EXPECT_EQ(vs1.size(),vs2.size());</span>
+<span class="lineNum">     231 </span>[<span class="branchNoCov" title="Branch 2 was not taken"> - </span><span class="branchCov" title="Branch 3 was taken 32 times"> + </span>][<span class="branchCov" title="Branch 12 was taken 32 times"> + </span><span class="branchCov" title="Branch 13 was taken 2 times"> + </span>]:<span class="lineCov">         66 :   for (string::iterator it=vs1.begin(),jt=vs2.begin();it!=vs1.end();++it,++jt) EXPECT_EQ(*it,*jt);  </span>
+<span class="lineNum">     232 </span>                :<span class="lineCov">          2 : }</span>
+<span class="lineNum">     233 </span>                :            : 
+<a name="234"><span class="lineNum">     234 </span>                :            : #if HAVE_TR1_UNORDERED_MAP</a>
+<span class="lineNum">     235 </span>                :            : 
+<span class="lineNum">     236 </span>        [<span class="branchNoCov" title="Branch 1 was not taken"> - </span><span class="branchCov" title="Branch 2 was taken 2 times"> + </span>]:<span class="lineCov">          8 : TEST(serialization, tr1_unordered_map) {</span>
+<span class="lineNum">     237 </span>                :<span class="lineCov">          2 :   srandom(time(NULL));</span>
+<span class="lineNum">     238 </span>                :<span class="lineCov">          4 :   std::tr1::unordered_map&lt;int,int&gt; vs1,vs2;</span>
+<span class="lineNum">     239 </span>        [<span class="branchCov" title="Branch 3 was taken 32 times"> + </span><span class="branchCov" title="Branch 4 was taken 2 times"> + </span>]:<span class="lineCov">         34 :   for (size_t i=0;i&lt;N;++i) vs1.insert(make_pair(random(),random()));</span>
+<span class="lineNum">     240 </span>                :            :   {
+<span class="lineNum">     241 </span>                :<span class="lineCov">          2 :     ofstream ofs(&quot;./tmp&quot;);</span>
+<span class="lineNum">     242 </span>                :            :     binary_oarchive oa(ofs);
+<span class="lineNum">     243 </span>                :<span class="lineCov">          2 :     oa&lt;&lt;vs1;</span>
+<span class="lineNum">     244 </span>                :            :   }
+<span class="lineNum">     245 </span>                :            :   {
+<span class="lineNum">     246 </span>                :<span class="lineCov">          2 :     ifstream ifs(&quot;./tmp&quot;);</span>
+<span class="lineNum">     247 </span>                :            :     binary_iarchive ia(ifs);
+<span class="lineNum">     248 </span>                :<span class="lineCov">          2 :     ia&gt;&gt;vs2;</span>
+<span class="lineNum">     249 </span>                :            :   }
+<span class="lineNum">     250 </span>        [<span class="branchNoCov" title="Branch 0 was not taken"> - </span><span class="branchCov" title="Branch 1 was taken 2 times"> + </span>]:<span class="lineCov">          2 :   EXPECT_EQ(vs1.size(),vs2.size());</span>
+<span class="lineNum">     251 </span>        [<span class="branchCov" title="Branch 0 was taken 32 times"> + </span><span class="branchCov" title="Branch 1 was taken 2 times"> + </span>]:<span class="lineCov">         34 :   for (std::tr1::unordered_map&lt;int,int&gt;::iterator it=vs1.begin();it!=vs1.end();++it) {</span>
+<span class="lineNum">     252 </span>        [<span class="branchNoCov" title="Branch 0 was not taken"> - </span><span class="branchCov" title="Branch 1 was taken 32 times"> + </span>]:<span class="lineCov">         32 :     EXPECT_TRUE(vs2.count(it-&gt;first));</span>
+<span class="lineNum">     253 </span>        [<span class="branchNoCov" title="Branch 0 was not taken"> - </span><span class="branchCov" title="Branch 1 was taken 32 times"> + </span>]:<span class="lineCov">         32 :     EXPECT_EQ(it-&gt;second,vs2[it-&gt;first]);</span>
+<span class="lineNum">     254 </span>                :<span class="lineCov">          2 :   }</span>
+<span class="lineNum">     255 </span>                :<span class="lineCov">          2 : }</span>
+<span class="lineNum">     256 </span>                :            : 
+<a name="257"><span class="lineNum">     257 </span>                :            : #endif</a>
+<span class="lineNum">     258 </span>                :            : 
+<span class="lineNum">     259 </span>        [<span class="branchNoCov" title="Branch 1 was not taken"> - </span><span class="branchCov" title="Branch 2 was taken 2 times"> + </span>]:<span class="lineCov">          8 : TEST(serialization, pficommon_unordered_map){</span>
+<span class="lineNum">     260 </span>                :<span class="lineCov">          2 :   srandom(time(NULL));</span>
+<span class="lineNum">     261 </span>                :<span class="lineCov">          4 :   pfi::data::unordered_map&lt;int,int&gt; vs1,vs2;</span>
+<span class="lineNum">     262 </span>        [<span class="branchCov" title="Branch 3 was taken 32 times"> + </span><span class="branchCov" title="Branch 4 was taken 2 times"> + </span>]:<span class="lineCov">         34 :   for (size_t i=0;i&lt;N;++i) vs1.insert(make_pair(random(),random()));</span>
+<span class="lineNum">     263 </span>                :            :   {
+<span class="lineNum">     264 </span>                :<span class="lineCov">          2 :     ofstream ofs(&quot;./tmp&quot;);</span>
+<span class="lineNum">     265 </span>                :            :     binary_oarchive oa(ofs);
+<span class="lineNum">     266 </span>                :<span class="lineCov">          2 :     oa&lt;&lt;vs1;</span>
+<span class="lineNum">     267 </span>                :            :   }
+<span class="lineNum">     268 </span>                :            :   {
+<span class="lineNum">     269 </span>                :<span class="lineCov">          2 :     ifstream ifs(&quot;./tmp&quot;);</span>
+<span class="lineNum">     270 </span>                :            :     binary_iarchive ia(ifs);
+<span class="lineNum">     271 </span>                :<span class="lineCov">          2 :     ia&gt;&gt;vs2;</span>
+<span class="lineNum">     272 </span>                :            :   }
+<span class="lineNum">     273 </span>        [<span class="branchNoCov" title="Branch 0 was not taken"> - </span><span class="branchCov" title="Branch 1 was taken 2 times"> + </span>]:<span class="lineCov">          2 :   EXPECT_EQ(vs1.size(),vs2.size());</span>
+<span class="lineNum">     274 </span>        [<span class="branchCov" title="Branch 0 was taken 32 times"> + </span><span class="branchCov" title="Branch 1 was taken 2 times"> + </span>]:<span class="lineCov">         34 :   for (pfi::data::unordered_map&lt;int,int&gt;::iterator it=vs1.begin();it!=vs1.end();++it) {</span>
+<span class="lineNum">     275 </span>        [<span class="branchNoCov" title="Branch 0 was not taken"> - </span><span class="branchCov" title="Branch 1 was taken 32 times"> + </span>]:<span class="lineCov">         32 :     EXPECT_TRUE(vs2.count(it-&gt;first));</span>
+<span class="lineNum">     276 </span>        [<span class="branchNoCov" title="Branch 0 was not taken"> - </span><span class="branchCov" title="Branch 1 was taken 32 times"> + </span>]:<span class="lineCov">         32 :     EXPECT_EQ(it-&gt;second,vs2[it-&gt;first]);</span>
+<span class="lineNum">     277 </span>                :<span class="lineCov">          2 :   }</span>
+<a name="278"><span class="lineNum">     278 </span>                :<span class="lineCov">          2 : }</span></a>
+<span class="lineNum">     279 </span>                :            : 
+<span class="lineNum">     280 </span>        [<span class="branchNoCov" title="Branch 1 was not taken"> - </span><span class="branchCov" title="Branch 2 was taken 2 times"> + </span>]:<span class="lineCov">          8 : TEST(serialization, vector) {</span>
+<span class="lineNum">     281 </span>                :<span class="lineCov">          2 :   srandom(time(NULL));</span>
+<span class="lineNum">     282 </span>                :            :   vector&lt;int&gt; vs1,vs2;
+<span class="lineNum">     283 </span>        [<span class="branchCov" title="Branch 1 was taken 32 times"> + </span><span class="branchCov" title="Branch 2 was taken 2 times"> + </span>]:<span class="lineCov">         34 :   for (size_t i=0;i&lt;N;++i) vs1.push_back(random());</span>
+<span class="lineNum">     284 </span>                :            :   {
+<span class="lineNum">     285 </span>                :<span class="lineCov">          2 :     ofstream ofs(&quot;./tmp&quot;);</span>
+<span class="lineNum">     286 </span>                :            :     binary_oarchive oa(ofs);
+<span class="lineNum">     287 </span>                :<span class="lineCov">          2 :     oa&lt;&lt;vs1;</span>
+<span class="lineNum">     288 </span>                :            :   }
+<span class="lineNum">     289 </span>                :            :   {
+<span class="lineNum">     290 </span>                :<span class="lineCov">          2 :     ifstream ifs(&quot;./tmp&quot;);</span>
+<span class="lineNum">     291 </span>                :            :     binary_iarchive ia(ifs);
+<span class="lineNum">     292 </span>                :<span class="lineCov">          2 :     ia&gt;&gt;vs2;</span>
+<span class="lineNum">     293 </span>                :            :   }
+<span class="lineNum">     294 </span>        [<span class="branchNoCov" title="Branch 0 was not taken"> - </span><span class="branchCov" title="Branch 1 was taken 2 times"> + </span>]:<span class="lineCov">          2 :   EXPECT_EQ(vs1.size(),vs2.size());</span>
+<span class="lineNum">     295 </span>[<span class="branchNoCov" title="Branch 0 was not taken"> - </span><span class="branchCov" title="Branch 1 was taken 32 times"> + </span>][<span class="branchCov" title="Branch 9 was taken 32 times"> + </span><span class="branchCov" title="Branch 10 was taken 2 times"> + </span>]:<span class="lineCov">         66 :   for (vector&lt;int&gt;::iterator it=vs1.begin(),jt=vs2.begin();it!=vs1.end();++it,++jt) EXPECT_EQ(*it,*jt);  </span>
+<a name="296"><span class="lineNum">     296 </span>                :<span class="lineCov">          2 : }</span></a>
+<span class="lineNum">     297 </span>                :            : 
+<span class="lineNum">     298 </span>        [<span class="branchNoCov" title="Branch 1 was not taken"> - </span><span class="branchCov" title="Branch 2 was taken 2 times"> + </span>]:<span class="lineCov">          8 : TEST(serialization, reflect) {</span>
+<span class="lineNum">     299 </span>                :            :   {
+<span class="lineNum">     300 </span>                :<span class="lineCov">          2 :     shared_ptr&lt;type_rep&gt; t=get_type&lt;vector&lt;uint16_t&gt; &gt;();</span>
+<span class="lineNum">     301 </span>                :<span class="lineCov">          2 :     ostringstream oss;</span>
+<span class="lineNum">     302 </span>                :<span class="lineCov">          2 :     t-&gt;print(oss);</span>
+<span class="lineNum">     303 </span>        [<span class="branchNoCov" title="Branch 2 was not taken"> - </span><span class="branchCov" title="Branch 3 was taken 2 times"> + </span>]:<span class="lineCov">          2 :     EXPECT_EQ(oss.str(), &quot;array&lt;uint(2)&gt;&quot;);</span>
+<span class="lineNum">     304 </span>                :            :   }
+<span class="lineNum">     305 </span>                :            :   {
+<span class="lineNum">     306 </span>                :<span class="lineCov">          2 :     shared_ptr&lt;type_rep&gt; t=get_type&lt;vector&lt;int32_t&gt; &gt;();</span>
+<span class="lineNum">     307 </span>                :<span class="lineCov">          2 :     ostringstream oss;</span>
+<span class="lineNum">     308 </span>                :<span class="lineCov">          2 :     t-&gt;print(oss);</span>
+<span class="lineNum">     309 </span>        [<span class="branchNoCov" title="Branch 2 was not taken"> - </span><span class="branchCov" title="Branch 3 was taken 2 times"> + </span>]:<span class="lineCov">          2 :     EXPECT_EQ(oss.str(), &quot;array&lt;int(4)&gt;&quot;);</span>
+<span class="lineNum">     310 </span>                :            :   }
+<span class="lineNum">     311 </span>                :            :   {
+<span class="lineNum">     312 </span>                :<span class="lineCov">          2 :     shared_ptr&lt;type_rep&gt; t=get_type&lt;map&lt;int, string&gt; &gt;();</span>
+<span class="lineNum">     313 </span>                :<span class="lineCov">          2 :     ostringstream oss;</span>
+<span class="lineNum">     314 </span>                :<span class="lineCov">          2 :     t-&gt;print(oss);</span>
+<span class="lineNum">     315 </span>        [<span class="branchNoCov" title="Branch 2 was not taken"> - </span><span class="branchCov" title="Branch 3 was taken 2 times"> + </span>]:<span class="lineCov">          2 :     EXPECT_EQ(oss.str(), &quot;map&lt;int(4),string&gt;&quot;);</span>
+<span class="lineNum">     316 </span>                :            :   }
+<span class="lineNum">     317 </span>                :            :   {
+<span class="lineNum">     318 </span>                :<span class="lineCov">          2 :     shared_ptr&lt;type_rep&gt; t=get_type&lt;vector&lt;map&lt;vector&lt;int&gt;, string&gt; &gt; &gt;();</span>
+<span class="lineNum">     319 </span>                :<span class="lineCov">          2 :     ostringstream oss;</span>
+<span class="lineNum">     320 </span>                :<span class="lineCov">          2 :     t-&gt;print(oss);</span>
+<span class="lineNum">     321 </span>        [<span class="branchNoCov" title="Branch 2 was not taken"> - </span><span class="branchCov" title="Branch 3 was taken 2 times"> + </span>]:<span class="lineCov">          2 :     EXPECT_EQ(oss.str(), &quot;array&lt;map&lt;array&lt;int(4)&gt;,string&gt;&gt;&quot;);</span>
+<span class="lineNum">     322 </span>                :            :   }
+<span class="lineNum">     323 </span>                :<span class="lineCov">          2 : }</span>
+<span class="lineNum">     324 </span>                :            : 
+<span class="lineNum">     325 </span>                :            : class path_cls{
+<span class="lineNum">     326 </span>                :            : public:
+<span class="lineNum">     327 </span>                :            :   string operator()() const{
+<span class="lineNum">     328 </span>                :<span class="lineCov">          2 :     return &quot;./&quot;;</span>
+<span class="lineNum">     329 </span>                :            :   }
+<a name="330"><span class="lineNum">     330 </span>                :            : };</a>
+<span class="lineNum">     331 </span>                :            : 
+<span class="lineNum">     332 </span>        [<span class="branchNoCov" title="Branch 1 was not taken"> - </span><span class="branchCov" title="Branch 2 was taken 2 times"> + </span>]:<span class="lineCov">          8 : TEST(serialization, stream){</span>
+<span class="lineNum">     333 </span>                :            : 
+<span class="lineNum">     334 </span>                :<span class="lineCov">          2 :   stringstream oss;</span>
+<span class="lineNum">     335 </span>                :            :   { 
+<span class="lineNum">     336 </span>                :<span class="lineCov">          2 :     stringstream ss;</span>
+<span class="lineNum">     337 </span>                :<span class="lineCov">          2 :     ss&lt;&lt;&quot;stream test&quot;;</span>
+<span class="lineNum">     338 </span>                :            :     binary_oarchive oa(oss);
+<span class="lineNum">     339 </span>                :<span class="lineCov">          2 :     oa&lt;&lt;stream&lt;&gt;(ss);</span>
+<span class="lineNum">     340 </span>                :            :   }
+<span class="lineNum">     341 </span>                :            :   {
+<span class="lineNum">     342 </span>                :            :     binary_iarchive ia(oss);
+<span class="lineNum">     343 </span>                :            :     stream&lt;path_cls&gt; s;
+<span class="lineNum">     344 </span>                :            :     ia&gt;&gt;s;
+<span class="lineNum">     345 </span>                :<span class="lineCov">          2 :     ostringstream res;</span>
+<span class="lineNum">     346 </span>                :<span class="lineCov">          2 :     res&lt;&lt;s.get().rdbuf();</span>
+<a name="347"><span class="lineNum">     347 </span>        [<span class="branchNoCov" title="Branch 2 was not taken"> - </span><span class="branchCov" title="Branch 3 was taken 2 times"> + </span>]:<span class="lineCov">          2 :     EXPECT_EQ(res.str(), &quot;stream test&quot;);</span></a>
+<span class="lineNum">     348 </span>                :<span class="lineCov">          2 :   }</span>
+<span class="lineNum">     349 </span>[<span class="branchCov" title="Branch 0 was taken 2 times"> + </span><span class="branchNoCov" title="Branch 1 was not taken"> - </span>][<span class="branchCov" title="Branch 2 was taken 2 times"> + </span><span class="branchNoCov" title="Branch 3 was not taken"> - </span>]:<span class="lineCov">          8 : }</span>
+</pre>
+      </td>
+    </tr>
+  </table>
+  <br>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="ruler"><img src="../glass.png" width=3 height=3 alt=""></td></tr>
+    <tr><td class="versionInfo">Generated by: <a href="http://ltp.sourceforge.net/coverage/lcov.php" target="_parent">LCOV version 1.9</a></td></tr>
+  </table>
+  <br>
+
+</body>
+</html>

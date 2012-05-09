@@ -1,0 +1,204 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html lang="en">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+  <title>LCOV - pficommon - network/uri.h</title>
+  <link rel="stylesheet" type="text/css" href="../gcov.css">
+</head>
+
+<body>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="title">LCOV - code coverage report</td></tr>
+    <tr><td class="ruler"><img src="../glass.png" width=3 height=3 alt=""></td></tr>
+
+    <tr>
+      <td width="100%">
+        <table cellpadding=1 border=0 width="100%">
+          <tr>
+            <td width="10%" class="headerItem">Current view:</td>
+            <td width="35%" class="headerValue"><a href="../index.html">top level</a> - <a href="index.html">network</a> - uri.h<span style="font-size: 80%;"> (source / <a href="uri.h.func.html">functions</a>)</span></td>
+            <td width="5%"></td>
+            <td width="15%"></td>
+            <td width="10%" class="headerCovTableHead">Hit</td>
+            <td width="10%" class="headerCovTableHead">Total</td>
+            <td width="15%" class="headerCovTableHead">Coverage</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Test:</td>
+            <td class="headerValue">pficommon</td>
+            <td></td>
+            <td class="headerItem">Lines:</td>
+            <td class="headerCovTableEntry">0</td>
+            <td class="headerCovTableEntry">1</td>
+            <td class="headerCovTableEntryLo">0.0 %</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Date:</td>
+            <td class="headerValue">2012-05-09</td>
+            <td></td>
+            <td class="headerItem">Functions:</td>
+            <td class="headerCovTableEntry">0</td>
+            <td class="headerCovTableEntry">0</td>
+            <td class="headerCovTableEntryHi">-</td>
+          </tr>
+          <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td class="headerItem">Branches:</td>
+            <td class="headerCovTableEntry">0</td>
+            <td class="headerCovTableEntry">0</td>
+            <td class="headerCovTableEntryHi">-</td>
+          </tr>
+          <tr><td><img src="../glass.png" width=3 height=3 alt=""></td></tr>
+        </table>
+      </td>
+    </tr>
+
+    <tr><td class="ruler"><img src="../glass.png" width=3 height=3 alt=""></td></tr>
+  </table>
+
+  <table cellpadding=0 cellspacing=0 border=0>
+    <tr>
+      <td><br></td>
+    </tr>
+    <tr>
+      <td>
+<pre class="sourceHeading">           Branch data     Line data    Source code</pre>
+<pre class="source">
+<a name="1"><span class="lineNum">       1 </span>                :            : // Copyright (c)2008-2011, Preferred Infrastructure Inc.</a>
+<span class="lineNum">       2 </span>                :            : // 
+<span class="lineNum">       3 </span>                :            : // All rights reserved.
+<span class="lineNum">       4 </span>                :            : // 
+<span class="lineNum">       5 </span>                :            : // Redistribution and use in source and binary forms, with or without
+<span class="lineNum">       6 </span>                :            : // modification, are permitted provided that the following conditions are met:
+<span class="lineNum">       7 </span>                :            : // 
+<span class="lineNum">       8 </span>                :            : //     * Redistributions of source code must retain the above copyright
+<span class="lineNum">       9 </span>                :            : //       notice, this list of conditions and the following disclaimer.
+<span class="lineNum">      10 </span>                :            : // 
+<span class="lineNum">      11 </span>                :            : //     * Redistributions in binary form must reproduce the above
+<span class="lineNum">      12 </span>                :            : //       copyright notice, this list of conditions and the following
+<span class="lineNum">      13 </span>                :            : //       disclaimer in the documentation and/or other materials provided
+<span class="lineNum">      14 </span>                :            : //       with the distribution.
+<span class="lineNum">      15 </span>                :            : // 
+<span class="lineNum">      16 </span>                :            : //     * Neither the name of Preferred Infrastructure nor the names of other
+<span class="lineNum">      17 </span>                :            : //       contributors may be used to endorse or promote products derived
+<span class="lineNum">      18 </span>                :            : //       from this software without specific prior written permission.
+<span class="lineNum">      19 </span>                :            : // 
+<span class="lineNum">      20 </span>                :            : // THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+<span class="lineNum">      21 </span>                :            : // &quot;AS IS&quot; AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+<span class="lineNum">      22 </span>                :            : // LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+<span class="lineNum">      23 </span>                :            : // A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
+<span class="lineNum">      24 </span>                :            : // OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+<span class="lineNum">      25 </span>                :            : // SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+<span class="lineNum">      26 </span>                :            : // LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+<span class="lineNum">      27 </span>                :            : // DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+<span class="lineNum">      28 </span>                :            : // THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+<span class="lineNum">      29 </span>                :            : // (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+<span class="lineNum">      30 </span>                :            : // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+<span class="lineNum">      31 </span>                :            : 
+<span class="lineNum">      32 </span>                :            : #ifndef INCLUDE_GUARD_PFI_NETWORK_URI_H_
+<span class="lineNum">      33 </span>                :            : #define INCLUDE_GUARD_PFI_NETWORK_URI_H_
+<span class="lineNum">      34 </span>                :            : 
+<span class="lineNum">      35 </span>                :            : #include &lt;string&gt;
+<span class="lineNum">      36 </span>                :            : #include &lt;iostream&gt;
+<span class="lineNum">      37 </span>                :            : 
+<span class="lineNum">      38 </span>                :            : namespace pfi{
+<span class="lineNum">      39 </span>                :            : namespace network{
+<span class="lineNum">      40 </span>                :            : 
+<span class="lineNum">      41 </span>                :            : std::string uri_encode(const std::string &amp;s);
+<span class="lineNum">      42 </span>                :            : std::string uri_decode(const std::string &amp;s);
+<span class="lineNum">      43 </span>                :            : 
+<span class="lineNum">      44 </span>                :<span class="lineNoCov">          0 : class uri{</span>
+<span class="lineNum">      45 </span>                :            : public:
+<span class="lineNum">      46 </span>                :            :   explicit uri(const std::string &amp;s);
+<span class="lineNum">      47 </span>                :            :   ~uri();
+<span class="lineNum">      48 </span>                :            : 
+<span class="lineNum">      49 </span>                :            :   const std::string &amp;scheme() const;
+<span class="lineNum">      50 </span>                :            :   std::string authority() const;
+<span class="lineNum">      51 </span>                :            :   const std::string &amp;userinfo() const;
+<span class="lineNum">      52 </span>                :            :   const std::string &amp;host() const;
+<span class="lineNum">      53 </span>                :            :   const std::string &amp;port() const;
+<span class="lineNum">      54 </span>                :            :   const std::string &amp;path() const;
+<span class="lineNum">      55 </span>                :            :   const std::string &amp;query() const;
+<span class="lineNum">      56 </span>                :            :   const std::string &amp;fragment() const;
+<span class="lineNum">      57 </span>                :            : 
+<span class="lineNum">      58 </span>                :            : private:
+<span class="lineNum">      59 </span>                :            :   void clear();
+<span class="lineNum">      60 </span>                :            : 
+<span class="lineNum">      61 </span>                :            :   bool parse(const std::string &amp;s);
+<span class="lineNum">      62 </span>                :            : 
+<span class="lineNum">      63 </span>                :            :   bool parse_uri(const char *&amp;p);
+<span class="lineNum">      64 </span>                :            :   bool parse_relative_ref(const char *&amp;p);
+<span class="lineNum">      65 </span>                :            :   bool parse_relative_part(const char *&amp;p);
+<span class="lineNum">      66 </span>                :            :   bool parse_scheme(const char *&amp;p);
+<span class="lineNum">      67 </span>                :            :   bool parse_hier_part(const char *&amp;p);
+<span class="lineNum">      68 </span>                :            :   bool parse_authority(const char *&amp;p);
+<span class="lineNum">      69 </span>                :            :   bool parse_userinfo(const char *&amp;p);
+<span class="lineNum">      70 </span>                :            :   bool parse_host(const char *&amp;p);
+<span class="lineNum">      71 </span>                :            :   bool parse_port(const char *&amp;p);
+<span class="lineNum">      72 </span>                :            :   bool parse_ip_literal(const char *&amp;p);
+<span class="lineNum">      73 </span>                :            :   bool parse_ipvfuture(const char *&amp;p);
+<span class="lineNum">      74 </span>                :            :   bool parse_ipv6address(const char *&amp;p);
+<span class="lineNum">      75 </span>                :            :   bool parse_ipv6_1(const char *&amp;p);
+<span class="lineNum">      76 </span>                :            :   bool parse_ipv6_2(const char *&amp;p);
+<span class="lineNum">      77 </span>                :            :   bool parse_ipv6_3(const char *&amp;p);
+<span class="lineNum">      78 </span>                :            :   bool parse_ipv6_4(const char *&amp;p);
+<span class="lineNum">      79 </span>                :            :   bool parse_ipv6_5(const char *&amp;p);
+<span class="lineNum">      80 </span>                :            :   bool parse_ipv6_6(const char *&amp;p);
+<span class="lineNum">      81 </span>                :            :   bool parse_ipv6_7(const char *&amp;p);
+<span class="lineNum">      82 </span>                :            :   bool parse_ipv6_8(const char *&amp;p);
+<span class="lineNum">      83 </span>                :            :   bool parse_ipv6_9(const char *&amp;p);
+<span class="lineNum">      84 </span>                :            :   bool parse_h16(const char *&amp;p);
+<span class="lineNum">      85 </span>                :            :   bool parse_ls32(const char *&amp;p);
+<span class="lineNum">      86 </span>                :            :   bool parse_ipv4address(const char *&amp;p);
+<span class="lineNum">      87 </span>                :            :   bool parse_dec_octet(const char *&amp;p);
+<span class="lineNum">      88 </span>                :            :   bool parse_reg_name(const char *&amp;p);
+<span class="lineNum">      89 </span>                :            :   bool parse_path_abempty(const char *&amp;p);
+<span class="lineNum">      90 </span>                :            :   bool parse_path_absolute(const char *&amp;p);
+<span class="lineNum">      91 </span>                :            :   bool parse_path_noscheme(const char *&amp;p);
+<span class="lineNum">      92 </span>                :            :   bool parse_path_rootless(const char *&amp;p);
+<span class="lineNum">      93 </span>                :            :   bool parse_path_empty(const char *&amp;p);
+<span class="lineNum">      94 </span>                :            :   bool parse_segment(const char *&amp;p);
+<span class="lineNum">      95 </span>                :            :   bool parse_segment_nz(const char *&amp;p);
+<span class="lineNum">      96 </span>                :            :   bool parse_segment_nz_nc(const char *&amp;p);
+<span class="lineNum">      97 </span>                :            :   bool parse_pchar(const char *&amp;p, bool colon=true);
+<span class="lineNum">      98 </span>                :            :   bool parse_query(const char *&amp;p);
+<span class="lineNum">      99 </span>                :            :   bool parse_fragment(const char *&amp;p);
+<span class="lineNum">     100 </span>                :            :   bool parse_pct_encoded(const char *&amp;p);
+<span class="lineNum">     101 </span>                :            :   bool is_unreserved(char c);
+<span class="lineNum">     102 </span>                :            :   bool is_reserved(char c);
+<span class="lineNum">     103 </span>                :            :   bool is_gen_delims(char c);
+<span class="lineNum">     104 </span>                :            :   bool is_sub_delims(char c);
+<span class="lineNum">     105 </span>                :            : 
+<span class="lineNum">     106 </span>                :            :   std::string scheme_;
+<span class="lineNum">     107 </span>                :            :   std::string userinfo_;
+<span class="lineNum">     108 </span>                :            :   std::string host_;
+<span class="lineNum">     109 </span>                :            :   std::string port_;
+<span class="lineNum">     110 </span>                :            :   std::string path_;
+<span class="lineNum">     111 </span>                :            :   std::string query_;
+<span class="lineNum">     112 </span>                :            :   std::string fragment_;
+<span class="lineNum">     113 </span>                :            : };
+<span class="lineNum">     114 </span>                :            : 
+<span class="lineNum">     115 </span>                :            : std::ostream &amp;operator&lt;&lt;(std::ostream &amp;os, const uri &amp;u);
+<span class="lineNum">     116 </span>                :            : 
+<span class="lineNum">     117 </span>                :            : } // network
+<span class="lineNum">     118 </span>                :            : } // pfi
+<span class="lineNum">     119 </span>                :            : #endif // #ifndef INCLUDE_GUARD_PFI_NETWORK_URI_H_
+</pre>
+      </td>
+    </tr>
+  </table>
+  <br>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="ruler"><img src="../glass.png" width=3 height=3 alt=""></td></tr>
+    <tr><td class="versionInfo">Generated by: <a href="http://ltp.sourceforge.net/coverage/lcov.php" target="_parent">LCOV version 1.9</a></td></tr>
+  </table>
+  <br>
+
+</body>
+</html>

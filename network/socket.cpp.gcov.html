@@ -1,0 +1,638 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html lang="en">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+  <title>LCOV - pficommon - network/socket.cpp</title>
+  <link rel="stylesheet" type="text/css" href="../gcov.css">
+</head>
+
+<body>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="title">LCOV - code coverage report</td></tr>
+    <tr><td class="ruler"><img src="../glass.png" width=3 height=3 alt=""></td></tr>
+
+    <tr>
+      <td width="100%">
+        <table cellpadding=1 border=0 width="100%">
+          <tr>
+            <td width="10%" class="headerItem">Current view:</td>
+            <td width="35%" class="headerValue"><a href="../index.html">top level</a> - <a href="index.html">network</a> - socket.cpp<span style="font-size: 80%;"> (source / <a href="socket.cpp.func.html">functions</a>)</span></td>
+            <td width="5%"></td>
+            <td width="15%"></td>
+            <td width="10%" class="headerCovTableHead">Hit</td>
+            <td width="10%" class="headerCovTableHead">Total</td>
+            <td width="15%" class="headerCovTableHead">Coverage</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Test:</td>
+            <td class="headerValue">pficommon</td>
+            <td></td>
+            <td class="headerItem">Lines:</td>
+            <td class="headerCovTableEntry">153</td>
+            <td class="headerCovTableEntry">261</td>
+            <td class="headerCovTableEntryLo">58.6 %</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Date:</td>
+            <td class="headerValue">2012-05-09</td>
+            <td></td>
+            <td class="headerItem">Functions:</td>
+            <td class="headerCovTableEntry">21</td>
+            <td class="headerCovTableEntry">40</td>
+            <td class="headerCovTableEntryLo">52.5 %</td>
+          </tr>
+          <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td class="headerItem">Branches:</td>
+            <td class="headerCovTableEntry">73</td>
+            <td class="headerCovTableEntry">222</td>
+            <td class="headerCovTableEntryLo">32.9 %</td>
+          </tr>
+          <tr><td><img src="../glass.png" width=3 height=3 alt=""></td></tr>
+        </table>
+      </td>
+    </tr>
+
+    <tr><td class="ruler"><img src="../glass.png" width=3 height=3 alt=""></td></tr>
+  </table>
+
+  <table cellpadding=0 cellspacing=0 border=0>
+    <tr>
+      <td><br></td>
+    </tr>
+    <tr>
+      <td>
+<pre class="sourceHeading">           Branch data     Line data    Source code</pre>
+<pre class="source">
+<a name="1"><span class="lineNum">       1 </span>                :            : // Copyright (c)2008-2011, Preferred Infrastructure Inc.</a>
+<span class="lineNum">       2 </span>                :            : // 
+<span class="lineNum">       3 </span>                :            : // All rights reserved.
+<span class="lineNum">       4 </span>                :            : // 
+<span class="lineNum">       5 </span>                :            : // Redistribution and use in source and binary forms, with or without
+<span class="lineNum">       6 </span>                :            : // modification, are permitted provided that the following conditions are met:
+<span class="lineNum">       7 </span>                :            : // 
+<span class="lineNum">       8 </span>                :            : //     * Redistributions of source code must retain the above copyright
+<span class="lineNum">       9 </span>                :            : //       notice, this list of conditions and the following disclaimer.
+<span class="lineNum">      10 </span>                :            : // 
+<span class="lineNum">      11 </span>                :            : //     * Redistributions in binary form must reproduce the above
+<span class="lineNum">      12 </span>                :            : //       copyright notice, this list of conditions and the following
+<span class="lineNum">      13 </span>                :            : //       disclaimer in the documentation and/or other materials provided
+<span class="lineNum">      14 </span>                :            : //       with the distribution.
+<span class="lineNum">      15 </span>                :            : // 
+<span class="lineNum">      16 </span>                :            : //     * Neither the name of Preferred Infrastructure nor the names of other
+<span class="lineNum">      17 </span>                :            : //       contributors may be used to endorse or promote products derived
+<span class="lineNum">      18 </span>                :            : //       from this software without specific prior written permission.
+<span class="lineNum">      19 </span>                :            : // 
+<span class="lineNum">      20 </span>                :            : // THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+<span class="lineNum">      21 </span>                :            : // &quot;AS IS&quot; AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+<span class="lineNum">      22 </span>                :            : // LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+<span class="lineNum">      23 </span>                :            : // A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
+<span class="lineNum">      24 </span>                :            : // OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+<span class="lineNum">      25 </span>                :            : // SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+<span class="lineNum">      26 </span>                :            : // LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+<span class="lineNum">      27 </span>                :            : // DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+<span class="lineNum">      28 </span>                :            : // THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+<span class="lineNum">      29 </span>                :            : // (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+<span class="lineNum">      30 </span>                :            : // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+<span class="lineNum">      31 </span>                :            : 
+<span class="lineNum">      32 </span>                :            : #include &quot;socket.h&quot;
+<span class="lineNum">      33 </span>                :            : 
+<span class="lineNum">      34 </span>                :            : #include &lt;cstdio&gt;
+<span class="lineNum">      35 </span>                :            : #include &lt;string.h&gt;
+<span class="lineNum">      36 </span>                :            : 
+<span class="lineNum">      37 </span>                :            : #include &lt;signal.h&gt;
+<span class="lineNum">      38 </span>                :            : #include &lt;sys/types.h&gt;
+<span class="lineNum">      39 </span>                :            : #include &lt;sys/socket.h&gt;
+<span class="lineNum">      40 </span>                :            : #include &lt;netinet/in.h&gt;
+<span class="lineNum">      41 </span>                :            : #include &lt;netinet/tcp.h&gt;
+<span class="lineNum">      42 </span>                :            : #include &lt;arpa/inet.h&gt;
+<span class="lineNum">      43 </span>                :            : 
+<span class="lineNum">      44 </span>                :            : #include &quot;dns.h&quot;
+<span class="lineNum">      45 </span>                :            : #include &quot;../system/syscall.h&quot;
+<span class="lineNum">      46 </span>                :            : 
+<span class="lineNum">      47 </span>                :            : using namespace std;
+<span class="lineNum">      48 </span>                :            : 
+<span class="lineNum">      49 </span>                :            : using namespace pfi::lang;
+<span class="lineNum">      50 </span>                :            : using namespace pfi::concurrent;
+<span class="lineNum">      51 </span>                :            : using namespace pfi::system::syscall;
+<span class="lineNum">      52 </span>                :            : 
+<span class="lineNum">      53 </span>                :            : const int buf_size=8*1024;
+<span class="lineNum">      54 </span>                :            : 
+<span class="lineNum">      55 </span>                :            : #include &lt;iostream&gt;
+<span class="lineNum">      56 </span>                :            : 
+<span class="lineNum">      57 </span>                :            : namespace pfi{
+<a name="58"><span class="lineNum">      58 </span>                :            : namespace network{</a>
+<span class="lineNum">      59 </span>                :            : 
+<span class="lineNum">      60 </span>                :<span class="lineCov">          4 : shared_ptr&lt;dns_resolver, threading_model::multi_thread&gt; stream_socket::resolver;</span>
+<span class="lineNum">      61 </span>                :<span class="lineCov">          4 : r_mutex stream_socket::resolver_m;</span>
+<span class="lineNum">      62 </span>                :            : 
+<span class="lineNum">      63 </span>                :            : class sigign{
+<a name="64"><span class="lineNum">      64 </span>                :            : public:</a>
+<span class="lineNum">      65 </span>                :            :   sigign(){
+<span class="lineNum">      66 </span>                :<span class="lineCov">          2 :     signal(SIGPIPE, SIG_IGN);</span>
+<span class="lineNum">      67 </span>                :            :   }
+<span class="lineNum">      68 </span>                :            : };
+<span class="lineNum">      69 </span>                :            : 
+<span class="lineNum">      70 </span>                :<span class="lineCov">          8 : stream_socket::stream_socket()</span>
+<span class="lineNum">      71 </span>                :            :   : connected(false)
+<span class="lineNum">      72 </span>                :            :   , sock(-1)
+<span class="lineNum">      73 </span>                :            :   , raddr()
+<span class="lineNum">      74 </span>                :            :   , rport(0)
+<span class="lineNum">      75 </span>                :            :   , rdbuf(buf_size)
+<span class="lineNum">      76 </span>                :            :   , rdbuf_p(0), rdbuf_end(0)
+<span class="lineNum">      77 </span>                :            :   , wrbuf(buf_size)
+<span class="lineNum">      78 </span>                :<span class="lineCov">         16 :   , wrbuf_size(0)</span>
+<span class="lineNum">      79 </span>                :            : {
+<span class="lineNum">      80 </span>[<span class="branchCov" title="Branch 0 was taken 2 times"> + </span><span class="branchCov" title="Branch 1 was taken 6 times"> + </span>][<span class="branchCov" title="Branch 3 was taken 2 times"> + </span><span class="branchNoCov" title="Branch 4 was not taken"> - </span>]:<span class="lineCov">         10 :   static sigign ign_;</span>
+<span class="lineNum">      81 </span>                :<span class="lineCov">          8 :   open();</span>
+<a name="82"><span class="lineNum">      82 </span>                :<span class="lineCov">          8 : }</span></a>
+<span class="lineNum">      83 </span>                :            : 
+<span class="lineNum">      84 </span>                :<span class="lineCov">          6 : stream_socket::~stream_socket()</span>
+<span class="lineNum">      85 </span>                :            : {
+<span class="lineNum">      86 </span>                :<span class="lineCov">          6 :   flush();</span>
+<span class="lineNum">      87 </span>                :<span class="lineCov">          6 :   close();</span>
+<a name="88"><span class="lineNum">      88 </span>                :<span class="lineCov">          6 : }</span></a>
+<span class="lineNum">      89 </span>                :            : 
+<span class="lineNum">      90 </span>                :<span class="lineCov">          2 : void stream_socket::set_dns_resolver(shared_ptr&lt;dns_resolver, threading_model::multi_thread&gt; r)</span>
+<span class="lineNum">      91 </span>                :            : {
+<span class="lineNum">      92 </span>        [<span class="branchCov" title="Branch 1 was taken 2 times"> + </span><span class="branchNoCov" title="Branch 2 was not taken"> - </span>]:<span class="lineCov">          4 :   synchronized(resolver_m)</span>
+<span class="lineNum">      93 </span>                :<span class="lineCov">          2 :     resolver=r;</span>
+<a name="94"><span class="lineNum">      94 </span>                :<span class="lineCov">          2 : }</span></a>
+<span class="lineNum">      95 </span>                :            : 
+<span class="lineNum">      96 </span>                :<span class="lineCov">          4 : bool stream_socket::connect(const string &amp;host, uint16_t port_num)</span>
+<span class="lineNum">      97 </span>                :            : {
+<span class="lineNum">      98 </span>        [<span class="branchNoCov" title="Branch 0 was not taken"> - </span><span class="branchCov" title="Branch 1 was taken 4 times"> + </span>]:<span class="lineCov">          4 :   if (sock&lt;0) return false;</span>
+<span class="lineNum">      99 </span>                :            : 
+<span class="lineNum">     100 </span>        [<span class="branchNoCov" title="Branch 0 was not taken"> - </span><span class="branchCov" title="Branch 1 was taken 4 times"> + </span>]:<span class="lineCov">          4 :   if (connected){</span>
+<span class="lineNum">     101 </span>        [<span class="branchNoExec" title="Branch 1 was not executed"> # </span><span class="branchNoExec" title="Branch 2 was not executed"> # </span>]:<span class="lineNoCov">          0 :     if (!close())</span>
+<span class="lineNum">     102 </span>                :<span class="lineNoCov">          0 :       return false;</span>
+<span class="lineNum">     103 </span>        [<span class="branchNoExec" title="Branch 1 was not executed"> # </span><span class="branchNoExec" title="Branch 2 was not executed"> # </span>]:<span class="lineNoCov">          0 :     if (!open())</span>
+<span class="lineNum">     104 </span>                :<span class="lineNoCov">          0 :       return false;</span>
+<span class="lineNum">     105 </span>                :            :   }
+<span class="lineNum">     106 </span>                :            : 
+<span class="lineNum">     107 </span>                :            :   shared_ptr&lt;dns_resolver, threading_model::multi_thread&gt; res;
+<span class="lineNum">     108 </span>        [<span class="branchCov" title="Branch 1 was taken 4 times"> + </span><span class="branchNoCov" title="Branch 2 was not taken"> - </span>]:<span class="lineCov">          8 :   synchronized(resolver_m){</span>
+<span class="lineNum">     109 </span>        [<span class="branchCov" title="Branch 0 was taken 2 times"> + </span><span class="branchCov" title="Branch 1 was taken 2 times"> + </span>]:<span class="lineCov">          4 :     if (!resolver)</span>
+<span class="lineNum">     110 </span>                :            :       set_dns_resolver(shared_ptr&lt;dns_resolver, threading_model::multi_thread&gt;
+<span class="lineNum">     111 </span>                :<span class="lineCov">          4 :           (new normal_dns_resolver()));</span>
+<span class="lineNum">     112 </span>                :<span class="lineCov">          4 :     res=resolver;</span>
+<span class="lineNum">     113 </span>                :<span class="lineCov">          4 :   }</span>
+<span class="lineNum">     114 </span>                :<span class="lineCov">          4 :   vector&lt;ipv4_address&gt; ips=res-&gt;resolve(host, port_num);</span>
+<span class="lineNum">     115 </span>                :            : 
+<span class="lineNum">     116 </span>        [<span class="branchCov" title="Branch 0 was taken 4 times"> + </span><span class="branchNoCov" title="Branch 1 was not taken"> - </span>]:<span class="lineCov">          4 :   for (int i=0;i&lt;(int)ips.size();i++){</span>
+<span class="lineNum">     117 </span>                :<span class="lineCov">          4 :     sockaddr_in addrin={};</span>
+<span class="lineNum">     118 </span>                :<span class="lineCov">          4 :     addrin.sin_family=PF_INET;</span>
+<span class="lineNum">     119 </span>                :<span class="lineCov">          4 :     addrin.sin_addr.s_addr=inet_addr(ips[i].to_string().c_str());</span>
+<span class="lineNum">     120 </span>        [<span class="branchNoCov" title="Branch 0 was not taken"> - </span><span class="branchCov" title="Branch 1 was taken 4 times"> + </span>]:<span class="lineCov">          4 :     addrin.sin_port=htons(port_num);</span>
+<span class="lineNum">     121 </span>                :            : 
+<span class="lineNum">     122 </span>                :            :     int res;
+<span class="lineNum">     123 </span>[<span class="branchNoCov" title="Branch 1 was not taken"> - </span><span class="branchCov" title="Branch 2 was taken 4 times"> + </span>][<span class="branchNoExec" title="Branch 4 was not executed"> # </span><span class="branchNoExec" title="Branch 5 was not executed"> # </span>]:<span class="lineCov">          4 :     NO_INTR(res,::connect(sock,(sockaddr*)&amp;addrin,sizeof(addrin)));</span>
+<span class="lineNum">     124 </span>        [<span class="branchCov" title="Branch 0 was taken 4 times"> + </span><span class="branchNoCov" title="Branch 1 was not taken"> - </span>]:<span class="lineCov">          4 :     if (SUCCEEDED(res)){</span>
+<span class="lineNum">     125 </span>                :<span class="lineCov">          4 :       connected=true;</span>
+<span class="lineNum">     126 </span>                :<span class="lineCov">          8 :       raddr=ips[i];</span>
+<span class="lineNum">     127 </span>                :<span class="lineCov">          4 :       rport=port_num;</span>
+<span class="lineNum">     128 </span>                :<span class="lineCov">          4 :       return true;</span>
+<span class="lineNum">     129 </span>                :            :     }
+<span class="lineNum">     130 </span>                :            :   }
+<span class="lineNum">     131 </span>                :            : 
+<span class="lineNum">     132 </span>                :<span class="lineNoCov">          0 :   (void)close();</span>
+<span class="lineNum">     133 </span>                :<span class="lineCov">          4 :   return false;</span>
+<a name="134"><span class="lineNum">     134 </span>                :            : }</a>
+<span class="lineNum">     135 </span>                :            : 
+<span class="lineNum">     136 </span>                :<span class="lineNoCov">          0 : bool stream_socket::shutdown()</span>
+<span class="lineNum">     137 </span>                :            : {
+<span class="lineNum">     138 </span>        [<span class="branchNoExec" title="Branch 1 was not executed"> # </span><span class="branchNoExec" title="Branch 2 was not executed"> # </span>]:<span class="lineNoCov">          0 :   if (!close()) return false;</span>
+<span class="lineNum">     139 </span>        [<span class="branchNoExec" title="Branch 1 was not executed"> # </span><span class="branchNoExec" title="Branch 2 was not executed"> # </span>]:<span class="lineNoCov">          0 :   if (!open()) return false;</span>
+<span class="lineNum">     140 </span>                :<span class="lineNoCov">          0 :   return true;</span>
+<a name="141"><span class="lineNum">     141 </span>                :            : }</a>
+<span class="lineNum">     142 </span>                :            : 
+<span class="lineNum">     143 </span>                :<span class="lineNoCov">          0 : bool stream_socket::bind_socket(int sock)</span>
+<span class="lineNum">     144 </span>                :            : {
+<span class="lineNum">     145 </span>                :<span class="lineNoCov">          0 :   return bind_socket(sock, ipv4_address(), 0);</span>
+<a name="146"><span class="lineNum">     146 </span>                :            : }</a>
+<span class="lineNum">     147 </span>                :            : 
+<span class="lineNum">     148 </span>                :<span class="lineCov">          4 : bool stream_socket::bind_socket(int sock, const ipv4_address &amp;addr, uint16_t port)</span>
+<span class="lineNum">     149 </span>                :            : {
+<span class="lineNum">     150 </span>        [<span class="branchNoCov" title="Branch 0 was not taken"> - </span><span class="branchCov" title="Branch 1 was taken 4 times"> + </span>]:<span class="lineCov">          4 :   if (sock&lt;0) return false;</span>
+<span class="lineNum">     151 </span>                :            : 
+<span class="lineNum">     152 </span>        [<span class="branchCov" title="Branch 0 was taken 4 times"> + </span><span class="branchNoCov" title="Branch 1 was not taken"> - </span>]:<span class="lineCov">          4 :   if (this-&gt;sock&gt;=0)</span>
+<span class="lineNum">     153 </span>        [<span class="branchNoCov" title="Branch 1 was not taken"> - </span><span class="branchCov" title="Branch 2 was taken 4 times"> + </span>]:<span class="lineCov">          4 :     if (!close())</span>
+<span class="lineNum">     154 </span>                :<span class="lineNoCov">          0 :       return false;</span>
+<span class="lineNum">     155 </span>                :            : 
+<span class="lineNum">     156 </span>                :<span class="lineCov">          4 :   this-&gt;sock=sock;</span>
+<span class="lineNum">     157 </span>                :<span class="lineCov">          4 :   connected=true;</span>
+<span class="lineNum">     158 </span>                :<span class="lineCov">          4 :   raddr=addr;</span>
+<span class="lineNum">     159 </span>                :<span class="lineCov">          4 :   rport=port;</span>
+<span class="lineNum">     160 </span>                :<span class="lineCov">          4 :   return true;</span>
+<a name="161"><span class="lineNum">     161 </span>                :            : }</a>
+<span class="lineNum">     162 </span>                :            : 
+<span class="lineNum">     163 </span>                :<span class="lineCov">          8 : bool stream_socket::open()</span>
+<span class="lineNum">     164 </span>                :            : {
+<span class="lineNum">     165 </span>        [<span class="branchNoCov" title="Branch 0 was not taken"> - </span><span class="branchCov" title="Branch 1 was taken 8 times"> + </span>]:<span class="lineCov">          8 :   if (sock&gt;=0) return false;</span>
+<span class="lineNum">     166 </span>                :            : 
+<span class="lineNum">     167 </span>[<span class="branchNoCov" title="Branch 1 was not taken"> - </span><span class="branchCov" title="Branch 2 was taken 8 times"> + </span>][<span class="branchNoExec" title="Branch 4 was not executed"> # </span><span class="branchNoExec" title="Branch 5 was not executed"> # </span>]:<span class="lineCov">          8 :   NO_INTR(sock,::socket(PF_INET,SOCK_STREAM,0));</span>
+<span class="lineNum">     168 </span>        [<span class="branchNoCov" title="Branch 0 was not taken"> - </span><span class="branchCov" title="Branch 1 was taken 8 times"> + </span>]:<span class="lineCov">          8 :   if (FAILED(sock)){</span>
+<span class="lineNum">     169 </span>                :<span class="lineNoCov">          0 :     sock=-1;</span>
+<span class="lineNum">     170 </span>                :<span class="lineNoCov">          0 :     return false;</span>
+<span class="lineNum">     171 </span>                :            :   }
+<span class="lineNum">     172 </span>                :<span class="lineCov">          8 :   return true;</span>
+<a name="173"><span class="lineNum">     173 </span>                :            : }</a>
+<span class="lineNum">     174 </span>                :            : 
+<span class="lineNum">     175 </span>                :<span class="lineCov">         12 : bool stream_socket::close()</span>
+<span class="lineNum">     176 </span>                :            : {
+<span class="lineNum">     177 </span>        [<span class="branchCov" title="Branch 0 was taken 2 times"> + </span><span class="branchCov" title="Branch 1 was taken 10 times"> + </span>]:<span class="lineCov">         12 :   if (sock&lt;0)</span>
+<span class="lineNum">     178 </span>                :<span class="lineCov">          2 :     return false;</span>
+<span class="lineNum">     179 </span>                :            : 
+<span class="lineNum">     180 </span>                :            :   int ret;
+<span class="lineNum">     181 </span>[<span class="branchNoCov" title="Branch 1 was not taken"> - </span><span class="branchCov" title="Branch 2 was taken 10 times"> + </span>][<span class="branchNoExec" title="Branch 4 was not executed"> # </span><span class="branchNoExec" title="Branch 5 was not executed"> # </span>]:<span class="lineCov">         10 :   NO_INTR(ret,::close(sock));</span>
+<span class="lineNum">     182 </span>                :            : 
+<span class="lineNum">     183 </span>        [<span class="branchNoCov" title="Branch 0 was not taken"> - </span><span class="branchCov" title="Branch 1 was taken 10 times"> + </span>]:<span class="lineCov">         10 :   if (FAILED(ret)){</span>
+<span class="lineNum">     184 </span>                :<span class="lineNoCov">          0 :     sock=-1;</span>
+<span class="lineNum">     185 </span>                :<span class="lineNoCov">          0 :     connected=false;</span>
+<span class="lineNum">     186 </span>                :<span class="lineNoCov">          0 :     return false;</span>
+<span class="lineNum">     187 </span>                :            :   }
+<span class="lineNum">     188 </span>                :            : 
+<span class="lineNum">     189 </span>                :<span class="lineCov">         10 :   sock=-1;</span>
+<span class="lineNum">     190 </span>                :<span class="lineCov">         10 :   connected=false;</span>
+<span class="lineNum">     191 </span>                :<span class="lineCov">         10 :   raddr=ipv4_address();</span>
+<span class="lineNum">     192 </span>                :<span class="lineCov">         10 :   rport=0;</span>
+<span class="lineNum">     193 </span>                :<span class="lineCov">         12 :   return true;</span>
+<a name="194"><span class="lineNum">     194 </span>                :            : }</a>
+<span class="lineNum">     195 </span>                :            : 
+<span class="lineNum">     196 </span>                :<span class="lineNoCov">          0 : bool stream_socket::is_connected() const</span>
+<span class="lineNum">     197 </span>                :            : {
+<span class="lineNum">     198 </span>                :<span class="lineNoCov">          0 :   return connected;</span>
+<a name="199"><span class="lineNum">     199 </span>                :            : }</a>
+<span class="lineNum">     200 </span>                :            : 
+<span class="lineNum">     201 </span>                :<span class="lineNoCov">          0 : const ipv4_address &amp;stream_socket::remote_addr() const</span>
+<span class="lineNum">     202 </span>                :            : {
+<span class="lineNum">     203 </span>                :<span class="lineNoCov">          0 :   return raddr;</span>
+<a name="204"><span class="lineNum">     204 </span>                :            : }</a>
+<span class="lineNum">     205 </span>                :            : 
+<span class="lineNum">     206 </span>                :<span class="lineNoCov">          0 : uint16_t stream_socket::remote_port() const</span>
+<span class="lineNum">     207 </span>                :            : {
+<span class="lineNum">     208 </span>                :<span class="lineNoCov">          0 :   return rport;</span>
+<a name="209"><span class="lineNum">     209 </span>                :            : }</a>
+<span class="lineNum">     210 </span>                :            : 
+<span class="lineNum">     211 </span>                :<span class="lineNoCov">          0 : int stream_socket::read(void *dat, int size)</span>
+<span class="lineNum">     212 </span>                :            : {
+<span class="lineNum">     213 </span>                :<span class="lineNoCov">          0 :   char *p=(char*)dat, *q=p+size;</span>
+<span class="lineNum">     214 </span>                :            : 
+<span class="lineNum">     215 </span>        [<span class="branchNoExec" title="Branch 1 was not executed"> # </span><span class="branchNoExec" title="Branch 2 was not executed"> # </span>]:<span class="lineNoCov">          0 :   if (buf_elem()&gt;0){</span>
+<span class="lineNum">     216 </span>        [<span class="branchNoExec" title="Branch 1 was not executed"> # </span><span class="branchNoExec" title="Branch 2 was not executed"> # </span>]:<span class="lineNoCov">          0 :     if (buf_elem()&gt;=size){</span>
+<span class="lineNum">     217 </span>                :<span class="lineNoCov">          0 :       memcpy(p, &amp;rdbuf[rdbuf_p], size);</span>
+<span class="lineNum">     218 </span>                :<span class="lineNoCov">          0 :       rdbuf_p+=size;</span>
+<span class="lineNum">     219 </span>                :<span class="lineNoCov">          0 :       return size;</span>
+<span class="lineNum">     220 </span>                :            :     }
+<span class="lineNum">     221 </span>                :            :     else{
+<span class="lineNum">     222 </span>                :<span class="lineNoCov">          0 :       memcpy(p, &amp;rdbuf[rdbuf_p], rdbuf_end-rdbuf_p);</span>
+<span class="lineNum">     223 </span>                :<span class="lineNoCov">          0 :       p+=rdbuf_end-rdbuf_p;</span>
+<span class="lineNum">     224 </span>                :<span class="lineNoCov">          0 :       rdbuf_p=rdbuf_end;</span>
+<span class="lineNum">     225 </span>                :            :     }
+<span class="lineNum">     226 </span>                :            :   }
+<span class="lineNum">     227 </span>                :            : 
+<span class="lineNum">     228 </span>        [<span class="branchNoExec" title="Branch 0 was not executed"> # </span><span class="branchNoExec" title="Branch 1 was not executed"> # </span>]:<span class="lineNoCov">          0 :   while(p&lt;q){</span>
+<span class="lineNum">     229 </span>                :<span class="lineNoCov">          0 :     int readsize=recv(p,q-p);</span>
+<span class="lineNum">     230 </span>        [<span class="branchNoExec" title="Branch 0 was not executed"> # </span><span class="branchNoExec" title="Branch 1 was not executed"> # </span>]:<span class="lineNoCov">          0 :     if (readsize&lt;=0) break;</span>
+<span class="lineNum">     231 </span>                :<span class="lineNoCov">          0 :     p+=readsize;</span>
+<span class="lineNum">     232 </span>                :            :   }
+<span class="lineNum">     233 </span>                :            : 
+<span class="lineNum">     234 </span>                :<span class="lineNoCov">          0 :   return p-(char*)dat;</span>
+<a name="235"><span class="lineNum">     235 </span>                :            : }</a>
+<span class="lineNum">     236 </span>                :            : 
+<span class="lineNum">     237 </span>                :<span class="lineCov">     131964 : int stream_socket::write(const void *dat, int size)</span>
+<span class="lineNum">     238 </span>                :            : {
+<span class="lineNum">     239 </span>                :<span class="lineCov">     131964 :   int init_size=wrbuf_size;</span>
+<span class="lineNum">     240 </span>                :<span class="lineCov">     131964 :   const unsigned char *st=static_cast&lt;const unsigned char*&gt;(dat);</span>
+<span class="lineNum">     241 </span>                :<span class="lineCov">     131964 :   const unsigned char *p=st, *q=p+size;</span>
+<span class="lineNum">     242 </span>                :            : 
+<span class="lineNum">     243 </span>                :            :   // write to buffer
+<span class="lineNum">     244 </span>        [<span class="branchCov" title="Branch 0 was taken 131964 times"> + </span><span class="branchCov" title="Branch 1 was taken 131964 times"> + </span>]:<span class="lineCov">     263928 :   while(wrbuf_size&lt;buf_size &amp;&amp; p&lt;q)</span>
+<span class="lineNum">     245 </span>                :<span class="lineCov">     131964 :     wrbuf[wrbuf_size++]=*(p++);</span>
+<span class="lineNum">     246 </span>                :            : 
+<span class="lineNum">     247 </span>                :            :   // if buffer is full, flush buffer.
+<span class="lineNum">     248 </span>        [<span class="branchNoCov" title="Branch 0 was not taken"> - </span><span class="branchCov" title="Branch 1 was taken 131964 times"> + </span>]:<span class="lineCov">     131964 :   if (wrbuf_size==buf_size){</span>
+<span class="lineNum">     249 </span>                :<span class="lineNoCov">          0 :     int res=flush();</span>
+<span class="lineNum">     250 </span>        [<span class="branchNoExec" title="Branch 0 was not executed"> # </span><span class="branchNoExec" title="Branch 1 was not executed"> # </span>]:<span class="lineNoCov">          0 :     if (res&gt;=0){</span>
+<span class="lineNum">     251 </span>                :<span class="lineNoCov">          0 :       return max(0, res-init_size);</span>
+<span class="lineNum">     252 </span>                :            :     }
+<span class="lineNum">     253 </span>                :            :   }
+<span class="lineNum">     254 </span>                :            : 
+<span class="lineNum">     255 </span>                :            :   // rest is larger than buffer, it send immediately
+<span class="lineNum">     256 </span>        [<span class="branchNoCov" title="Branch 0 was not taken"> - </span><span class="branchCov" title="Branch 1 was taken 131964 times"> + </span>]:<span class="lineCov">     131964 :   if (q-p&gt;=buf_size)</span>
+<span class="lineNum">     257 </span>                :<span class="lineNoCov">          0 :     return p-st+send_all(p, q-p);</span>
+<span class="lineNum">     258 </span>                :            : 
+<span class="lineNum">     259 </span>                :            :   // otherwise, write to buffer
+<span class="lineNum">     260 </span>        [<span class="branchNoCov" title="Branch 0 was not taken"> - </span><span class="branchCov" title="Branch 1 was taken 131964 times"> + </span>]:<span class="lineCov">     131964 :   while(p&lt;q)</span>
+<span class="lineNum">     261 </span>                :<span class="lineNoCov">          0 :     wrbuf[wrbuf_size++]=*(p++);</span>
+<span class="lineNum">     262 </span>                :            : 
+<span class="lineNum">     263 </span>                :<span class="lineCov">     131964 :   return q-st;</span>
+<span class="lineNum">     264 </span>                :            : }
+<span class="lineNum">     265 </span>                :            : 
+<a name="266"><span class="lineNum">     266 </span>                :            : // if succeeded, returns negative value,</a>
+<span class="lineNum">     267 </span>                :            : // otherwise, returns number of sent bytes
+<span class="lineNum">     268 </span>                :<span class="lineCov">       4016 : int stream_socket::flush()</span>
+<span class="lineNum">     269 </span>                :            : {
+<span class="lineNum">     270 </span>        [<span class="branchCov" title="Branch 0 was taken 4010 times"> + </span><span class="branchCov" title="Branch 1 was taken 6 times"> + </span>]:<span class="lineCov">       4016 :   if (wrbuf_size&gt;0){</span>
+<span class="lineNum">     271 </span>                :<span class="lineCov">       4010 :     int ssize=send_all(&amp;wrbuf[0], wrbuf_size);</span>
+<span class="lineNum">     272 </span>                :<span class="lineCov">       4010 :     bool ok=ssize==wrbuf_size;</span>
+<span class="lineNum">     273 </span>                :<span class="lineCov">       4010 :     wrbuf_size=0;</span>
+<span class="lineNum">     274 </span>        [<span class="branchCov" title="Branch 0 was taken 4008 times"> + </span><span class="branchCov" title="Branch 1 was taken 2 times"> + </span>]:<span class="lineCov">       4010 :     return ok?-1:ssize;</span>
+<span class="lineNum">     275 </span>                :            :   }
+<span class="lineNum">     276 </span>                :<span class="lineCov">       4016 :   return -1;</span>
+<a name="277"><span class="lineNum">     277 </span>                :            : }</a>
+<span class="lineNum">     278 </span>                :            : 
+<span class="lineNum">     279 </span>                :<span class="lineCov">     131950 : int stream_socket::getc()</span>
+<span class="lineNum">     280 </span>                :            : {
+<span class="lineNum">     281 </span>        [<span class="branchCov" title="Branch 1 was taken 127930 times"> + </span><span class="branchCov" title="Branch 2 was taken 4020 times"> + </span>]:<span class="lineCov">     131950 :   if (buf_elem()) return inc_buf();</span>
+<span class="lineNum">     282 </span>                :<span class="lineCov">       4020 :   fill_buf();</span>
+<span class="lineNum">     283 </span>        [<span class="branchCov" title="Branch 1 was taken 10 times"> + </span><span class="branchCov" title="Branch 2 was taken 4008 times"> + </span>]:<span class="lineCov">       4018 :   if (buf_elem()==0) return EOF;</span>
+<span class="lineNum">     284 </span>                :<span class="lineCov">     131948 :   return inc_buf();</span>
+<a name="285"><span class="lineNum">     285 </span>                :            : }</a>
+<span class="lineNum">     286 </span>                :            : 
+<span class="lineNum">     287 </span>                :<span class="lineNoCov">          0 : bool stream_socket::getline(string &amp;str, int limit)</span>
+<span class="lineNum">     288 </span>                :            : {
+<span class="lineNum">     289 </span>                :            :   string ret;
+<span class="lineNum">     290 </span>        [<span class="branchNoExec" title="Branch 0 was not executed"> # </span><span class="branchNoExec" title="Branch 1 was not executed"> # </span>]:<span class="lineNoCov">          0 :   for (int i=0;limit&lt;0||i&lt;limit;i++){</span>
+<span class="lineNum">     291 </span>                :<span class="lineNoCov">          0 :     int c=getc();</span>
+<span class="lineNum">     292 </span>        [<span class="branchNoExec" title="Branch 0 was not executed"> # </span><span class="branchNoExec" title="Branch 1 was not executed"> # </span>]:<span class="lineNoCov">          0 :     if (c=='\n'){</span>
+<span class="lineNum">     293 </span>  [<span class="branchNoExec" title="Branch 0 was not executed"> # </span><span class="branchNoExec" title="Branch 1 was not executed"> # </span><span class="branchNoExec" title="Branch 2 was not executed"> # </span><span class="branchNoExec" title="Branch 3 was not executed"> # </span>]:<span class="lineNoCov">          0 :       if (ret.length()&gt;=1 &amp;&amp; ret[ret.length()-1]=='\r'){</span>
+<span class="lineNum">         </span>        [<span class="branchNoExec" title="Branch 4 was not executed"> # </span><span class="branchNoExec" title="Branch 5 was not executed"> # </span>]
+<span class="lineNum">     294 </span>                :<span class="lineNoCov">          0 :         str=ret.substr(0,ret.length()-1);</span>
+<span class="lineNum">     295 </span>                :<span class="lineNoCov">          0 :         return true;</span>
+<span class="lineNum">     296 </span>                :            :       }
+<span class="lineNum">     297 </span>                :            :       break;
+<span class="lineNum">     298 </span>                :            :     }
+<span class="lineNum">     299 </span>        [<span class="branchNoExec" title="Branch 0 was not executed"> # </span><span class="branchNoExec" title="Branch 1 was not executed"> # </span>]:<span class="lineNoCov">          0 :     if (c==EOF){</span>
+<span class="lineNum">     300 </span>        [<span class="branchNoExec" title="Branch 0 was not executed"> # </span><span class="branchNoExec" title="Branch 1 was not executed"> # </span>]:<span class="lineNoCov">          0 :       if (ret.length()==0)</span>
+<span class="lineNum">     301 </span>                :<span class="lineNoCov">          0 :         return false;</span>
+<span class="lineNum">     302 </span>                :            :       break;
+<span class="lineNum">     303 </span>                :            :     }
+<span class="lineNum">     304 </span>                :<span class="lineNoCov">          0 :     ret+=(char)c;</span>
+<span class="lineNum">     305 </span>                :            :   }
+<span class="lineNum">     306 </span>                :            :   str=ret;
+<span class="lineNum">     307 </span>                :<span class="lineNoCov">          0 :   return true;</span>
+<a name="308"><span class="lineNum">     308 </span>                :            : }</a>
+<span class="lineNum">     309 </span>                :            : 
+<span class="lineNum">     310 </span>                :<span class="lineNoCov">          0 : bool stream_socket::puts(const string &amp;str)</span>
+<span class="lineNum">     311 </span>                :            : {
+<span class="lineNum">     312 </span>                :<span class="lineNoCov">          0 :   int writesize=write(str.c_str(), str.length());</span>
+<span class="lineNum">     313 </span>                :<span class="lineNoCov">          0 :   return writesize==(int)str.length();</span>
+<a name="314"><span class="lineNum">     314 </span>                :            : }</a>
+<span class="lineNum">     315 </span>                :            : 
+<span class="lineNum">     316 </span>                :<span class="lineNoCov">          0 : bool stream_socket::set_timeout(double sec)</span>
+<span class="lineNum">     317 </span>                :            : {
+<span class="lineNum">     318 </span>                :            :   return
+<span class="lineNum">     319 </span>                :            :     set_recv_timeout(sec) &amp;&amp;
+<span class="lineNum">     320 </span>[<span class="branchNoExec" title="Branch 1 was not executed"> # </span><span class="branchNoExec" title="Branch 2 was not executed"> # </span>][<span class="branchNoExec" title="Branch 4 was not executed"> # </span><span class="branchNoExec" title="Branch 5 was not executed"> # </span>]:<span class="lineNoCov">          0 :     set_send_timeout(sec);</span>
+<a name="321"><span class="lineNum">     321 </span>                :            : }</a>
+<span class="lineNum">     322 </span>                :            : 
+<span class="lineNum">     323 </span>                :<span class="lineNoCov">          0 : static bool set_timeo(int sock, int optname, double sec)</span>
+<span class="lineNum">     324 </span>                :            : {
+<span class="lineNum">     325 </span>        [<span class="branchNoExec" title="Branch 0 was not executed"> # </span><span class="branchNoExec" title="Branch 1 was not executed"> # </span>]:<span class="lineNoCov">          0 :   if (sec&lt;0) return false;</span>
+<span class="lineNum">     326 </span>                :            : 
+<span class="lineNum">     327 </span>                :            :   timeval tv;
+<span class="lineNum">     328 </span>                :<span class="lineNoCov">          0 :   tv.tv_sec=max(0,(int)sec);</span>
+<span class="lineNum">     329 </span>                :<span class="lineNoCov">          0 :   tv.tv_usec=min(999999,max(0,(int)((sec-tv.tv_sec)*1e6)));</span>
+<span class="lineNum">     330 </span>                :            : 
+<span class="lineNum">     331 </span>                :            :   int res;
+<span class="lineNum">     332 </span>[<span class="branchNoExec" title="Branch 1 was not executed"> # </span><span class="branchNoExec" title="Branch 2 was not executed"> # </span>][<span class="branchNoExec" title="Branch 4 was not executed"> # </span><span class="branchNoExec" title="Branch 5 was not executed"> # </span>]:<span class="lineNoCov">          0 :   NO_INTR(res,setsockopt(sock,SOL_SOCKET,optname,&amp;tv,sizeof(tv)));</span>
+<span class="lineNum">     333 </span>                :<span class="lineNoCov">          0 :   return SUCCEEDED(res);</span>
+<a name="334"><span class="lineNum">     334 </span>                :            : }</a>
+<span class="lineNum">     335 </span>                :            : 
+<span class="lineNum">     336 </span>                :<span class="lineNoCov">          0 : bool stream_socket::set_recv_timeout(double sec)</span>
+<span class="lineNum">     337 </span>                :            : {
+<span class="lineNum">     338 </span>        [<span class="branchNoExec" title="Branch 0 was not executed"> # </span><span class="branchNoExec" title="Branch 1 was not executed"> # </span>]:<span class="lineNoCov">          0 :   if (sock&lt;0) return false;</span>
+<span class="lineNum">     339 </span>                :<span class="lineNoCov">          0 :   return set_timeo(sock,SO_RCVTIMEO,sec);</span>
+<a name="340"><span class="lineNum">     340 </span>                :            : }</a>
+<span class="lineNum">     341 </span>                :            : 
+<span class="lineNum">     342 </span>                :<span class="lineNoCov">          0 : bool stream_socket::set_send_timeout(double sec)</span>
+<span class="lineNum">     343 </span>                :            : {
+<span class="lineNum">     344 </span>        [<span class="branchNoExec" title="Branch 0 was not executed"> # </span><span class="branchNoExec" title="Branch 1 was not executed"> # </span>]:<span class="lineNoCov">          0 :   if (sock&lt;0) return false;</span>
+<span class="lineNum">     345 </span>                :<span class="lineNoCov">          0 :   return set_timeo(sock,SO_SNDTIMEO,sec);</span>
+<a name="346"><span class="lineNum">     346 </span>                :            : }</a>
+<span class="lineNum">     347 </span>                :            : 
+<span class="lineNum">     348 </span>                :<span class="lineCov">          8 : bool stream_socket::set_nodelay(bool on)</span>
+<span class="lineNum">     349 </span>                :            : {
+<span class="lineNum">     350 </span>        [<span class="branchNoCov" title="Branch 0 was not taken"> - </span><span class="branchCov" title="Branch 1 was taken 8 times"> + </span>]:<span class="lineCov">          8 :   if (sock&lt;0) return false;</span>
+<span class="lineNum">     351 </span>                :            : #ifdef __linux__
+<span class="lineNum">     352 </span>        [<span class="branchCov" title="Branch 0 was taken 8 times"> + </span><span class="branchNoCov" title="Branch 1 was not taken"> - </span>]:<span class="lineCov">          8 :   int n=on?1:0;</span>
+<span class="lineNum">     353 </span>                :            :   int res;
+<span class="lineNum">     354 </span>[<span class="branchNoCov" title="Branch 1 was not taken"> - </span><span class="branchCov" title="Branch 2 was taken 8 times"> + </span>][<span class="branchNoExec" title="Branch 4 was not executed"> # </span><span class="branchNoExec" title="Branch 5 was not executed"> # </span>]:<span class="lineCov">          8 :   NO_INTR(res,setsockopt(sock,SOL_TCP,TCP_NODELAY,&amp;n,sizeof(n)));</span>
+<span class="lineNum">     355 </span>        [<span class="branchNoCov" title="Branch 0 was not taken"> - </span><span class="branchCov" title="Branch 1 was taken 8 times"> + </span>]:<span class="lineCov">          8 :   if (FAILED(res)) return false;</span>
+<span class="lineNum">     356 </span>[<span class="branchNoCov" title="Branch 1 was not taken"> - </span><span class="branchCov" title="Branch 2 was taken 8 times"> + </span>][<span class="branchNoExec" title="Branch 4 was not executed"> # </span><span class="branchNoExec" title="Branch 5 was not executed"> # </span>]:<span class="lineCov">          8 :   NO_INTR(res,setsockopt(sock,SOL_SOCKET,TCP_DEFER_ACCEPT,&amp;n,sizeof(n)));</span>
+<span class="lineNum">     357 </span>                :<span class="lineCov">          8 :   return SUCCEEDED(res);</span>
+<span class="lineNum">     358 </span>                :            : #else
+<span class="lineNum">     359 </span>                :            :   return true;
+<span class="lineNum">     360 </span>                :            : #endif
+<a name="361"><span class="lineNum">     361 </span>                :            : }</a>
+<span class="lineNum">     362 </span>                :            : 
+<span class="lineNum">     363 </span>                :<span class="lineCov">       4020 : int stream_socket::recv(void *dat, int size)</span>
+<span class="lineNum">     364 </span>                :            : {
+<span class="lineNum">     365 </span>        [<span class="branchCov" title="Branch 0 was taken 8 times"> + </span><span class="branchCov" title="Branch 1 was taken 4012 times"> + </span>]:<span class="lineCov">       4020 :   if (!connected) return 0;</span>
+<span class="lineNum">     366 </span>                :            : 
+<span class="lineNum">     367 </span>                :            :   int readsize;
+<span class="lineNum">     368 </span>[<span class="branchNoCov" title="Branch 0 was not taken"> - </span><span class="branchCov" title="Branch 1 was taken 4010 times"> + </span>][<span class="branchNoExec" title="Branch 3 was not executed"> # </span><span class="branchNoExec" title="Branch 4 was not executed"> # </span>]:<span class="lineCov">       4010 :   NO_INTR(readsize, ::recv(sock, dat, size, 0));</span>
+<span class="lineNum">     369 </span>                :            : 
+<span class="lineNum">     370 </span>        [<span class="branchCov" title="Branch 0 was taken 2 times"> + </span><span class="branchCov" title="Branch 1 was taken 4008 times"> + </span>]:<span class="lineCov">       4010 :   if (readsize&lt;=0){</span>
+<span class="lineNum">     371 </span>                :<span class="lineCov">          2 :     close();</span>
+<span class="lineNum">     372 </span>                :<span class="lineCov">          2 :     return readsize;</span>
+<span class="lineNum">     373 </span>                :            :   }
+<span class="lineNum">     374 </span>                :            : 
+<span class="lineNum">     375 </span>                :<span class="lineCov">       4018 :   return readsize;</span>
+<a name="376"><span class="lineNum">     376 </span>                :            : }</a>
+<span class="lineNum">     377 </span>                :            : 
+<span class="lineNum">     378 </span>                :<span class="lineCov">       4010 : int stream_socket::send(const void *dat, int size)</span>
+<span class="lineNum">     379 </span>                :            : {
+<span class="lineNum">     380 </span>        [<span class="branchCov" title="Branch 0 was taken 2 times"> + </span><span class="branchCov" title="Branch 1 was taken 4008 times"> + </span>]:<span class="lineCov">       4010 :   if (!connected) return 0;</span>
+<span class="lineNum">     381 </span>                :            : 
+<span class="lineNum">     382 </span>                :            :   int writesize;
+<span class="lineNum">     383 </span>[<span class="branchNoCov" title="Branch 1 was not taken"> - </span><span class="branchCov" title="Branch 2 was taken 4008 times"> + </span>][<span class="branchNoExec" title="Branch 4 was not executed"> # </span><span class="branchNoExec" title="Branch 5 was not executed"> # </span>]:<span class="lineCov">       4008 :   NO_INTR(writesize, ::send(sock, dat, size, 0));</span>
+<span class="lineNum">     384 </span>                :            : 
+<span class="lineNum">     385 </span>        [<span class="branchNoCov" title="Branch 0 was not taken"> - </span><span class="branchCov" title="Branch 1 was taken 4008 times"> + </span>]:<span class="lineCov">       4008 :   if (writesize&lt;=0){</span>
+<span class="lineNum">     386 </span>                :<span class="lineNoCov">          0 :     close();</span>
+<span class="lineNum">     387 </span>                :<span class="lineNoCov">          0 :     return writesize;</span>
+<span class="lineNum">     388 </span>                :            :   }
+<span class="lineNum">     389 </span>                :            : 
+<span class="lineNum">     390 </span>                :<span class="lineCov">       4010 :   return writesize;</span>
+<a name="391"><span class="lineNum">     391 </span>                :            : }</a>
+<span class="lineNum">     392 </span>                :            : 
+<span class="lineNum">     393 </span>                :<span class="lineCov">       4010 : int stream_socket::send_all(const void *dat, int size)</span>
+<span class="lineNum">     394 </span>                :            : {
+<span class="lineNum">     395 </span>                :<span class="lineCov">       4010 :   const char *p=(const char *)dat, *q=p+size;</span>
+<span class="lineNum">     396 </span>                :            :   
+<span class="lineNum">     397 </span>        [<span class="branchCov" title="Branch 0 was taken 4010 times"> + </span><span class="branchCov" title="Branch 1 was taken 4008 times"> + </span>]:<span class="lineCov">       8018 :   while(p&lt;q){</span>
+<span class="lineNum">     398 </span>                :<span class="lineCov">       4010 :     int writesize=send(p,q-p);</span>
+<span class="lineNum">     399 </span>        [<span class="branchCov" title="Branch 0 was taken 4008 times"> + </span><span class="branchCov" title="Branch 1 was taken 2 times"> + </span>]:<span class="lineCov">       4010 :     if (writesize&lt;=0) break;</span>
+<span class="lineNum">     400 </span>                :<span class="lineCov">       4008 :     p+=writesize;</span>
+<span class="lineNum">     401 </span>                :            :   }
+<span class="lineNum">     402 </span>                :            :   
+<span class="lineNum">     403 </span>                :<span class="lineCov">       4010 :   return p-(const char*)dat;</span>
+<a name="404"><span class="lineNum">     404 </span>                :            : }</a>
+<span class="lineNum">     405 </span>                :            : 
+<span class="lineNum">     406 </span>                :<span class="lineCov">       4020 : void stream_socket::fill_buf()</span>
+<span class="lineNum">     407 </span>                :            : {
+<span class="lineNum">     408 </span>        [<span class="branchCov" title="Branch 1 was taken 4020 times"> + </span><span class="branchNoCov" title="Branch 2 was not taken"> - </span>]:<span class="lineCov">       4020 :   if (buf_elem()!=0) return;</span>
+<span class="lineNum">     409 </span>                :            : 
+<span class="lineNum">     410 </span>                :<span class="lineCov">       4020 :   int size=recv(&amp;rdbuf[0], buf_size);</span>
+<span class="lineNum">     411 </span>                :<span class="lineCov">       4018 :   rdbuf_p=0;</span>
+<span class="lineNum">     412 </span>                :<span class="lineCov">       4018 :   rdbuf_end=max(0, size);</span>
+<a name="413"><span class="lineNum">     413 </span>                :            : }</a>
+<span class="lineNum">     414 </span>                :            : 
+<span class="lineNum">     415 </span>                :<span class="lineCov">     131938 : int stream_socket::inc_buf()</span>
+<span class="lineNum">     416 </span>                :            : {
+<span class="lineNum">     417 </span>                :<span class="lineCov">     131938 :   return (unsigned char)rdbuf[rdbuf_p++];</span>
+<a name="418"><span class="lineNum">     418 </span>                :            : }</a>
+<span class="lineNum">     419 </span>                :            : 
+<span class="lineNum">     420 </span>                :<span class="lineCov">     139988 : int stream_socket::buf_elem()</span>
+<span class="lineNum">     421 </span>                :            : {
+<span class="lineNum">     422 </span>                :<span class="lineCov">     139988 :   return rdbuf_end-rdbuf_p;</span>
+<a name="423"><span class="lineNum">     423 </span>                :            : }</a>
+<span class="lineNum">     424 </span>                :            : 
+<span class="lineNum">     425 </span>                :<span class="lineCov">          4 : server_socket::server_socket()</span>
+<span class="lineNum">     426 </span>                :            :   : sock(-1)
+<span class="lineNum">     427 </span>                :            :   , port_num(~uint16_t())
+<span class="lineNum">     428 </span>                :            :   , timeout_sec(-1)
+<span class="lineNum">     429 </span>                :<span class="lineCov">          4 :   , connected(false)</span>
+<span class="lineNum">     430 </span>                :            : {
+<a name="431"><span class="lineNum">     431 </span>                :<span class="lineCov">          4 : }</span></a>
+<span class="lineNum">     432 </span>                :            : 
+<span class="lineNum">     433 </span>                :<span class="lineNoCov">          0 : server_socket::~server_socket()</span>
+<span class="lineNum">     434 </span>                :            : {
+<span class="lineNum">     435 </span>                :<span class="lineNoCov">          0 :   close();</span>
+<a name="436"><span class="lineNum">     436 </span>                :<span class="lineNoCov">          0 : }</span></a>
+<span class="lineNum">     437 </span>                :            : 
+<span class="lineNum">     438 </span>                :<span class="lineCov">          4 : bool server_socket::create(uint16_t port_num, int backlog)</span>
+<span class="lineNum">     439 </span>                :            : {
+<span class="lineNum">     440 </span>                :            :   int res;
+<span class="lineNum">     441 </span>                :            : 
+<span class="lineNum">     442 </span>[<span class="branchNoCov" title="Branch 1 was not taken"> - </span><span class="branchCov" title="Branch 2 was taken 4 times"> + </span>][<span class="branchNoExec" title="Branch 4 was not executed"> # </span><span class="branchNoExec" title="Branch 5 was not executed"> # </span>]:<span class="lineCov">          4 :   NO_INTR(sock, ::socket(PF_INET, SOCK_STREAM, 0));</span>
+<span class="lineNum">     443 </span>        [<span class="branchNoCov" title="Branch 0 was not taken"> - </span><span class="branchCov" title="Branch 1 was taken 4 times"> + </span>]:<span class="lineCov">          4 :   if (FAILED(sock)){</span>
+<span class="lineNum">     444 </span>                :<span class="lineNoCov">          0 :     sock=-1;</span>
+<span class="lineNum">     445 </span>                :<span class="lineNoCov">          0 :     return false;</span>
+<span class="lineNum">     446 </span>                :            :   }
+<span class="lineNum">     447 </span>                :            : 
+<span class="lineNum">     448 </span>                :<span class="lineCov">          4 :   int yes=1;</span>
+<span class="lineNum">     449 </span>[<span class="branchNoCov" title="Branch 1 was not taken"> - </span><span class="branchCov" title="Branch 2 was taken 4 times"> + </span>][<span class="branchNoExec" title="Branch 4 was not executed"> # </span><span class="branchNoExec" title="Branch 5 was not executed"> # </span>]:<span class="lineCov">          4 :   NO_INTR(res, ::setsockopt(sock, SOL_SOCKET, SO_REUSEADDR,</span>
+<span class="lineNum">     450 </span>                :            :         (const char*)&amp;yes, sizeof(yes)));
+<span class="lineNum">     451 </span>                :            : 
+<span class="lineNum">     452 </span>        [<span class="branchNoCov" title="Branch 0 was not taken"> - </span><span class="branchCov" title="Branch 1 was taken 4 times"> + </span>]:<span class="lineCov">          4 :   if (FAILED(res)){</span>
+<span class="lineNum">     453 </span>[<span class="branchNoExec" title="Branch 1 was not executed"> # </span><span class="branchNoExec" title="Branch 2 was not executed"> # </span>][<span class="branchNoExec" title="Branch 4 was not executed"> # </span><span class="branchNoExec" title="Branch 5 was not executed"> # </span>]:<span class="lineNoCov">          0 :     NO_INTR(res, ::close(sock));</span>
+<span class="lineNum">     454 </span>                :<span class="lineNoCov">          0 :     return false;</span>
+<span class="lineNum">     455 </span>                :            :   }
+<span class="lineNum">     456 </span>                :            : 
+<span class="lineNum">     457 </span>                :<span class="lineCov">          4 :   sockaddr_in saddr={};</span>
+<span class="lineNum">     458 </span>                :<span class="lineCov">          4 :   saddr.sin_family=PF_INET;</span>
+<span class="lineNum">     459 </span>        [<span class="branchCov" title="Branch 0 was taken 4 times"> + </span><span class="branchNoCov" title="Branch 1 was not taken"> - </span>]:<span class="lineCov">          4 :   saddr.sin_addr.s_addr=htonl(INADDR_ANY);</span>
+<span class="lineNum">     460 </span>        [<span class="branchNoCov" title="Branch 0 was not taken"> - </span><span class="branchCov" title="Branch 1 was taken 4 times"> + </span>]:<span class="lineCov">          4 :   saddr.sin_port=htons(port_num);</span>
+<span class="lineNum">     461 </span>                :            : 
+<span class="lineNum">     462 </span>[<span class="branchNoCov" title="Branch 1 was not taken"> - </span><span class="branchCov" title="Branch 2 was taken 4 times"> + </span>][<span class="branchNoExec" title="Branch 4 was not executed"> # </span><span class="branchNoExec" title="Branch 5 was not executed"> # </span>]:<span class="lineCov">          4 :   NO_INTR(res, ::bind(sock, (sockaddr*)&amp;saddr, sizeof(saddr)));</span>
+<span class="lineNum">     463 </span>        [<span class="branchNoCov" title="Branch 0 was not taken"> - </span><span class="branchCov" title="Branch 1 was taken 4 times"> + </span>]:<span class="lineCov">          4 :   if (FAILED(res)){</span>
+<span class="lineNum">     464 </span>[<span class="branchNoExec" title="Branch 1 was not executed"> # </span><span class="branchNoExec" title="Branch 2 was not executed"> # </span>][<span class="branchNoExec" title="Branch 4 was not executed"> # </span><span class="branchNoExec" title="Branch 5 was not executed"> # </span>]:<span class="lineNoCov">          0 :     NO_INTR(res, ::close(sock));</span>
+<span class="lineNum">     465 </span>                :<span class="lineNoCov">          0 :     return false;</span>
+<span class="lineNum">     466 </span>                :            :   }
+<span class="lineNum">     467 </span>                :            : 
+<span class="lineNum">     468 </span>                :<span class="lineCov">          4 :   linger ling={0,0};</span>
+<span class="lineNum">     469 </span>[<span class="branchNoCov" title="Branch 1 was not taken"> - </span><span class="branchCov" title="Branch 2 was taken 4 times"> + </span>][<span class="branchNoExec" title="Branch 4 was not executed"> # </span><span class="branchNoExec" title="Branch 5 was not executed"> # </span>]:<span class="lineCov">          4 :   NO_INTR(res, ::setsockopt(sock, SOL_SOCKET, SO_LINGER,</span>
+<span class="lineNum">     470 </span>                :            :         &amp;ling, sizeof(ling)));
+<span class="lineNum">     471 </span>        [<span class="branchNoCov" title="Branch 0 was not taken"> - </span><span class="branchCov" title="Branch 1 was taken 4 times"> + </span>]:<span class="lineCov">          4 :   if (FAILED(res)){</span>
+<span class="lineNum">     472 </span>[<span class="branchNoExec" title="Branch 1 was not executed"> # </span><span class="branchNoExec" title="Branch 2 was not executed"> # </span>][<span class="branchNoExec" title="Branch 4 was not executed"> # </span><span class="branchNoExec" title="Branch 5 was not executed"> # </span>]:<span class="lineNoCov">          0 :     NO_INTR(res, ::close(sock));</span>
+<span class="lineNum">     473 </span>                :<span class="lineNoCov">          0 :     return false;</span>
+<span class="lineNum">     474 </span>                :            :   }
+<span class="lineNum">     475 </span>                :            : 
+<span class="lineNum">     476 </span>[<span class="branchNoCov" title="Branch 1 was not taken"> - </span><span class="branchCov" title="Branch 2 was taken 4 times"> + </span>][<span class="branchNoExec" title="Branch 4 was not executed"> # </span><span class="branchNoExec" title="Branch 5 was not executed"> # </span>]:<span class="lineCov">          4 :   NO_INTR(res, ::listen(sock, backlog));</span>
+<span class="lineNum">     477 </span>        [<span class="branchNoCov" title="Branch 0 was not taken"> - </span><span class="branchCov" title="Branch 1 was taken 4 times"> + </span>]:<span class="lineCov">          4 :   if (FAILED(res)){</span>
+<span class="lineNum">     478 </span>[<span class="branchNoExec" title="Branch 1 was not executed"> # </span><span class="branchNoExec" title="Branch 2 was not executed"> # </span>][<span class="branchNoExec" title="Branch 4 was not executed"> # </span><span class="branchNoExec" title="Branch 5 was not executed"> # </span>]:<span class="lineNoCov">          0 :     NO_INTR(res, ::close(sock));</span>
+<span class="lineNum">     479 </span>                :<span class="lineNoCov">          0 :     return false;</span>
+<span class="lineNum">     480 </span>                :            :   }
+<span class="lineNum">     481 </span>                :            : 
+<span class="lineNum">     482 </span>                :<span class="lineCov">          4 :   this-&gt;port_num=port_num;</span>
+<span class="lineNum">     483 </span>                :<span class="lineCov">          4 :   connected=true;</span>
+<span class="lineNum">     484 </span>                :<span class="lineCov">          4 :   return true;</span>
+<a name="485"><span class="lineNum">     485 </span>                :            : }</a>
+<span class="lineNum">     486 </span>                :            : 
+<span class="lineNum">     487 </span>                :<span class="lineNoCov">          0 : bool server_socket::close()</span>
+<span class="lineNum">     488 </span>                :            : {
+<span class="lineNum">     489 </span>        [<span class="branchNoExec" title="Branch 0 was not executed"> # </span><span class="branchNoExec" title="Branch 1 was not executed"> # </span>]:<span class="lineNoCov">          0 :   if (!connected)</span>
+<span class="lineNum">     490 </span>                :<span class="lineNoCov">          0 :     return false;</span>
+<span class="lineNum">     491 </span>                :            : 
+<span class="lineNum">     492 </span>                :            :   int ret;
+<span class="lineNum">     493 </span>[<span class="branchNoExec" title="Branch 1 was not executed"> # </span><span class="branchNoExec" title="Branch 2 was not executed"> # </span>][<span class="branchNoExec" title="Branch 4 was not executed"> # </span><span class="branchNoExec" title="Branch 5 was not executed"> # </span>]:<span class="lineNoCov">          0 :   NO_INTR(ret,::close(sock));</span>
+<span class="lineNum">     494 </span>                :            : 
+<span class="lineNum">     495 </span>        [<span class="branchNoExec" title="Branch 0 was not executed"> # </span><span class="branchNoExec" title="Branch 1 was not executed"> # </span>]:<span class="lineNoCov">          0 :   if (FAILED(ret)){</span>
+<span class="lineNum">     496 </span>                :<span class="lineNoCov">          0 :     sock=-1;</span>
+<span class="lineNum">     497 </span>                :<span class="lineNoCov">          0 :     connected=false;</span>
+<span class="lineNum">     498 </span>                :<span class="lineNoCov">          0 :     return false;</span>
+<span class="lineNum">     499 </span>                :            :   }
+<span class="lineNum">     500 </span>                :            : 
+<span class="lineNum">     501 </span>                :<span class="lineNoCov">          0 :   sock=-1;</span>
+<span class="lineNum">     502 </span>                :<span class="lineNoCov">          0 :   connected=false;</span>
+<span class="lineNum">     503 </span>                :<span class="lineNoCov">          0 :   return true;</span>
+<a name="504"><span class="lineNum">     504 </span>                :            : }</a>
+<span class="lineNum">     505 </span>                :            : 
+<span class="lineNum">     506 </span>                :<span class="lineNoCov">          0 : bool server_socket::is_alive() const</span>
+<span class="lineNum">     507 </span>                :            : {
+<span class="lineNum">     508 </span>                :<span class="lineNoCov">          0 :   return connected;</span>
+<a name="509"><span class="lineNum">     509 </span>                :            : }</a>
+<span class="lineNum">     510 </span>                :            : 
+<span class="lineNum">     511 </span>                :<span class="lineNoCov">          0 : uint16_t server_socket::port() const</span>
+<span class="lineNum">     512 </span>                :            : {
+<span class="lineNum">     513 </span>                :<span class="lineNoCov">          0 :   return port_num;</span>
+<a name="514"><span class="lineNum">     514 </span>                :            : }</a>
+<span class="lineNum">     515 </span>                :            : 
+<span class="lineNum">     516 </span>                :<span class="lineNoCov">          0 : double server_socket::timeout() const</span>
+<span class="lineNum">     517 </span>                :            : {
+<span class="lineNum">     518 </span>                :<span class="lineNoCov">          0 :   return timeout_sec;</span>
+<a name="519"><span class="lineNum">     519 </span>                :            : }</a>
+<span class="lineNum">     520 </span>                :            : 
+<span class="lineNum">     521 </span>                :<span class="lineNoCov">          0 : bool server_socket::set_timeout(double sec)</span>
+<span class="lineNum">     522 </span>                :            : {
+<span class="lineNum">     523 </span>        [<span class="branchNoExec" title="Branch 0 was not executed"> # </span><span class="branchNoExec" title="Branch 1 was not executed"> # </span>]:<span class="lineNoCov">          0 :   if (!connected) return false;</span>
+<span class="lineNum">     524 </span>                :            :   return
+<span class="lineNum">     525 </span>                :            :     set_timeo(sock,SO_RCVTIMEO,sec) &amp;&amp;
+<span class="lineNum">     526 </span>                :            :     set_timeo(sock,SO_SNDTIMEO,sec) &amp;&amp;
+<span class="lineNum">     527 </span>[<span class="branchNoExec" title="Branch 1 was not executed"> # </span><span class="branchNoExec" title="Branch 2 was not executed"> # </span>][<span class="branchNoExec" title="Branch 4 was not executed"> # </span><span class="branchNoExec" title="Branch 5 was not executed"> # </span>]:<span class="lineNoCov">          0 :     (timeout_sec = sec, true);</span>
+<a name="528"><span class="lineNum">     528 </span>                :            : }</a>
+<span class="lineNum">     529 </span>                :            : 
+<span class="lineNum">     530 </span>                :<span class="lineCov">         42 : stream_socket *server_socket::accept()</span>
+<span class="lineNum">     531 </span>                :            : {
+<span class="lineNum">     532 </span>        [<span class="branchNoCov" title="Branch 0 was not taken"> - </span><span class="branchCov" title="Branch 1 was taken 42 times"> + </span>]:<span class="lineCov">         42 :   if (!connected) return NULL;</span>
+<span class="lineNum">     533 </span>                :            : 
+<span class="lineNum">     534 </span>                :<span class="lineCov">         42 :   sockaddr_in saddr={};</span>
+<span class="lineNum">     535 </span>                :<span class="lineCov">         42 :   socklen_t saddr_len=sizeof(saddr);</span>
+<span class="lineNum">     536 </span>                :            : 
+<span class="lineNum">     537 </span>                :<span class="lineCov">         42 :   int csock=-1;</span>
+<span class="lineNum">     538 </span>[<span class="branchNoCov" title="Branch 1 was not taken"> - </span><span class="branchCov" title="Branch 2 was taken 4 times"> + </span>][<span class="branchNoExec" title="Branch 4 was not executed"> # </span><span class="branchNoExec" title="Branch 5 was not executed"> # </span>]:<span class="lineCov">         42 :   NO_INTR(csock, ::accept(sock, (sockaddr*)&amp;saddr, &amp;saddr_len));</span>
+<span class="lineNum">     539 </span>        [<span class="branchNoCov" title="Branch 0 was not taken"> - </span><span class="branchCov" title="Branch 1 was taken 4 times"> + </span>]:<span class="lineCov">          4 :   if (FAILED(csock))</span>
+<span class="lineNum">     540 </span>                :<span class="lineNoCov">          0 :     return NULL;</span>
+<span class="lineNum">     541 </span>                :            : 
+<span class="lineNum">     542 </span>                :<span class="lineCov">          4 :   stream_socket *ret=new stream_socket();</span>
+<span class="lineNum">     543 </span>                :            : 
+<span class="lineNum">     544 </span>                :            :   char addrp[INET_ADDRSTRLEN];
+<span class="lineNum">     545 </span>                :<span class="lineCov">          4 :   inet_ntop(saddr.sin_family, &amp;saddr.sin_addr, addrp, sizeof(addrp));</span>
+<span class="lineNum">     546 </span>        [<span class="branchNoCov" title="Branch 0 was not taken"> - </span><span class="branchCov" title="Branch 1 was taken 4 times"> + </span>]:<span class="lineCov">          4 :   ret-&gt;bind_socket(csock, ipv4_address(addrp), ntohs(saddr.sin_port));</span>
+<span class="lineNum">     547 </span>                :            : 
+<span class="lineNum">     548 </span>                :<span class="lineCov">          4 :   return ret;</span>
+<span class="lineNum">     549 </span>                :            : }
+<a name="550"><span class="lineNum">     550 </span>                :            : </a>
+<span class="lineNum">     551 </span>                :            : } // network
+<span class="lineNum">     552 </span>[<span class="branchCov" title="Branch 0 was taken 4 times"> + </span><span class="branchNoCov" title="Branch 1 was not taken"> - </span>][<span class="branchCov" title="Branch 2 was taken 4 times"> + </span><span class="branchNoCov" title="Branch 3 was not taken"> - </span>]:<span class="lineCov">          8 : } // pfi</span>
+</pre>
+      </td>
+    </tr>
+  </table>
+  <br>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="ruler"><img src="../glass.png" width=3 height=3 alt=""></td></tr>
+    <tr><td class="versionInfo">Generated by: <a href="http://ltp.sourceforge.net/coverage/lcov.php" target="_parent">LCOV version 1.9</a></td></tr>
+  </table>
+  <br>
+
+</body>
+</html>
